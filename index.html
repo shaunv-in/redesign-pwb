@@ -32,13 +32,6 @@
     }
   </script>
 
-<style>
-  /* Simple styling for the shot images */
-  .dribbble-shot {
-    display: inline-block;
-    margin: 10px;
-  }
-</style>
 </head>
 
 <body>
@@ -57,7 +50,7 @@
       </p>
     </div>
     <div class="grid">
-      <h1 class="text-6xl font-bold py-8 leading-snug">
+      <h1 class="md:text-6xl font-bold py-8 leading-snug sm:px-4 text-5xl">
         Hey, I'm Shaun <br>a UI designer.
       </h1>
     </div>
@@ -133,7 +126,7 @@
         </a>
     </div>
     <div class="grid place-content-center">
-      <p class="max-w-md">
+      <p class="max-w-md px-8">
         Hey 👋🏽 I'm an Undergraduate student at University of Manitoba pursuing a Bachelor’s Degree in Economics and
         minoring in Computer Science. With a passion for entrepreneurship and creating exceptional UI/UX Designs &
         NoCode Development.
@@ -222,36 +215,6 @@
 
 
 
-    <div id="dribbble-shots" class="bg-white"></div>
-
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-      const accessToken = '16c1b7434fe25eacd9c67a7de89c3c2b261aeaa7589fbe78c660871ed73d7816';
-      const userId = '2032362'; // Replace this with the Dribbble user ID whose shots you want to fetch
-  
-      const dribbbleAPIEndpoint = `https://api.dribbble.com/v2/users/${userId}/shots?access_token=${accessToken}`;
-  
-      // Fetch shots from Dribbble API
-      axios.get(dribbbleAPIEndpoint)
-        .then(response => {
-          const shots = response.data;
-          const dribbbleShotsElement = document.getElementById('dribbble-shots');
-  
-          shots.forEach(shot => {
-            // Create an image element for each shot
-            const imageElement = document.createElement('img');
-            imageElement.src = shot.images.normal; // or shot.images.teaser for smaller thumbnails
-  
-            // Append the image element to the container
-            dribbbleShotsElement.appendChild(imageElement);
-          });
-        })
-        .catch(error => {
-          console.error('Error fetching Dribbble shots:', error);
-        });
-    </script>
-
-
 
 
 
@@ -268,8 +231,8 @@
     <p class="font-bold text-3xl">
       Let's Collaborate!
     </p>
-    <button class="btn rounded-full text-secondary-content">
-      <a href="mailto:shaun@shaunvincent.net?Subject=Hello" class="inline-flex">Contact
+    <button class="btn rounded-full text-secondary-content capitalize">
+      <a href="mailto:shaun@shaunvincent.net?Subject=Hello" class="inline-flex gap-x-2">Contact
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M4 4H12V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           <path d="M4 12L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
