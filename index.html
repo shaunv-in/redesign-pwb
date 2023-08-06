@@ -30,13 +30,24 @@
         }
       }
     }
+
+
+  function updateTime() {
+    const currentTimeElement = document.getElementById('current-time');
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    currentTimeElement.textContent = timeString;
+  }
+
+  setInterval(updateTime, 1000);
+
   </script>
 
 </head>
 
 <body>
   <div class="flex justify-center p-3">
-    <p>1:30 am</p>
+    <span id="current-time"></span>
   </div>
 
   <div class="grid grid-flow-row auto-rows-max my-28 pt-20 space-y-4 h-screen text-center">
