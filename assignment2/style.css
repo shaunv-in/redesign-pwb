@@ -1,0 +1,109 @@
+/* General Styles */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #222;
+  margin: 0;
+}
+
+.game-container {
+  display: grid;
+  grid-template-columns: repeat(10, 60px);
+  grid-template-rows: repeat(10, 60px);
+  gap: 0;
+  position: relative;
+}
+
+.tile {
+  width: 60px;
+  height: 60px;
+}
+
+.wall {
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8SOSGUgi0_somZxjNtycsMXnttgFfe9BUlA&s');
+  background-size: cover;
+}
+
+.path {
+  background-color: #000033;
+  border: 1px solid #fff;
+}
+
+/* Player, Treasures, and Trap Styles */
+.player {
+  background-image: url('http://www.avatarsinpixels.com/minipix/eyJDYXBlQmFjayI6IjIiLCJFeWVzIjoiMjAiLCJTb2NrcyI6IjE0IiwiU2hvZXMiOiIyIiwiR2xvdmVzIjoiMSIsIlBhbnRzIjoiMyIsIlRvcCI6IjEwIiwiSmFja2V0IjoiMSIsIkNhcGUiOiIxIiwiTmVjayI6IjMiLCJIYWlyIjoiMTEiLCJHbGFzc2VzIjoiMSIsIkhhdCI6IjUifQ==/1/show.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.treasure {
+  background-image: url('https://png.pngtree.com/element_our/20190604/ourlarge/pngtree-game-treasure-chest-image_1475269.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.spike {
+  background-image: url('https://www.vhv.rs/dpng/d/432-4329837_spikes-png-image-spikes-png-transparent-png.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.pit {
+  background-image: url('https://www.shutterstock.com/image-vector/black-hole-pixel-art-flat-260nw-2201194677.jpg'); /* Replace with pit image */
+  background-size: cover;
+  background-position: center;
+}
+
+.exit {
+  background-image: url('https://pics.craiyon.com/2023-06-18/ec0fcd90141640e7bc3d8d6437026f90.webp');
+  background-size: cover;
+  background-position: center;
+}
+#restart-button {
+  padding: 10px 20px;
+  background-color: #FF5733;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+#restart-button:hover {
+  background-color: #C70039;
+}
+/* End Screen Styles */
+#end-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  font-family: Arial, sans-serif;
+}
+
+#end-screen h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+#end-screen p {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+#end-screen button {
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
