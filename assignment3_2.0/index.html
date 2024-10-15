@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Treasure Hunt Adventure</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="main-menu" class="menu-screen">
+  <h1>Treasure Hunt Adventure</h1>
+  <button onclick="startGame()">Start Game</button>
+  <button onclick="showInstructions()">How to Play</button> <!-- New button for instructions -->
+</div>
+
+<!-- User Manual Section (Initially hidden) -->
+<div id="user-manual" style="display: none;">
+  <h2>User’s Manual - How to Play</h2>
+  <ul>
+    <li><strong>Starting the Game:</strong> Click "Start Game" to begin your adventure.</li>
+    <li><strong>Game Controls:</strong>
+      <ul>
+        <li>Movement: Use arrow keys or 'W', 'A', 'S', 'D' to move.</li>
+        <li>Jump: Press the spacebar to jump two tiles in the last movement direction.</li>
+      </ul>
+    </li>
+    <li><strong>Gameplay:</strong> Avoid enemies, traps, and collect treasures to proceed to the exit.</li>
+    <!-- Add other instructions here -->
+  </ul>
+  <button onclick="hideInstructions()">Close</button> <!-- Button to close the manual -->
+</div>
+
+<!-- Health Bar Container -->
+<div class="health-bar-container" style="display: none">
+  <div class="heart" id="heart1"></div>
+  <div class="heart" id="heart2"></div>
+  <div class="heart" id="heart3"></div>
+  <div><a href="index.html"><button>Exit</button></a></div>
+</div>
+
+<!-- Game Container -->
+<div class="game-container" id="game-container" style="display: none"></div>
+
+<div id="message-container"></div>
+
+<!-- Restart Button (For game over situations) -->
+<div id="restart-button" style="display: none;">
+  <h1>You died!</h1>
+  <p>You lost all your lives!</p>
+  <button onclick="resetGame()">Try Again</button>
+</div>
+
+<!-- End Screen (Initially Hidden) -->
+<div id="end-screen" style="display: none;">
+  <h1>Congratulations!</h1>
+  <p>You have completed all the levels!</p>
+  <p id="final-score">Time Taken: </p> <!-- Display time taken -->
+  <button onclick="resetGame()">Play Again</button>
+</div>
+
+<script src="./script.js"></script>
+</body>
+</html>
