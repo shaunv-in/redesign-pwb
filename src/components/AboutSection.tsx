@@ -9,9 +9,9 @@ import { useEffect, useRef } from "react";
 const experience = [
   {
     role: "Leasing & Marketing Manager",
-    company: "Sunrex Property Management",
+    company: "Sunrex Management Ltd.",
     period: "Current",
-    desc: "Digital ad campaigns, social content, lease renewal systems, and resident communications across residential portfolio.",
+    desc: "Digital ad campaigns, social content, lease renewal systems, property showings, and resident communications across a residential portfolio.",
   },
   {
     role: "Co-Owner & Creative Director",
@@ -30,7 +30,7 @@ const experience = [
     role: "Sales Representative",
     company: "SM Automotive Solutions",
     companyUrl: "https://share.google/aArLZnINm87C5lpRH",
-    period: "Past",
+    period: "Ongoing",
     desc: "Automotive sales and client relations, driving revenue through consultative selling and customer service excellence.",
   },
   {
@@ -108,8 +108,8 @@ export default function AboutSection() {
                 marginBottom: "1.25rem",
               }}>
                 I'm Shaun Vincent — a UI/UX designer and marketing creative currently working at{" "}
-                <strong style={{ color: "#1C1A17", fontWeight: 500 }}>Sunrex Property Management</strong>{" "}
-                as Leasing &amp; Marketing Manager. I handle everything from digital ad campaigns and social content to lease renewal systems and resident communications across our residential portfolio.
+                <strong style={{ color: "#1C1A17", fontWeight: 500 }}>Sunrex Management Ltd.</strong>{" "}
+                as Leasing &amp; Marketing Manager. I handle everything from digital ad campaigns and social content to lease renewal systems, property showings, and resident communications across our residential portfolio.
               </p>
               <p style={{
                 fontFamily: "'Instrument Sans', sans-serif",
@@ -118,8 +118,8 @@ export default function AboutSection() {
                 lineHeight: 1.85,
                 color: "#6B6055",
               }}>
-                My background combines design, economics (University of Manitoba, B.Sc.), and hands-on marketing execution — which means I design things that don't just look good, they{" "}
-                <em style={{ fontStyle: "italic" }}>perform</em>.
+                My background combines design, economics (University of Manitoba, B.A.), and hands-on marketing execution — which means I design things that don't just look good, they{" "}
+                <em style={{ fontStyle: "italic", color: "rgb(28, 26, 23)" }}>perform</em>.
               </p>
             </div>
 

@@ -34,7 +34,7 @@ export default function HeroSection() {
 
         {/* Eyebrow */}
         <div className="fade-up" style={{ marginBottom: "3rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", background: "#8B6F47" }} />
+          <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", background: "#4ade80" }} />
           <span className="label-text">Available for new projects</span>
         </div>
 
@@ -76,8 +76,8 @@ export default function HeroSection() {
             lineHeight: 1.75,
             maxWidth: "380px",
           }}>
-            Winnipeg-based UI/UX &amp; visual designer.<br />
-            5+ years across product design, branding, and web.
+            Winnipeg-based UI/UX & visual designer and growing entrepreneur.<br />
+            5+ years across product design, branding, web, marketing, and sales.
           </p>
 
           <div style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap" }}>
