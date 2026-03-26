@@ -10,6 +10,7 @@ const experience = [
   {
     role: "Leasing & Marketing Manager",
     company: "Sunrex Management Ltd.",
+    companyUrl: "https://www.sunrex.ca/",
     period: "Current",
     desc: "Digital ad campaigns, social content, lease renewal systems, property showings, and resident communications across a residential portfolio.",
   },
@@ -108,7 +109,7 @@ export default function AboutSection() {
                 marginBottom: "1.25rem",
               }}>
                 I'm Shaun Vincent — a UI/UX designer and marketing creative currently working at{" "}
-                <strong style={{ color: "#1C1A17", fontWeight: 500 }}>Sunrex Management Ltd.</strong>{" "}
+                <a href="https://www.sunrex.ca/" target="_blank" rel="noopener noreferrer" style={{ color: "#1C1A17", fontWeight: 500, textDecoration: "underline", textUnderlineOffset: "3px" }}>Sunrex Management Ltd.</a>{" "}
                 as Leasing &amp; Marketing Manager. I handle everything from digital ad campaigns and social content to lease renewal systems, property showings, and resident communications across our residential portfolio.
               </p>
               <p style={{
@@ -118,7 +119,7 @@ export default function AboutSection() {
                 lineHeight: 1.85,
                 color: "#6B6055",
               }}>
-                My background combines design, economics (University of Manitoba, B.A.), and hands-on marketing execution — which means I design things that don't just look good, they{" "}
+                My background combines design, economics (<a href="https://umanitoba.ca/" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}>University of Manitoba</a>, B.A.), and hands-on marketing execution — which means I design things that don't just look good, they{" "}
                 <em style={{ fontStyle: "italic", color: "rgb(28, 26, 23)" }}>perform</em>.
               </p>
             </div>
@@ -227,7 +228,7 @@ export default function AboutSection() {
             <div className="fade-up" style={{ marginTop: "2.5rem" }}>
               <span className="label-text" style={{ display: "block", marginBottom: "1rem" }}>Education</span>
               <div style={{ borderTop: "1px solid #DDD5C8", paddingTop: "1.5rem" }}>
-                <p style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: "0.95rem", fontWeight: 500, color: "#1C1A17", margin: "0 0 0.2rem" }}>University of Manitoba</p>
+                <a href="https://umanitoba.ca/" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: "0.95rem", fontWeight: 500, color: "#1C1A17", margin: "0 0 0.2rem", display: "block", textDecoration: "underline", textUnderlineOffset: "3px" }}>University of Manitoba ↗</a>
                 <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.72rem", color: "#8B6F47", margin: 0, letterSpacing: "0.04em" }}>B.A. Economics · Minor in Computer Science</p>
               </div>
             </div>
