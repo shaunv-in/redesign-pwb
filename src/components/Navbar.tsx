@@ -45,9 +45,9 @@ export default function Navbar() {
           {/* Logo — name only */}
           <a href="#" style={{ textDecoration: "none" }}>
             <span style={{
-              fontFamily: "'Instrument Sans', sans-serif",
-              fontSize: "1.1rem",
-              fontWeight: 500,
+              fontFamily: "'Libre Baskerville', serif",
+              fontSize: "1rem",
+              fontWeight: 700,
               color: "#1C1A17",
               letterSpacing: "0.01em",
             }}>
