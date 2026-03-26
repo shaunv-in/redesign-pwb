@@ -45,11 +45,12 @@ export default function Navbar() {
           {/* Logo — name only */}
           <a href="#" style={{ textDecoration: "none" }}>
             <span style={{
-              fontFamily: "'Libre Baskerville', serif",
-              fontSize: "1.1rem",
-              fontWeight: 700,
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "1.35rem",
+              fontWeight: 600,
+              fontStyle: "italic",
               color: "#1C1A17",
-              letterSpacing: "0.01em",
+              letterSpacing: "0.02em",
             }}>
               Shaun Vincent
             </span>

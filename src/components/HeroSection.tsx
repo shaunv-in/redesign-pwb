@@ -76,8 +76,8 @@ export default function HeroSection() {
             lineHeight: 1.75,
             maxWidth: "380px",
           }}>
-            Winnipeg-based UI/UX & visual designer and growing entrepreneur.<br />
-            5+ years across product design, branding, web, marketing, and sales.
+            UI/UX & visual designer and growing entrepreneur.<br />
+            5+ years across product design, branding, marketing, and sales.
           </p>
 
           <div style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap" }}>
