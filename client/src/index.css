@@ -1,0 +1,254 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+/* ==========================================================================
+   WARM BEIGE MINIMALISM — Design Tokens
+   Background: #F5F0E8 (warm linen)
+   Text: #1C1A17 (deep charcoal)
+   Accent: #8B6F47 (warm walnut brown)
+   Muted: #A89880 (warm taupe)
+   Border: #DDD5C8 (soft sand)
+   ========================================================================== */
+
+:root {
+  --radius: 0.25rem;
+  --background: oklch(0.965 0.012 75);       /* #F5F0E8 warm linen */
+  --foreground: oklch(0.16 0.012 65);         /* #1C1A17 deep charcoal */
+  --card: oklch(0.975 0.010 75);
+  --card-foreground: oklch(0.16 0.012 65);
+  --popover: oklch(0.975 0.010 75);
+  --popover-foreground: oklch(0.16 0.012 65);
+  --primary: oklch(0.16 0.012 65);
+  --primary-foreground: oklch(0.965 0.012 75);
+  --secondary: oklch(0.94 0.015 75);
+  --secondary-foreground: oklch(0.16 0.012 65);
+  --muted: oklch(0.92 0.018 75);
+  --muted-foreground: oklch(0.52 0.025 65);
+  --accent: oklch(0.55 0.065 55);             /* #8B6F47 walnut */
+  --accent-foreground: oklch(0.965 0.012 75);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.875 0.022 75);            /* #DDD5C8 sand */
+  --input: oklch(0.875 0.022 75);
+  --ring: oklch(0.55 0.065 55);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Instrument Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a[href] {
+    @apply cursor-pointer;
+  }
+}
+
+/* ==========================================================================
+   GLOBAL TYPOGRAPHY
+   ========================================================================== */
+.font-serif { font-family: 'Libre Baskerville', Georgia, serif; }
+.font-sans  { font-family: 'Instrument Sans', system-ui, sans-serif; }
+.font-mono  { font-family: 'IBM Plex Mono', monospace; }
+
+/* ==========================================================================
+   FADE-UP ANIMATION
+   ========================================================================== */
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   SECTION DIVIDER LINE
+   ========================================================================== */
+.section-rule {
+  width: 100%;
+  height: 1px;
+  background: #DDD5C8;
+}
+
+/* ==========================================================================
+   LABEL / EYEBROW TEXT
+   ========================================================================== */
+.label-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #A89880;
+}
+
+/* ==========================================================================
+   PRIMARY BUTTON
+   ========================================================================== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: #1C1A17;
+  color: #F5F0E8;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: 1px solid #1C1A17;
+  transition: background 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background: transparent;
+  color: #1C1A17;
+}
+
+/* ==========================================================================
+   GHOST BUTTON
+   ========================================================================== */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: transparent;
+  color: #1C1A17;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: 1px solid #DDD5C8;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+}
+.btn-ghost:hover {
+  border-color: #1C1A17;
+}
+
+/* ==========================================================================
+   FORM INPUTS
+   ========================================================================== */
+.form-label {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #A89880;
+  margin-bottom: 0.5rem;
+}
+.form-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #DDD5C8;
+  padding: 0.625rem 0;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: #1C1A17;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.form-input:focus {
+  border-bottom-color: #8B6F47;
+}
+.form-input::placeholder {
+  color: #C4B8A8;
+}
+select.form-input option {
+  background: #F5F0E8;
+  color: #1C1A17;
+}
+
+/* ==========================================================================
+   CONTAINER
+   ========================================================================== */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: 1200px;
+}
+@media (min-width: 768px) {
+  .container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+@media (min-width: 1280px) {
+  .container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+.flex { min-height: 0; min-width: 0; }
+
+/* ==========================================================================
+   RESPONSIVE GRID HELPERS
+   ========================================================================== */
+@media (min-width: 768px) {
+  .services-grid { grid-template-columns: repeat(3, 1fr) !important; }
+  .cred-grid     { grid-template-columns: repeat(2, 1fr) !important; }
+  .portfolio-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+@media (min-width: 1024px) {
+  .about-grid    { grid-template-columns: 5fr 7fr !important; }
+  .contact-grid  { grid-template-columns: 1fr 1.4fr !important; }
+  .cred-grid     { grid-template-columns: repeat(4, 1fr) !important; }
+  .portfolio-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+
+/* Mobile nav hide/show */
+.md-hidden { display: none; }
+@media (min-width: 768px) {
+  .md-hidden { display: none !important; }
+  .md-flex   { display: flex !important; }
+}
+@media (max-width: 767px) {
+  .md-flex { display: none !important; }
+  .md-hidden { display: flex !important; }
+}
