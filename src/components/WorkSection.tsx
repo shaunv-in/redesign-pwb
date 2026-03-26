@@ -103,7 +103,8 @@ const dribbbleShots = [
 export default function WorkSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(BATCH);
-  const [newlyAdded, setNewlyAdded] = useState<number[]>([]);
+  const [latestBatch, setLatestBatch] = useState<number[]>([]);
+  const [revealed, setRevealed] = useState<Set<number>>(new Set());
 
   // Intersection observer for section entrance
   useEffect(() => {
@@ -126,7 +127,9 @@ export default function WorkSection() {
   const handleLoadMore = () => {
     const nextStart = visible;
     const nextEnd = Math.min(visible + BATCH, dribbbleShots.length);
-    setNewlyAdded(Array.from({ length: nextEnd - nextStart }, (_, i) => nextStart + i));
+    const batch = Array.from({ length: nextEnd - nextStart }, (_, i) => nextStart + i);
+    setLatestBatch(batch);
+    setRevealed(prev => new Set(Array.from(prev).concat(batch)));
     setVisible(nextEnd);
   };
 
@@ -202,14 +205,16 @@ export default function WorkSection() {
           }}
         >
           {shown.map((shot, i) => {
-            const isNew = newlyAdded.includes(i);
+            const isLatest = latestBatch.includes(i);
+            const isRevealed = revealed.has(i);
+            const className = isLatest ? "shot-new" : isRevealed ? "shot-revealed" : "fade-up";
             return (
               <a
                 key={shot.url}
                 href={shot.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={isNew ? "shot-new" : "fade-up"}
+                className={className}
                 style={{
                   display: "block",
                   position: "relative",
@@ -349,6 +354,10 @@ export default function WorkSection() {
         }
         .shot-new {
           animation: shotReveal 0.45s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .shot-revealed {
+          opacity: 1;
+          transform: translateY(0);
         }
         @media (max-width: 768px) {
           .portfolio-grid {
