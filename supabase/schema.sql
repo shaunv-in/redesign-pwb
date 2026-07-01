@@ -151,3 +151,29 @@ create policy "authenticated can read rental documents"
 -- Create your own login in the Supabase dashboard:
 -- Authentication > Users > Add user (email + password).
 -- That account is what you'll use to sign in on the /admin page.
+
+-- 4. Email notifications on new applications -----------------------------
+-- Requires the notify-application Edge Function to already be deployed
+-- (see supabase/functions/notify-application). Enable the pg_net
+-- extension first: Database > Extensions > pg_net.
+create extension if not exists pg_net with schema extensions;
+
+create or replace function public.trigger_notify_application()
+returns trigger
+language plpgsql
+security definer
+as $$
+begin
+  perform net.http_post(
+    url := 'https://dqjoxnkylsmbbfxltljn.supabase.co/functions/v1/notify-application',
+    headers := jsonb_build_object('Content-Type', 'application/json'),
+    body := jsonb_build_object('type', 'INSERT', 'table', 'rental_applications', 'record', to_jsonb(new))
+  );
+  return new;
+end;
+$$;
+
+drop trigger if exists on_rental_application_insert on public.rental_applications;
+create trigger on_rental_application_insert
+  after insert on public.rental_applications
+  for each row execute function public.trigger_notify_application();
