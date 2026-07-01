@@ -8,10 +8,17 @@ import { useEffect, useRef } from "react";
 
 const experience = [
   {
+    role: "Marketing Manager",
+    company: "Paragon Living",
+    companyUrl: "https://www.paragonliving.com/",
+    period: "July 2026 — Current",
+    desc: "Marketing strategy and execution across Paragon Living's residential portfolio.",
+  },
+  {
     role: "Leasing & Marketing Manager",
     company: "Sunrex Management Ltd.",
     companyUrl: "https://www.sunrex.ca/",
-    period: "Current",
+    period: "June 2024 — June 2026",
     desc: "Digital ad campaigns, social content, lease renewal systems, property showings, and resident communications across a residential portfolio.",
   },
   {
@@ -109,8 +116,8 @@ export default function AboutSection() {
                 marginBottom: "1.25rem",
               }}>
                 I'm Shaun Vincent — a UI/UX designer and marketing creative currently working at{" "}
-                <a href="https://www.sunrex.ca/" target="_blank" rel="noopener noreferrer" style={{ color: "#1C1A17", fontWeight: 500, textDecoration: "underline", textUnderlineOffset: "3px" }}>Sunrex Management Ltd.</a>{" "}
-                as Leasing &amp; Marketing Manager. I handle everything from digital ad campaigns and social content to lease renewal systems, property showings, and resident communications across our residential portfolio.
+                <a href="https://www.paragonliving.com/" target="_blank" rel="noopener noreferrer" style={{ color: "#1C1A17", fontWeight: 500, textDecoration: "underline", textUnderlineOffset: "3px" }}>Paragon Living</a>{" "}
+                as Marketing Manager. I handle everything from digital ad campaigns and social content to lease renewal systems, property showings, and resident communications across our residential portfolio.
               </p>
               <p style={{
                 fontFamily: "'Instrument Sans', sans-serif",
