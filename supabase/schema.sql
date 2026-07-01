@@ -81,11 +81,15 @@ alter table public.rental_applications add column if not exists additional_doc_p
 alter table public.rental_applications enable row level security;
 
 -- Anyone (including anonymous applicants) can submit a new application.
+-- Also grant to "authenticated" — if the same browser happens to be
+-- signed into /admin, Supabase's session persists across tabs on the
+-- same site, so a submission from that browser arrives as an
+-- authenticated request instead of an anonymous one.
 drop policy if exists "public can insert applications" on public.rental_applications;
 create policy "public can insert applications"
   on public.rental_applications
   for insert
-  to anon
+  to anon, authenticated
   with check (true);
 
 -- Only signed-in admins (you) can read submitted applications.
