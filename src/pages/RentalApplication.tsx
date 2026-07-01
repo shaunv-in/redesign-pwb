@@ -76,6 +76,30 @@ type Vehicle = { make: string; model: string; year: string; plate: string };
 
 const emptyVehicle: Vehicle = { make: "", model: "", year: "", plate: "" };
 
+type AdditionalIncome = { source: string; amount: string };
+
+const emptyAdditionalIncome: AdditionalIncome = { source: "", amount: "" };
+
+type PreviousResidence = {
+  address: string;
+  city: string;
+  province: string;
+  monthlyRentPaid: string;
+  lengthOfStay: string;
+  landlordName: string;
+  landlordPhone: string;
+};
+
+const emptyPreviousResidence: PreviousResidence = {
+  address: "",
+  city: "",
+  province: "",
+  monthlyRentPaid: "",
+  lengthOfStay: "",
+  landlordName: "",
+  landlordPhone: "",
+};
+
 const CANADIAN_PROVINCES = [
   "Alberta",
   "British Columbia",
@@ -112,6 +136,7 @@ type FormState = {
   currentCity: string;
   currentProvince: string;
   currentPostalCode: string;
+  currentRentPaid: string;
   lengthAtCurrentAddress: string;
   reasonForLeaving: string;
   landlordName: string;
@@ -122,8 +147,6 @@ type FormState = {
   employerPhone: string;
   employmentLength: string;
   monthlyIncome: string;
-  additionalIncomeSource: string;
-  additionalIncomeAmount: string;
 
   hasPets: "yes" | "no";
   petDetails: string;
@@ -147,6 +170,7 @@ const initialFormState: FormState = {
   currentCity: "",
   currentProvince: "",
   currentPostalCode: "",
+  currentRentPaid: "",
   lengthAtCurrentAddress: "",
   reasonForLeaving: "",
   landlordName: "",
@@ -156,8 +180,6 @@ const initialFormState: FormState = {
   employerPhone: "",
   employmentLength: "",
   monthlyIncome: "",
-  additionalIncomeSource: "",
-  additionalIncomeAmount: "",
   hasPets: "no",
   petDetails: "",
   emergencyContactName: "",
@@ -398,6 +420,8 @@ export default function RentalApplication() {
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [occupants, setOccupants] = useState<Occupant[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [additionalIncomes, setAdditionalIncomes] = useState<AdditionalIncome[]>([]);
+  const [previousResidences, setPreviousResidences] = useState<PreviousResidence[]>([]);
   const [photoIdFile, setPhotoIdFile] = useState<File | null>(null);
   const [incomeDocFiles, setIncomeDocFiles] = useState<(File | null)[]>([null, null]);
   const [additionalFileSlots, setAdditionalFileSlots] = useState<(File | null)[]>([]);
@@ -480,6 +504,18 @@ export default function RentalApplication() {
     setVehicles((prev) => prev.map((v, i) => (i === idx ? { ...v, [field]: value } : v)));
   };
 
+  const addAdditionalIncome = () => setAdditionalIncomes((prev) => [...prev, { ...emptyAdditionalIncome }]);
+  const removeAdditionalIncome = (idx: number) => setAdditionalIncomes((prev) => prev.filter((_, i) => i !== idx));
+  const updateAdditionalIncome = (idx: number, field: keyof AdditionalIncome, value: string) => {
+    setAdditionalIncomes((prev) => prev.map((inc, i) => (i === idx ? { ...inc, [field]: value } : inc)));
+  };
+
+  const addPreviousResidence = () => setPreviousResidences((prev) => [...prev, { ...emptyPreviousResidence }]);
+  const removePreviousResidence = (idx: number) => setPreviousResidences((prev) => prev.filter((_, i) => i !== idx));
+  const updatePreviousResidence = (idx: number, field: keyof PreviousResidence, value: string) => {
+    setPreviousResidences((prev) => prev.map((r, i) => (i === idx ? { ...r, [field]: value } : r)));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -503,6 +539,12 @@ export default function RentalApplication() {
     }
     if (formData.desiredMoveInDate < minMoveInDate) {
       setError("Desired move-in date must be a future date.");
+      return;
+    }
+    const hasEmploymentInfo = formData.employerName.trim() !== "" || formData.monthlyIncome.trim() !== "";
+    const hasAdditionalIncome = additionalIncomes.some((i) => i.source.trim() !== "" && i.amount.trim() !== "");
+    if (!hasEmploymentInfo && !hasAdditionalIncome) {
+      setError("Please provide either employment details or at least one other income source.");
       return;
     }
 
@@ -575,18 +617,21 @@ export default function RentalApplication() {
         current_city: formData.currentCity,
         current_province: formData.currentProvince,
         current_postal_code: formData.currentPostalCode,
+        current_rent_paid: formData.currentRentPaid ? Number(formData.currentRentPaid) : null,
         length_at_current_address: formData.lengthAtCurrentAddress,
         reason_for_leaving: formData.reasonForLeaving,
         landlord_name: formData.landlordName,
         landlord_phone: withCountryCode(formData.landlordPhone),
+        previous_residences: previousResidences.length
+          ? JSON.stringify(previousResidences.map((r) => ({ ...r, landlordPhone: withCountryCode(r.landlordPhone) ?? "" })))
+          : null,
         employer_name: formData.employerName,
         job_title: formData.jobTitle,
         employer_phone: withCountryCode(formData.employerPhone),
         employment_length: formData.employmentLength,
         monthly_income: formData.monthlyIncome ? Number(formData.monthlyIncome) : null,
-        additional_income_source: formData.additionalIncomeSource,
-        additional_income_amount: formData.additionalIncomeAmount
-          ? Number(formData.additionalIncomeAmount)
+        additional_income_source: additionalIncomes.length
+          ? JSON.stringify(additionalIncomes.filter((i) => i.source || i.amount))
           : null,
         occupants: occupants.length
           ? JSON.stringify(occupants.map((o) => ({ ...o, phone: withCountryCode(o.phone) ?? "" })))
@@ -863,6 +908,9 @@ export default function RentalApplication() {
                   ))}
                 </select>
               </Field>
+              <Field label="Monthly Rent Paid There ($)">
+                <input name="currentRentPaid" type="number" min="0" step="0.01" className="form-input" value={formData.currentRentPaid} onChange={handleChange} />
+              </Field>
               <Field label="Reason for Leaving">
                 <input name="reasonForLeaving" className="form-input" value={formData.reasonForLeaving} onChange={handleChange} />
               </Field>
@@ -871,9 +919,71 @@ export default function RentalApplication() {
               </Field>
               <PhoneField label="Current Landlord Phone" name="landlordPhone" value={formData.landlordPhone} onChange={(v) => setFormData((prev) => ({ ...prev, landlordPhone: v }))} />
             </div>
+
+            <div style={{ height: "1px", background: "#DDD5C8", margin: "2rem 0" }} />
+
+            <div>
+              <label className="form-label" style={{ fontWeight: 700, fontSize: "0.78rem", color: "#1C1A17", letterSpacing: "0.04em" }}>
+                Previous Residences (optional)
+              </label>
+              <p style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: "0.82rem", color: "#6B6055", fontWeight: 300, margin: "0.35rem 0 1rem" }}>
+                Add any previous addresses you'd like to include as rental history.
+              </p>
+              {previousResidences.length > 0 && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginBottom: "1.25rem" }}>
+                  {previousResidences.map((residence, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        paddingBottom: "1.5rem",
+                        borderBottom: idx < previousResidences.length - 1 ? "1px solid #DDD5C8" : "none",
+                      }}
+                    >
+                      <div className="rental-grid-2">
+                        <Field label="Address">
+                          <input className="form-input" value={residence.address} onChange={(e) => updatePreviousResidence(idx, "address", e.target.value)} />
+                        </Field>
+                        <Field label="City">
+                          <input className="form-input" value={residence.city} onChange={(e) => updatePreviousResidence(idx, "city", e.target.value)} />
+                        </Field>
+                        <Field label="Province">
+                          <select className="form-input" style={{ appearance: "none", cursor: "pointer", background: "transparent" }} value={residence.province} onChange={(e) => updatePreviousResidence(idx, "province", e.target.value)}>
+                            <option value="">Select province</option>
+                            {CANADIAN_PROVINCES.map((prov) => (
+                              <option key={prov} value={prov}>{prov}</option>
+                            ))}
+                          </select>
+                        </Field>
+                        <Field label="Monthly Rent Paid There ($)">
+                          <input type="number" min="0" step="0.01" className="form-input" value={residence.monthlyRentPaid} onChange={(e) => updatePreviousResidence(idx, "monthlyRentPaid", e.target.value)} />
+                        </Field>
+                        <Field label="Length of Stay">
+                          <select className="form-input" style={{ appearance: "none", cursor: "pointer", background: "transparent" }} value={residence.lengthOfStay} onChange={(e) => updatePreviousResidence(idx, "lengthOfStay", e.target.value)}>
+                            <option value="">Select length of time</option>
+                            {LENGTH_OPTIONS.map((opt) => (
+                              <option key={opt} value={opt}>{opt}</option>
+                            ))}
+                          </select>
+                        </Field>
+                        <Field label="Landlord Name">
+                          <input className="form-input" value={residence.landlordName} onChange={(e) => updatePreviousResidence(idx, "landlordName", e.target.value)} />
+                        </Field>
+                        <PhoneField label="Landlord Phone" value={residence.landlordPhone} onChange={(v) => updatePreviousResidence(idx, "landlordPhone", v)} />
+                      </div>
+                      <button type="button" className="btn-ghost" style={{ marginTop: "1rem" }} onClick={() => removePreviousResidence(idx)}>
+                        Remove This Residence
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <button type="button" className="btn-ghost" onClick={addPreviousResidence}>
+                + Add Previous Residence
+              </button>
+            </div>
           </FormSection>
 
-          <FormSection index="04" title="Employment & Income" description="If you're not currently employed, leave this section blank.">
+          <FormSection index="04" title="Employment & Income" description="Please provide either employment details or another source of income (e.g. side gig, savings) below.">
             <div className="rental-grid-2">
               <Field label="Employer Name">
                 <input name="employerName" className="form-input" value={formData.employerName} onChange={handleChange} />
@@ -893,12 +1003,56 @@ export default function RentalApplication() {
               <Field label="Monthly Gross Income ($)">
                 <input name="monthlyIncome" type="number" min="0" step="0.01" className="form-input" value={formData.monthlyIncome} onChange={handleChange} />
               </Field>
-              <Field label="Additional Income Source">
-                <input name="additionalIncomeSource" className="form-input" value={formData.additionalIncomeSource} onChange={handleChange} />
-              </Field>
-              <Field label="Additional Income Amount ($)">
-                <input name="additionalIncomeAmount" type="number" min="0" step="0.01" className="form-input" value={formData.additionalIncomeAmount} onChange={handleChange} />
-              </Field>
+            </div>
+
+            <div style={{ height: "1px", background: "#DDD5C8", margin: "2rem 0" }} />
+
+            <div>
+              <label className="form-label" style={{ fontWeight: 700, fontSize: "0.78rem", color: "#1C1A17", letterSpacing: "0.04em" }}>
+                Additional Income
+              </label>
+              <p style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: "0.82rem", color: "#6B6055", fontWeight: 300, margin: "0.35rem 0 1rem" }}>
+                Add any other income sources — side gig, savings, investments, etc.
+              </p>
+              {additionalIncomes.length > 0 && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginBottom: "1.25rem" }}>
+                  {additionalIncomes.map((income, idx) => (
+                    <div
+                      key={idx}
+                      className="rental-income-row"
+                      style={{
+                        paddingBottom: "1rem",
+                        borderBottom: idx < additionalIncomes.length - 1 ? "1px solid #DDD5C8" : "none",
+                      }}
+                    >
+                      <Field label="Source">
+                        <input
+                          placeholder="e.g. Side gig, Savings"
+                          className="form-input"
+                          value={income.source}
+                          onChange={(e) => updateAdditionalIncome(idx, "source", e.target.value)}
+                        />
+                      </Field>
+                      <Field label="Amount ($)">
+                        <input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          className="form-input"
+                          value={income.amount}
+                          onChange={(e) => updateAdditionalIncome(idx, "amount", e.target.value)}
+                        />
+                      </Field>
+                      <button type="button" className="btn-ghost" style={{ padding: "0.6rem 0.9rem" }} onClick={() => removeAdditionalIncome(idx)}>
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <button type="button" className="btn-ghost" onClick={addAdditionalIncome}>
+                + Add Income Source
+              </button>
             </div>
           </FormSection>
 

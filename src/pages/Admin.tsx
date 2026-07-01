@@ -35,10 +35,12 @@ type RentalApplicationRow = {
   current_city: string | null;
   current_province: string | null;
   current_postal_code: string | null;
+  current_rent_paid: number | null;
   length_at_current_address: string | null;
   reason_for_leaving: string | null;
   landlord_name: string | null;
   landlord_phone: string | null;
+  previous_residences: string | null;
   employer_name: string | null;
   job_title: string | null;
   employer_phone: string | null;
@@ -69,6 +71,16 @@ type RentalApplicationRow = {
 
 type Occupant = { name: string; age: string; email: string; phone: string };
 type Vehicle = { make: string; model: string; year: string; plate: string };
+type AdditionalIncome = { source: string; amount: string };
+type PreviousResidence = {
+  address: string;
+  city: string;
+  province: string;
+  monthlyRentPaid: string;
+  lengthOfStay: string;
+  landlordName: string;
+  landlordPhone: string;
+};
 
 function parseJson<T>(value: string | null): T | null {
   if (!value) return null;
@@ -155,10 +167,25 @@ function buildSections(app: RentalApplicationRow): PdfSection[] {
         { label: "City", value: app.current_city ?? "—" },
         { label: "Province", value: app.current_province ?? "—" },
         { label: "Postal Code", value: app.current_postal_code ?? "—" },
+        { label: "Monthly Rent Paid", value: app.current_rent_paid ? `$${app.current_rent_paid}` : "—" },
         { label: "Length at Address", value: app.length_at_current_address ?? "—" },
         { label: "Reason for Leaving", value: app.reason_for_leaving ?? "—" },
         { label: "Landlord Name", value: app.landlord_name ?? "—" },
         { label: "Landlord Phone", value: app.landlord_phone ?? "—" },
+        {
+          label: "Previous Residences",
+          value: (() => {
+            const residences = parseJson<PreviousResidence[]>(app.previous_residences);
+            if (!residences?.length) return "—";
+            return residences
+              .map((r) =>
+                [r.address, r.city, r.province, r.monthlyRentPaid && `$${r.monthlyRentPaid}/mo`, r.lengthOfStay]
+                  .filter(Boolean)
+                  .join(", ")
+              )
+              .join("; ");
+          })(),
+        },
       ],
     },
     {
@@ -169,8 +196,14 @@ function buildSections(app: RentalApplicationRow): PdfSection[] {
         { label: "Employer Phone", value: app.employer_phone ?? "—" },
         { label: "Employment Length", value: app.employment_length ?? "—" },
         { label: "Monthly Income", value: app.monthly_income ? `$${app.monthly_income}` : "—" },
-        { label: "Additional Income", value: app.additional_income_source ?? "—" },
-        { label: "Additional Income Amount", value: app.additional_income_amount ? `$${app.additional_income_amount}` : "—" },
+        {
+          label: "Additional Income",
+          value: (() => {
+            const incomes = parseJson<AdditionalIncome[]>(app.additional_income_source);
+            if (!incomes?.length) return "—";
+            return incomes.map((i) => `${i.source}: $${i.amount}`).join("; ");
+          })(),
+        },
       ],
     },
     {
@@ -202,13 +235,20 @@ function buildSections(app: RentalApplicationRow): PdfSection[] {
       ],
     },
     {
-      title: "Consent & Signature",
+      title: "Disclosures & Consent",
       rows: [
-        { label: "Soft Credit Check", value: app.consent_soft_credit_check ? "Yes" : "No" },
-        { label: "Photo ID Required", value: app.consent_photo_id_required ? "Yes" : "No" },
-        { label: "Income Docs Required", value: app.consent_income_docs_required ? "Yes" : "No" },
-        { label: "Signature", value: app.signature_full_name ?? "—" },
-        { label: "Signed At", value: app.signed_at ? new Date(app.signed_at).toLocaleString() : "—" },
+        {
+          label: "Boxes Checked",
+          value: [
+            app.consent_soft_credit_check && "I understand and consent that a soft credit check will be conducted as part of this application.",
+            app.consent_photo_id_required && "I understand that a valid, government-issued photo ID is required to process this application.",
+            app.consent_income_docs_required && "I understand that proof of income (two recent bank statements or two recent pay stubs) is required to process this application.",
+          ]
+            .filter(Boolean)
+            .join(" ") || "None recorded",
+        },
+        { label: "Electronically Signed By", value: app.signature_full_name ?? "—" },
+        { label: "Date Signed", value: app.signed_at ? new Date(app.signed_at).toLocaleString() : "—" },
       ],
     },
     ...(app.admin_notes
@@ -377,10 +417,25 @@ function ApplicationDetail({
       <Row label="City" value={app.current_city} />
       <Row label="Province" value={app.current_province} />
       <Row label="Postal Code" value={app.current_postal_code} />
+      <Row label="Monthly Rent Paid" value={app.current_rent_paid ? `$${app.current_rent_paid}` : null} />
       <Row label="Length at Address" value={app.length_at_current_address} />
       <Row label="Reason for Leaving" value={app.reason_for_leaving} />
       <Row label="Landlord Name" value={app.landlord_name} />
       <Row label="Landlord Phone" value={app.landlord_phone} />
+      <Row
+        label="Previous Residences"
+        value={(() => {
+          const residences = parseJson<PreviousResidence[]>(app.previous_residences);
+          if (!residences?.length) return null;
+          return residences
+            .map((r) =>
+              [r.address, r.city, r.province, r.monthlyRentPaid && `$${r.monthlyRentPaid}/mo`, r.lengthOfStay, r.landlordName, r.landlordPhone]
+                .filter(Boolean)
+                .join(", ")
+            )
+            .join("; ");
+        })()}
+      />
 
       <div style={{ height: "1px", background: "#DDD5C8", margin: "1rem 0" }} />
       <Row label="Employer" value={app.employer_name} />
@@ -388,8 +443,14 @@ function ApplicationDetail({
       <Row label="Employer Phone" value={app.employer_phone} />
       <Row label="Employment Length" value={app.employment_length} />
       <Row label="Monthly Income" value={app.monthly_income ? `$${app.monthly_income}` : null} />
-      <Row label="Additional Income" value={app.additional_income_source} />
-      <Row label="Additional Income Amount" value={app.additional_income_amount ? `$${app.additional_income_amount}` : null} />
+      <Row
+        label="Additional Income"
+        value={(() => {
+          const incomes = parseJson<AdditionalIncome[]>(app.additional_income_source);
+          if (!incomes?.length) return null;
+          return incomes.map((i) => `${i.source}: $${i.amount}`).join("; ");
+        })()}
+      />
 
       <div style={{ height: "1px", background: "#DDD5C8", margin: "1rem 0" }} />
       <Row

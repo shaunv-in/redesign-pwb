@@ -260,6 +260,11 @@ select.form-input option {
   grid-template-columns: 1fr;
   gap: 1rem;
 }
+.rental-income-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
 .rental-section-card {
   padding: 1.5rem 1.25rem 1.75rem;
 }
@@ -277,6 +282,7 @@ select.form-input option {
 }
 @media (min-width: 900px) {
   .rental-occupant-row { grid-template-columns: 1fr 1fr 1fr 1fr auto; align-items: end; }
+  .rental-income-row { grid-template-columns: 1fr 1fr auto; align-items: end; }
 }
 @media (min-width: 1024px) {
   .rental-grid-4 { grid-template-columns: repeat(4, 1fr); }

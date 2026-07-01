@@ -26,10 +26,12 @@ create table if not exists public.rental_applications (
   current_city text,
   current_province text,
   current_postal_code text,
+  current_rent_paid numeric,
   length_at_current_address text,
   reason_for_leaving text,
   landlord_name text,
   landlord_phone text,
+  previous_residences text,
 
   -- Employment & income
   employer_name text,
@@ -77,6 +79,8 @@ alter table public.rental_applications add column if not exists admin_notes text
 alter table public.rental_applications add column if not exists admin_attachment_paths text[];
 alter table public.rental_applications add column if not exists deleted_at timestamptz;
 alter table public.rental_applications add column if not exists additional_doc_paths text[];
+alter table public.rental_applications add column if not exists current_rent_paid numeric;
+alter table public.rental_applications add column if not exists previous_residences text;
 
 alter table public.rental_applications enable row level security;
 

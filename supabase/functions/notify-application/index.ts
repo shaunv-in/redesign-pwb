@@ -62,10 +62,25 @@ function buildSections(app: any): PdfSection[] {
         { label: "City", value: app.current_city ?? "—" },
         { label: "Province", value: app.current_province ?? "—" },
         { label: "Postal Code", value: app.current_postal_code ?? "—" },
+        { label: "Monthly Rent Paid", value: app.current_rent_paid ? `$${app.current_rent_paid}` : "—" },
         { label: "Length at Address", value: app.length_at_current_address ?? "—" },
         { label: "Reason for Leaving", value: app.reason_for_leaving ?? "—" },
         { label: "Landlord Name", value: app.landlord_name ?? "—" },
         { label: "Landlord Phone", value: app.landlord_phone ?? "—" },
+        {
+          label: "Previous Residences",
+          value: (() => {
+            const residences = parseJson<{ address: string; city: string; province: string; monthlyRentPaid: string; lengthOfStay: string }[]>(
+              app.previous_residences
+            );
+            if (!residences?.length) return "—";
+            return residences
+              .map((r) =>
+                [r.address, r.city, r.province, r.monthlyRentPaid && `$${r.monthlyRentPaid}/mo`, r.lengthOfStay].filter(Boolean).join(", ")
+              )
+              .join("; ");
+          })(),
+        },
       ],
     },
     {
@@ -76,8 +91,14 @@ function buildSections(app: any): PdfSection[] {
         { label: "Employer Phone", value: app.employer_phone ?? "—" },
         { label: "Employment Length", value: app.employment_length ?? "—" },
         { label: "Monthly Income", value: app.monthly_income ? `$${app.monthly_income}` : "—" },
-        { label: "Additional Income", value: app.additional_income_source ?? "—" },
-        { label: "Additional Income Amount", value: app.additional_income_amount ? `$${app.additional_income_amount}` : "—" },
+        {
+          label: "Additional Income",
+          value: (() => {
+            const incomes = parseJson<{ source: string; amount: string }[]>(app.additional_income_source);
+            if (!incomes?.length) return "—";
+            return incomes.map((i) => `${i.source}: $${i.amount}`).join("; ");
+          })(),
+        },
       ],
     },
     {
@@ -109,13 +130,21 @@ function buildSections(app: any): PdfSection[] {
       ],
     },
     {
-      title: "Consent & Signature",
+      title: "Disclosures & Consent",
       rows: [
-        { label: "Soft Credit Check", value: app.consent_soft_credit_check ? "Yes" : "No" },
-        { label: "Photo ID Required", value: app.consent_photo_id_required ? "Yes" : "No" },
-        { label: "Income Docs Required", value: app.consent_income_docs_required ? "Yes" : "No" },
-        { label: "Signature", value: app.signature_full_name ?? "—" },
-        { label: "Signed At", value: app.signed_at ? new Date(app.signed_at).toLocaleString() : "—" },
+        {
+          label: "Boxes Checked",
+          value:
+            [
+              app.consent_soft_credit_check && "I understand and consent that a soft credit check will be conducted as part of this application.",
+              app.consent_photo_id_required && "I understand that a valid, government-issued photo ID is required to process this application.",
+              app.consent_income_docs_required && "I understand that proof of income (two recent bank statements or two recent pay stubs) is required to process this application.",
+            ]
+              .filter(Boolean)
+              .join(" ") || "None recorded",
+        },
+        { label: "Electronically Signed By", value: app.signature_full_name ?? "—" },
+        { label: "Date Signed", value: app.signed_at ? new Date(app.signed_at).toLocaleString() : "—" },
       ],
     },
   ];
