@@ -27,6 +27,18 @@ function generateId(): string {
   });
 }
 
+// Real-world filenames (e.g. "IMG_0001 (2).jpg", accented names, emoji from
+// phone camera apps) can contain characters Supabase Storage object keys
+// reject. Strip anything but letters/digits/dot/dash/underscore.
+function sanitizeFilename(name: string): string {
+  const lastDot = name.lastIndexOf(".");
+  const base = lastDot > 0 ? name.slice(0, lastDot) : name;
+  const ext = lastDot > 0 ? name.slice(lastDot) : "";
+  const safeBase = base.replace(/[^a-zA-Z0-9._-]/g, "-").slice(0, 80) || "file";
+  const safeExt = ext.replace(/[^a-zA-Z0-9.]/g, "").slice(0, 10);
+  return `${safeBase}${safeExt}`;
+}
+
 const LENGTH_OPTIONS = ["Less than a year", "1 year", "2 years", "3 years", "4+ years"];
 
 function formatPhoneNumber(raw: string): string {
@@ -371,7 +383,14 @@ function FileUploadField({
   );
 }
 
+function getMinMoveInDate(): string {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return tomorrow.toISOString().slice(0, 10);
+}
+
 export default function RentalApplication() {
+  const [minMoveInDate] = useState(getMinMoveInDate);
   const [unlocked, setUnlocked] = useState(() => sessionStorage.getItem(SESSION_KEY) === "1");
   const [passwordInput, setPasswordInput] = useState("");
   const [passwordError, setPasswordError] = useState(false);
@@ -381,6 +400,7 @@ export default function RentalApplication() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [photoIdFile, setPhotoIdFile] = useState<File | null>(null);
   const [incomeDocFiles, setIncomeDocFiles] = useState<(File | null)[]>([null, null]);
+  const [additionalFileSlots, setAdditionalFileSlots] = useState<(File | null)[]>([]);
   const [fileError, setFileError] = useState<string | null>(null);
   const [postalCodeTouched, setPostalCodeTouched] = useState(false);
 
@@ -433,6 +453,21 @@ export default function RentalApplication() {
     setPhotoIdFile(file);
   };
 
+  const addAdditionalFileSlot = () => setAdditionalFileSlots((prev) => [...prev, null]);
+  const removeAdditionalFileSlot = (idx: number) => setAdditionalFileSlots((prev) => prev.filter((_, i) => i !== idx));
+  const handleAdditionalFileChange = (idx: number, file: File | null) => {
+    if (file && file.size > MAX_FILE_SIZE_BYTES) {
+      setFileError(`"${file.name}" is larger than ${MAX_FILE_SIZE_MB}MB. Please upload a smaller file.`);
+      return;
+    }
+    setFileError(null);
+    setAdditionalFileSlots((prev) => {
+      const next = [...prev];
+      next[idx] = file;
+      return next;
+    });
+  };
+
   const addOccupant = () => setOccupants((prev) => [...prev, { ...emptyOccupant }]);
   const removeOccupant = (idx: number) => setOccupants((prev) => prev.filter((_, i) => i !== idx));
   const updateOccupant = (idx: number, field: keyof Occupant, value: string) => {
@@ -466,6 +501,10 @@ export default function RentalApplication() {
       setError("Please enter a valid Canadian postal code (e.g. R3Y 1Z8).");
       return;
     }
+    if (formData.desiredMoveInDate < minMoveInDate) {
+      setError("Desired move-in date must be a future date.");
+      return;
+    }
 
     if (!consentCreditCheck || !consentPhotoId || !consentIncomeDocs) {
       setError("Please acknowledge all disclosures before submitting.");
@@ -480,7 +519,8 @@ export default function RentalApplication() {
       setError("Please upload two recent bank statements or two recent pay stubs.");
       return;
     }
-    if ([photoIdFile, ...incomeDocs].some((f) => f.size > MAX_FILE_SIZE_BYTES)) {
+    const additionalFiles = additionalFileSlots.filter((f): f is File => f !== null);
+    if ([photoIdFile, ...incomeDocs, ...additionalFiles].some((f) => f.size > MAX_FILE_SIZE_BYTES)) {
       setError(`Each uploaded file must be ${MAX_FILE_SIZE_MB}MB or smaller.`);
       return;
     }
@@ -494,7 +534,7 @@ export default function RentalApplication() {
       const applicationId = generateId();
       const applicationNumber = generateApplicationNumber();
 
-      const photoIdPath = `${applicationId}/photo-id-${photoIdFile.name}`;
+      const photoIdPath = `${applicationId}/photo-id-${sanitizeFilename(photoIdFile.name)}`;
       const { error: photoUploadError } = await supabase.storage
         .from(RENTAL_DOCS_BUCKET)
         .upload(photoIdPath, photoIdFile);
@@ -502,12 +542,22 @@ export default function RentalApplication() {
 
       const incomeDocPaths: string[] = [];
       for (let i = 0; i < incomeDocs.length; i++) {
-        const path = `${applicationId}/income-doc-${i + 1}-${incomeDocs[i].name}`;
+        const path = `${applicationId}/income-doc-${i + 1}-${sanitizeFilename(incomeDocs[i].name)}`;
         const { error: incomeUploadError } = await supabase.storage
           .from(RENTAL_DOCS_BUCKET)
           .upload(path, incomeDocs[i]);
         if (incomeUploadError) throw incomeUploadError;
         incomeDocPaths.push(path);
+      }
+
+      const additionalDocPaths: string[] = [];
+      for (let i = 0; i < additionalFiles.length; i++) {
+        const path = `${applicationId}/additional-doc-${i + 1}-${sanitizeFilename(additionalFiles[i].name)}`;
+        const { error: additionalUploadError } = await supabase.storage
+          .from(RENTAL_DOCS_BUCKET)
+          .upload(path, additionalFiles[i]);
+        if (additionalUploadError) throw additionalUploadError;
+        additionalDocPaths.push(path);
       }
 
       const { error: insertError } = await supabase.from("rental_applications").insert({
@@ -550,6 +600,7 @@ export default function RentalApplication() {
         emergency_contact_email: formData.emergencyContactEmail,
         photo_id_path: photoIdPath,
         income_doc_paths: incomeDocPaths,
+        additional_doc_paths: additionalDocPaths.length ? additionalDocPaths : null,
         consent_soft_credit_check: consentCreditCheck,
         consent_photo_id_required: consentPhotoId,
         consent_income_docs_required: consentIncomeDocs,
@@ -562,9 +613,15 @@ export default function RentalApplication() {
       setSubmitted(true);
     } catch (err) {
       console.error(err);
-      setError(
+      const message =
         err instanceof Error
-          ? `Something went wrong submitting your application: ${err.message}`
+          ? err.message
+          : typeof err === "object" && err !== null && "message" in err
+            ? String((err as { message: unknown }).message)
+            : null;
+      setError(
+        message
+          ? `Something went wrong submitting your application: ${message}`
           : "Something went wrong submitting your application. Please try again."
       );
     } finally {
@@ -743,6 +800,7 @@ export default function RentalApplication() {
                   name="desiredMoveInDate"
                   type="date"
                   required
+                  min={minMoveInDate}
                   className="form-input"
                   value={formData.desiredMoveInDate}
                   onChange={handleChange}
@@ -983,6 +1041,36 @@ export default function RentalApplication() {
                     onChange={(file) => handleIncomeDocChange(1, file)}
                   />
                 </div>
+              </div>
+              <div>
+                <label className="form-label" style={{ fontWeight: 700, fontSize: "0.78rem", color: "#1C1A17", letterSpacing: "0.04em" }}>
+                  Additional Documents (optional)
+                </label>
+                <p style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: "0.82rem", color: "#6B6055", fontWeight: 300, margin: "0.35rem 0 1rem" }}>
+                  Anything else you'd like to include (e.g. reference letters, additional ID).
+                </p>
+                {additionalFileSlots.length > 0 && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginBottom: "1.25rem" }}>
+                    {additionalFileSlots.map((file, idx) => (
+                      <div key={idx} style={{ display: "flex", alignItems: "flex-end", gap: "1rem" }}>
+                        <div style={{ flex: 1 }}>
+                          <FileUploadField
+                            label={`Additional Document ${idx + 1}`}
+                            accept="image/*,.pdf"
+                            file={file}
+                            onChange={(f) => handleAdditionalFileChange(idx, f)}
+                          />
+                        </div>
+                        <button type="button" className="btn-ghost" style={{ padding: "0.6rem 0.9rem" }} onClick={() => removeAdditionalFileSlot(idx)}>
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <button type="button" className="btn-ghost" onClick={addAdditionalFileSlot}>
+                  + Add Additional File
+                </button>
               </div>
               {fileError && <p style={{ color: "#B4432F", fontSize: "0.82rem" }}>{fileError}</p>}
             </div>

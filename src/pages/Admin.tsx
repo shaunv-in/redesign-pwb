@@ -56,6 +56,7 @@ type RentalApplicationRow = {
   emergency_contact_email: string | null;
   photo_id_path: string | null;
   income_doc_paths: string[] | null;
+  additional_doc_paths: string[] | null;
   consent_soft_credit_check: boolean;
   consent_photo_id_required: boolean;
   consent_income_docs_required: boolean;
@@ -233,6 +234,7 @@ function ApplicationDetail({
 }) {
   const [photoIdUrl, setPhotoIdUrl] = useState<string | null>(null);
   const [incomeDocUrls, setIncomeDocUrls] = useState<string[]>([]);
+  const [additionalDocUrls, setAdditionalDocUrls] = useState<{ path: string; url: string }[]>([]);
   const [adminAttachmentUrls, setAdminAttachmentUrls] = useState<{ path: string; url: string }[]>([]);
   const [statusSaving, setStatusSaving] = useState(false);
   const [notesDraft, setNotesDraft] = useState(app.admin_notes ?? "");
@@ -258,6 +260,15 @@ function ApplicationDetail({
         );
         if (!cancelled) setIncomeDocUrls(urls.filter((u): u is string => !!u));
       }
+      if (app.additional_doc_paths?.length) {
+        const results = await Promise.all(
+          app.additional_doc_paths.map(async (path) => {
+            const { data } = await supabase.storage.from(RENTAL_DOCS_BUCKET).createSignedUrl(path, 3600);
+            return data?.signedUrl ? { path, url: data.signedUrl } : null;
+          })
+        );
+        if (!cancelled) setAdditionalDocUrls(results.filter((r): r is { path: string; url: string } => !!r));
+      }
       if (app.admin_attachment_paths?.length) {
         const results = await Promise.all(
           app.admin_attachment_paths.map(async (path) => {
@@ -272,7 +283,7 @@ function ApplicationDetail({
     return () => {
       cancelled = true;
     };
-  }, [app.photo_id_path, app.income_doc_paths, app.admin_attachment_paths]);
+  }, [app.photo_id_path, app.income_doc_paths, app.additional_doc_paths, app.admin_attachment_paths]);
 
   const handleStatusChange = async (status: string) => {
     setStatusSaving(true);
@@ -324,6 +335,12 @@ function ApplicationDetail({
         const path = incomeDocPaths[i];
         const { data } = await supabase.storage.from(RENTAL_DOCS_BUCKET).createSignedUrl(path, 3600);
         if (data) attachments.push({ label: `Income Document ${i + 1}`, url: data.signedUrl, path });
+      }
+      const additionalDocPaths = app.additional_doc_paths ?? [];
+      for (let i = 0; i < additionalDocPaths.length; i++) {
+        const path = additionalDocPaths[i];
+        const { data } = await supabase.storage.from(RENTAL_DOCS_BUCKET).createSignedUrl(path, 3600);
+        if (data) attachments.push({ label: `Additional Document ${i + 1}`, url: data.signedUrl, path });
       }
       for (const path of app.admin_attachment_paths ?? []) {
         const { data } = await supabase.storage.from(RENTAL_DOCS_BUCKET).createSignedUrl(path, 3600);
@@ -421,6 +438,20 @@ function ApplicationDetail({
             : "Loading..."
         }
       />
+      {app.additional_doc_paths?.length ? (
+        <Row
+          label="Additional Docs"
+          value={
+            additionalDocUrls.length
+              ? additionalDocUrls.map(({ path, url }, i) => (
+                  <a key={path} href={url} target="_blank" rel="noopener noreferrer" style={{ marginRight: "1rem" }}>
+                    Document {i + 1} →
+                  </a>
+                ))
+              : "Loading..."
+          }
+        />
+      ) : null}
 
       <div style={{ height: "1px", background: "#DDD5C8", margin: "1rem 0" }} />
       <Row label="Consents" value={`Soft credit check: ${app.consent_soft_credit_check ? "Yes" : "No"} · Photo ID: ${app.consent_photo_id_required ? "Yes" : "No"} · Income docs: ${app.consent_income_docs_required ? "Yes" : "No"}`} />
@@ -637,7 +668,7 @@ export default function Admin() {
         // Lazily purge anything past the 30-day soft-delete retention window.
         const toPurge = rows.filter((r) => r.deleted_at && daysSince(r.deleted_at) > RETENTION_DAYS);
         for (const row of toPurge) {
-          const paths = [row.photo_id_path, ...(row.income_doc_paths ?? []), ...(row.admin_attachment_paths ?? [])].filter(
+          const paths = [row.photo_id_path, ...(row.income_doc_paths ?? []), ...(row.additional_doc_paths ?? []), ...(row.admin_attachment_paths ?? [])].filter(
             (p): p is string => !!p
           );
           if (paths.length) await supabase.storage.from(RENTAL_DOCS_BUCKET).remove(paths);
@@ -671,7 +702,7 @@ export default function Admin() {
   };
 
   const handlePermanentDelete = async (app: RentalApplicationRow) => {
-    const paths = [app.photo_id_path, ...(app.income_doc_paths ?? []), ...(app.admin_attachment_paths ?? [])].filter(
+    const paths = [app.photo_id_path, ...(app.income_doc_paths ?? []), ...(app.additional_doc_paths ?? []), ...(app.admin_attachment_paths ?? [])].filter(
       (p): p is string => !!p
     );
     if (paths.length) await supabase.storage.from(RENTAL_DOCS_BUCKET).remove(paths);

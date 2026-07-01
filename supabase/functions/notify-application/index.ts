@@ -271,6 +271,11 @@ Deno.serve(async (req) => {
       const { data } = await supabase.storage.from(RENTAL_DOCS_BUCKET).createSignedUrl(incomeDocPaths[i], 3600);
       if (data) attachments.push({ label: `Income Document ${i + 1}`, url: data.signedUrl, path: incomeDocPaths[i] });
     }
+    const additionalDocPaths: string[] = app.additional_doc_paths ?? [];
+    for (let i = 0; i < additionalDocPaths.length; i++) {
+      const { data } = await supabase.storage.from(RENTAL_DOCS_BUCKET).createSignedUrl(additionalDocPaths[i], 3600);
+      if (data) attachments.push({ label: `Additional Document ${i + 1}`, url: data.signedUrl, path: additionalDocPaths[i] });
+    }
 
     const title = `Rental Application ${app.application_number ?? ""} — ${app.full_name}`.trim();
     const pdfBytes = await buildApplicationPdf(title, buildSections(app), attachments);

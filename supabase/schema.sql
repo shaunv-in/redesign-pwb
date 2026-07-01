@@ -55,6 +55,7 @@ create table if not exists public.rental_applications (
   -- Uploaded documents (storage object paths, not public URLs)
   photo_id_path text,
   income_doc_paths text[],
+  additional_doc_paths text[],
 
   -- Consent / signature
   consent_soft_credit_check boolean not null default false,
@@ -75,6 +76,7 @@ alter table public.rental_applications add column if not exists status text not 
 alter table public.rental_applications add column if not exists admin_notes text;
 alter table public.rental_applications add column if not exists admin_attachment_paths text[];
 alter table public.rental_applications add column if not exists deleted_at timestamptz;
+alter table public.rental_applications add column if not exists additional_doc_paths text[];
 
 alter table public.rental_applications enable row level security;
 
