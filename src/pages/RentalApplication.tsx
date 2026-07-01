@@ -1001,7 +1001,16 @@ export default function RentalApplication() {
                 </select>
               </Field>
               <Field label="Monthly Gross Income ($)">
-                <input name="monthlyIncome" type="number" min="0" step="0.01" className="form-input" value={formData.monthlyIncome} onChange={handleChange} />
+                <input
+                  name="monthlyIncome"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  className="form-input"
+                  value={formData.monthlyIncome}
+                  onChange={handleChange}
+                  onWheel={(e) => e.currentTarget.blur()}
+                />
               </Field>
             </div>
 
