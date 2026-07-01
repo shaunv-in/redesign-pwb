@@ -48,9 +48,44 @@ function generateApplicationNumber(): string {
   return `#${n.toString().padStart(7, "0")}`;
 }
 
+// Native HTML5 `type="email"` validation doesn't require a valid-looking
+// domain extension (e.g. "a@b" passes). This enforces a real TLD.
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+
+function isValidEmail(email: string): boolean {
+  return EMAIL_PATTERN.test(email.trim());
+}
+
 type Occupant = { name: string; age: string; email: string; phone: string };
 
 const emptyOccupant: Occupant = { name: "", age: "", email: "", phone: "" };
+
+type Vehicle = { make: string; model: string; year: string; plate: string };
+
+const emptyVehicle: Vehicle = { make: "", model: "", year: "", plate: "" };
+
+const CANADIAN_PROVINCES = [
+  "Alberta",
+  "British Columbia",
+  "Manitoba",
+  "New Brunswick",
+  "Newfoundland and Labrador",
+  "Northwest Territories",
+  "Nova Scotia",
+  "Nunavut",
+  "Ontario",
+  "Prince Edward Island",
+  "Quebec",
+  "Saskatchewan",
+  "Yukon",
+];
+
+// Canadian postal code format: A1A 1A1
+const POSTAL_CODE_PATTERN = /^[A-Za-z]\d[A-Za-z] ?\d[A-Za-z]\d$/;
+
+function isValidPostalCode(postalCode: string): boolean {
+  return POSTAL_CODE_PATTERN.test(postalCode.trim());
+}
 
 type FormState = {
   monthlyRent: string;
@@ -80,11 +115,6 @@ type FormState = {
 
   hasPets: "yes" | "no";
   petDetails: string;
-
-  vehicleMake: string;
-  vehicleModel: string;
-  vehicleYear: string;
-  vehiclePlate: string;
 
   emergencyContactName: string;
   emergencyContactRelationship: string;
@@ -118,10 +148,6 @@ const initialFormState: FormState = {
   additionalIncomeAmount: "",
   hasPets: "no",
   petDetails: "",
-  vehicleMake: "",
-  vehicleModel: "",
-  vehicleYear: "",
-  vehiclePlate: "",
   emergencyContactName: "",
   emergencyContactRelationship: "",
   emergencyContactPhone: "",
@@ -213,11 +239,13 @@ function Field({
 
 function PhoneField({
   label,
+  name,
   value,
   onChange,
   required,
 }: {
   label: string;
+  name?: string;
   value: string;
   onChange: (formatted: string) => void;
   required?: boolean;
@@ -239,6 +267,7 @@ function PhoneField({
         </span>
         <input
           type="tel"
+          name={name}
           required={required}
           inputMode="numeric"
           placeholder="000-000-0000"
@@ -247,6 +276,43 @@ function PhoneField({
           onChange={(e) => onChange(formatPhoneNumber(e.target.value))}
         />
       </div>
+    </Field>
+  );
+}
+
+function EmailField({
+  label,
+  name,
+  value,
+  onChange,
+  required,
+}: {
+  label: string;
+  name?: string;
+  value: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+}) {
+  const [touched, setTouched] = useState(false);
+  const invalid = touched && value.trim() !== "" && !isValidEmail(value);
+
+  return (
+    <Field label={label}>
+      <input
+        type="email"
+        name={name}
+        required={required}
+        className="form-input"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={() => setTouched(true)}
+        style={invalid ? { borderBottomColor: "#B4432F" } : undefined}
+      />
+      {invalid && (
+        <p style={{ color: "#B4432F", fontSize: "0.75rem", marginTop: "0.35rem" }}>
+          Enter a valid email address (e.g. name@example.com).
+        </p>
+      )}
     </Field>
   );
 }
@@ -312,9 +378,11 @@ export default function RentalApplication() {
 
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [occupants, setOccupants] = useState<Occupant[]>([]);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [photoIdFile, setPhotoIdFile] = useState<File | null>(null);
   const [incomeDocFiles, setIncomeDocFiles] = useState<(File | null)[]>([null, null]);
   const [fileError, setFileError] = useState<string | null>(null);
+  const [postalCodeTouched, setPostalCodeTouched] = useState(false);
 
   const [consentCreditCheck, setConsentCreditCheck] = useState(false);
   const [consentPhotoId, setConsentPhotoId] = useState(false);
@@ -371,9 +439,33 @@ export default function RentalApplication() {
     setOccupants((prev) => prev.map((o, i) => (i === idx ? { ...o, [field]: value } : o)));
   };
 
+  const addVehicle = () => setVehicles((prev) => [...prev, { ...emptyVehicle }]);
+  const removeVehicle = (idx: number) => setVehicles((prev) => prev.filter((_, i) => i !== idx));
+  const updateVehicle = (idx: number, field: keyof Vehicle, value: string) => {
+    setVehicles((prev) => prev.map((v, i) => (i === idx ? { ...v, [field]: value } : v)));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!isValidEmail(formData.email)) {
+      setError("Please enter a valid email address (e.g. name@example.com).");
+      return;
+    }
+    if (formData.emergencyContactEmail && !isValidEmail(formData.emergencyContactEmail)) {
+      setError("Please enter a valid emergency contact email address (e.g. name@example.com).");
+      return;
+    }
+    const invalidOccupantEmail = occupants.find((o) => o.email && !isValidEmail(o.email));
+    if (invalidOccupantEmail) {
+      setError(`Please enter a valid email address for occupant "${invalidOccupantEmail.name || "unnamed"}".`);
+      return;
+    }
+    if (!isValidPostalCode(formData.currentPostalCode)) {
+      setError("Please enter a valid Canadian postal code (e.g. R3Y 1Z8).");
+      return;
+    }
 
     if (!consentCreditCheck || !consentPhotoId || !consentIncomeDocs) {
       setError("Please acknowledge all disclosures before submitting.");
@@ -451,15 +543,7 @@ export default function RentalApplication() {
           : null,
         has_pets: formData.hasPets === "yes",
         pet_details: formData.hasPets === "yes" ? formData.petDetails : null,
-        vehicle_info:
-          formData.vehicleMake || formData.vehicleModel || formData.vehicleYear || formData.vehiclePlate
-            ? JSON.stringify({
-                make: formData.vehicleMake,
-                model: formData.vehicleModel,
-                year: formData.vehicleYear,
-                plate: formData.vehiclePlate,
-              })
-            : null,
+        vehicle_info: vehicles.length ? JSON.stringify(vehicles) : null,
         emergency_contact_name: formData.emergencyContactName,
         emergency_contact_relationship: formData.emergencyContactRelationship,
         emergency_contact_phone: withCountryCode(formData.emergencyContactPhone),
@@ -675,10 +759,8 @@ export default function RentalApplication() {
               <Field label="Date of Birth *">
                 <input name="dateOfBirth" type="date" required className="form-input" value={formData.dateOfBirth} onChange={handleChange} />
               </Field>
-              <PhoneField label="Phone *" required value={formData.phone} onChange={(v) => setFormData((prev) => ({ ...prev, phone: v }))} />
-              <Field label="Email *">
-                <input name="email" type="email" required className="form-input" value={formData.email} onChange={handleChange} />
-              </Field>
+              <PhoneField label="Phone *" name="phone" required value={formData.phone} onChange={(v) => setFormData((prev) => ({ ...prev, phone: v }))} />
+              <EmailField label="Email *" name="email" required value={formData.email} onChange={(v) => setFormData((prev) => ({ ...prev, email: v }))} />
             </div>
           </FormSection>
 
@@ -691,10 +773,29 @@ export default function RentalApplication() {
                 <input name="currentCity" required className="form-input" value={formData.currentCity} onChange={handleChange} />
               </Field>
               <Field label="Province *">
-                <input name="currentProvince" required className="form-input" value={formData.currentProvince} onChange={handleChange} />
+                <select name="currentProvince" required className="form-input" style={{ appearance: "none", cursor: "pointer", background: "transparent" }} value={formData.currentProvince} onChange={handleChange}>
+                  <option value="" disabled>Select province</option>
+                  {CANADIAN_PROVINCES.map((prov) => (
+                    <option key={prov} value={prov}>{prov}</option>
+                  ))}
+                </select>
               </Field>
               <Field label="Postal Code *">
-                <input name="currentPostalCode" required className="form-input" value={formData.currentPostalCode} onChange={handleChange} />
+                <input
+                  name="currentPostalCode"
+                  required
+                  placeholder="A1A 1A1"
+                  className="form-input"
+                  style={postalCodeTouched && formData.currentPostalCode && !isValidPostalCode(formData.currentPostalCode) ? { borderBottomColor: "#B4432F" } : undefined}
+                  value={formData.currentPostalCode}
+                  onChange={handleChange}
+                  onBlur={() => setPostalCodeTouched(true)}
+                />
+                {postalCodeTouched && formData.currentPostalCode && !isValidPostalCode(formData.currentPostalCode) && (
+                  <p style={{ color: "#B4432F", fontSize: "0.75rem", marginTop: "0.35rem" }}>
+                    Enter a valid Canadian postal code (e.g. R3Y 1Z8).
+                  </p>
+                )}
               </Field>
               <Field label="Length at Current Address *">
                 <select name="lengthAtCurrentAddress" required className="form-input" style={{ appearance: "none", cursor: "pointer", background: "transparent" }} value={formData.lengthAtCurrentAddress} onChange={handleChange}>
@@ -710,7 +811,7 @@ export default function RentalApplication() {
               <Field label="Current Landlord Name">
                 <input name="landlordName" className="form-input" value={formData.landlordName} onChange={handleChange} />
               </Field>
-              <PhoneField label="Current Landlord Phone" value={formData.landlordPhone} onChange={(v) => setFormData((prev) => ({ ...prev, landlordPhone: v }))} />
+              <PhoneField label="Current Landlord Phone" name="landlordPhone" value={formData.landlordPhone} onChange={(v) => setFormData((prev) => ({ ...prev, landlordPhone: v }))} />
             </div>
           </FormSection>
 
@@ -722,7 +823,7 @@ export default function RentalApplication() {
               <Field label="Job Title">
                 <input name="jobTitle" className="form-input" value={formData.jobTitle} onChange={handleChange} />
               </Field>
-              <PhoneField label="Employer Phone" value={formData.employerPhone} onChange={(v) => setFormData((prev) => ({ ...prev, employerPhone: v }))} />
+              <PhoneField label="Employer Phone" name="employerPhone" value={formData.employerPhone} onChange={(v) => setFormData((prev) => ({ ...prev, employerPhone: v }))} />
               <Field label="Length of Employment">
                 <select name="employmentLength" className="form-input" style={{ appearance: "none", cursor: "pointer", background: "transparent" }} value={formData.employmentLength} onChange={handleChange}>
                   <option value="" disabled>Select length of time</option>
@@ -768,10 +869,8 @@ export default function RentalApplication() {
                       <Field label="Age">
                         <input type="number" min="0" className="form-input" value={occupant.age} onChange={(e) => updateOccupant(idx, "age", e.target.value)} />
                       </Field>
-                      <Field label="Email">
-                        <input type="email" className="form-input" value={occupant.email} onChange={(e) => updateOccupant(idx, "email", e.target.value)} />
-                      </Field>
-                      <PhoneField label="Phone" value={occupant.phone} onChange={(v) => updateOccupant(idx, "phone", v)} />
+                      <EmailField label="Email" name="occupantEmail" value={occupant.email} onChange={(v) => updateOccupant(idx, "email", v)} />
+                      <PhoneField label="Phone" name="occupantPhone" value={occupant.phone} onChange={(v) => updateOccupant(idx, "phone", v)} />
                       <button type="button" className="btn-ghost" style={{ padding: "0.6rem 0.9rem" }} onClick={() => removeOccupant(idx)}>
                         Remove
                       </button>
@@ -806,20 +905,39 @@ export default function RentalApplication() {
               <label className="form-label" style={{ fontWeight: 700, fontSize: "0.78rem", color: "#1C1A17", letterSpacing: "0.04em" }}>
                 Vehicle Information
               </label>
-              <div className="rental-grid-4" style={{ marginTop: "1rem" }}>
-                <Field label="Make">
-                  <input name="vehicleMake" className="form-input" value={formData.vehicleMake} onChange={handleChange} />
-                </Field>
-                <Field label="Model">
-                  <input name="vehicleModel" className="form-input" value={formData.vehicleModel} onChange={handleChange} />
-                </Field>
-                <Field label="Year">
-                  <input name="vehicleYear" className="form-input" value={formData.vehicleYear} onChange={handleChange} />
-                </Field>
-                <Field label="License Plate">
-                  <input name="vehiclePlate" className="form-input" value={formData.vehiclePlate} onChange={handleChange} />
-                </Field>
-              </div>
+              {vehicles.length > 0 && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", margin: "1rem 0" }}>
+                  {vehicles.map((vehicle, idx) => (
+                    <div
+                      key={idx}
+                      className="rental-occupant-row"
+                      style={{
+                        paddingBottom: "1rem",
+                        borderBottom: idx < vehicles.length - 1 ? "1px solid #DDD5C8" : "none",
+                      }}
+                    >
+                      <Field label="Make">
+                        <input className="form-input" value={vehicle.make} onChange={(e) => updateVehicle(idx, "make", e.target.value)} />
+                      </Field>
+                      <Field label="Model">
+                        <input className="form-input" value={vehicle.model} onChange={(e) => updateVehicle(idx, "model", e.target.value)} />
+                      </Field>
+                      <Field label="Year">
+                        <input className="form-input" value={vehicle.year} onChange={(e) => updateVehicle(idx, "year", e.target.value)} />
+                      </Field>
+                      <Field label="License Plate">
+                        <input className="form-input" value={vehicle.plate} onChange={(e) => updateVehicle(idx, "plate", e.target.value)} />
+                      </Field>
+                      <button type="button" className="btn-ghost" style={{ padding: "0.6rem 0.9rem" }} onClick={() => removeVehicle(idx)}>
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <button type="button" className="btn-ghost" style={{ marginTop: vehicles.length ? 0 : "1rem" }} onClick={addVehicle}>
+                + Add Vehicle
+              </button>
             </div>
           </FormSection>
 
@@ -831,10 +949,8 @@ export default function RentalApplication() {
               <Field label="Relationship *">
                 <input name="emergencyContactRelationship" required className="form-input" value={formData.emergencyContactRelationship} onChange={handleChange} />
               </Field>
-              <PhoneField label="Phone *" required value={formData.emergencyContactPhone} onChange={(v) => setFormData((prev) => ({ ...prev, emergencyContactPhone: v }))} />
-              <Field label="Email">
-                <input name="emergencyContactEmail" type="email" className="form-input" value={formData.emergencyContactEmail} onChange={handleChange} />
-              </Field>
+              <PhoneField label="Phone *" name="emergencyContactPhone" required value={formData.emergencyContactPhone} onChange={(v) => setFormData((prev) => ({ ...prev, emergencyContactPhone: v }))} />
+              <EmailField label="Email" name="emergencyContactEmail" value={formData.emergencyContactEmail} onChange={(v) => setFormData((prev) => ({ ...prev, emergencyContactEmail: v }))} />
             </div>
           </FormSection>
 

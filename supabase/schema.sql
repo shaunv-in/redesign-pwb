@@ -7,6 +7,7 @@ create table if not exists public.rental_applications (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
   application_number text,
+  status text not null default 'New',
 
   -- Property (prefilled by the app; rent left blank for applicant)
   property_address text not null default '300 Centre Street',
@@ -60,11 +61,20 @@ create table if not exists public.rental_applications (
   consent_photo_id_required boolean not null default false,
   consent_income_docs_required boolean not null default false,
   signature_full_name text,
-  signed_at timestamptz
+  signed_at timestamptz,
+
+  -- Admin-only fields (not visible/writable by applicants)
+  admin_notes text,
+  admin_attachment_paths text[],
+  deleted_at timestamptz
 );
 
--- If the table already existed before this column was added, this backfills it.
+-- If the table already existed before these columns were added, this backfills them.
 alter table public.rental_applications add column if not exists application_number text;
+alter table public.rental_applications add column if not exists status text not null default 'New';
+alter table public.rental_applications add column if not exists admin_notes text;
+alter table public.rental_applications add column if not exists admin_attachment_paths text[];
+alter table public.rental_applications add column if not exists deleted_at timestamptz;
 
 alter table public.rental_applications enable row level security;
 
@@ -84,6 +94,24 @@ create policy "authenticated can read applications"
   to authenticated
   using (true);
 
+-- Only signed-in admins (you) can update an application's stage/status.
+drop policy if exists "authenticated can update applications" on public.rental_applications;
+create policy "authenticated can update applications"
+  on public.rental_applications
+  for update
+  to authenticated
+  using (true)
+  with check (true);
+
+-- Only signed-in admins (you) can permanently delete an application
+-- (soft-delete uses the update policy above to set deleted_at instead).
+drop policy if exists "authenticated can delete applications" on public.rental_applications;
+create policy "authenticated can delete applications"
+  on public.rental_applications
+  for delete
+  to authenticated
+  using (true);
+
 -- 2. Storage bucket for uploaded ID / income documents ------------------
 insert into storage.buckets (id, name, public)
 values ('rental-application-documents', 'rental-application-documents', false)
@@ -95,6 +123,14 @@ create policy "public can upload rental documents"
   on storage.objects
   for insert
   to anon
+  with check (bucket_id = 'rental-application-documents');
+
+-- Signed-in admins can also upload (e.g. attaching a document a tenant sent by email).
+drop policy if exists "authenticated can upload rental documents" on storage.objects;
+create policy "authenticated can upload rental documents"
+  on storage.objects
+  for insert
+  to authenticated
   with check (bucket_id = 'rental-application-documents');
 
 -- Only signed-in admins (you) can read/download uploaded documents.
