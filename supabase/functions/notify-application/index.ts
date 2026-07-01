@@ -96,7 +96,7 @@ function buildSections(app: any): PdfSection[] {
           value: (() => {
             const incomes = parseJson<{ source: string; amount: string }[]>(app.additional_income_source);
             if (!incomes?.length) return "—";
-            return incomes.map((i) => `${i.source}: $${i.amount}`).join("; ");
+            return incomes.map((i) => (i.source ? `${i.source}: $${i.amount}` : `$${i.amount}`)).join("; ");
           })(),
         },
       ],
