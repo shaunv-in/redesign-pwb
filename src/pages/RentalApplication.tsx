@@ -4,7 +4,7 @@
    design system used across the rest of the site.
    ========================================================================== */
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { RENTAL_DOCS_BUCKET, supabase } from "@/lib/supabaseClient";
 
 const ACCESS_PASSWORD = "300centre";
@@ -246,6 +246,60 @@ function PhoneField({
           value={value}
           onChange={(e) => onChange(formatPhoneNumber(e.target.value))}
         />
+      </div>
+    </Field>
+  );
+}
+
+function FileUploadField({
+  label,
+  file,
+  onChange,
+  accept,
+}: {
+  label: string;
+  file: File | null;
+  onChange: (file: File | null) => void;
+  accept?: string;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <Field label={label}>
+      {/* Native `required` on a hidden input silently blocks submit with no visible focus target; validation is enforced in handleSubmit instead. */}
+      <input
+        ref={inputRef}
+        type="file"
+        accept={accept}
+        style={{ display: "none" }}
+        onChange={(e) => onChange(e.target.files?.[0] ?? null)}
+      />
+      <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
+        <button
+          type="button"
+          className="btn-ghost"
+          style={{ padding: "0.6rem 1.1rem", fontSize: "0.78rem" }}
+          onClick={() => inputRef.current?.click()}
+        >
+          {file ? "Change File" : "+ Upload File"}
+        </button>
+        {file ? (
+          <span style={{ display: "flex", alignItems: "center", gap: "0.6rem", fontFamily: "'Instrument Sans', sans-serif", fontSize: "0.82rem", color: "#1C1A17" }}>
+            {file.name}
+            <button
+              type="button"
+              onClick={() => {
+                onChange(null);
+                if (inputRef.current) inputRef.current.value = "";
+              }}
+              style={{ background: "none", border: "none", color: "#B4432F", cursor: "pointer", fontSize: "0.78rem", padding: 0 }}
+            >
+              Remove
+            </button>
+          </span>
+        ) : (
+          <span style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: "0.82rem", color: "#A89880" }}>No file selected</span>
+        )}
       </div>
     </Field>
   );
@@ -786,15 +840,12 @@ export default function RentalApplication() {
 
           <FormSection index="07" title="Required Documents" description={`Accepted formats: JPG, PNG, or PDF. Maximum ${MAX_FILE_SIZE_MB}MB per file.`}>
             <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-              <Field label="Valid Photo ID *">
-                <input
-                  type="file"
-                  accept="image/*,.pdf"
-                  required
-                  className="form-input"
-                  onChange={(e) => handlePhotoIdChange(e.target.files?.[0] ?? null)}
-                />
-              </Field>
+              <FileUploadField
+                label="Valid Photo ID *"
+                accept="image/*,.pdf"
+                file={photoIdFile}
+                onChange={handlePhotoIdChange}
+              />
               <div>
                 <label className="form-label" style={{ fontWeight: 700, fontSize: "0.78rem", color: "#1C1A17", letterSpacing: "0.04em" }}>
                   Proof of Income *
@@ -803,24 +854,18 @@ export default function RentalApplication() {
                   Upload two recent bank statements OR two recent pay stubs.
                 </p>
                 <div className="rental-grid-2">
-                  <Field label="Document 1 *">
-                    <input
-                      type="file"
-                      accept="image/*,.pdf"
-                      required
-                      className="form-input"
-                      onChange={(e) => handleIncomeDocChange(0, e.target.files?.[0] ?? null)}
-                    />
-                  </Field>
-                  <Field label="Document 2 *">
-                    <input
-                      type="file"
-                      accept="image/*,.pdf"
-                      required
-                      className="form-input"
-                      onChange={(e) => handleIncomeDocChange(1, e.target.files?.[0] ?? null)}
-                    />
-                  </Field>
+                  <FileUploadField
+                    label="Document 1 *"
+                    accept="image/*,.pdf"
+                    file={incomeDocFiles[0]}
+                    onChange={(file) => handleIncomeDocChange(0, file)}
+                  />
+                  <FileUploadField
+                    label="Document 2 *"
+                    accept="image/*,.pdf"
+                    file={incomeDocFiles[1]}
+                    onChange={(file) => handleIncomeDocChange(1, file)}
+                  />
                 </div>
               </div>
               {fileError && <p style={{ color: "#B4432F", fontSize: "0.82rem" }}>{fileError}</p>}
