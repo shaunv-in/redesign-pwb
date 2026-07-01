@@ -9,6 +9,7 @@ import { RENTAL_DOCS_BUCKET, supabase } from "@/lib/supabaseClient";
 
 type RentalApplicationRow = {
   id: string;
+  application_number: string | null;
   created_at: string;
   property_address: string;
   unit: string;
@@ -103,6 +104,7 @@ function ApplicationDetail({ app }: { app: RentalApplicationRow }) {
 
   return (
     <div style={{ padding: "2rem", background: "#FBF9F5", border: "1px solid #DDD5C8" }}>
+      <Row label="Application #" value={app.application_number} />
       <Row label="Submitted" value={new Date(app.created_at).toLocaleString()} />
       <Row label="Monthly Rent" value={app.monthly_rent ? `$${app.monthly_rent}` : null} />
       <Row label="Move-in Date" value={app.desired_move_in_date} />
@@ -313,7 +315,14 @@ export default function Admin() {
                   fontFamily: "'Instrument Sans', sans-serif",
                 }}
               >
-                <span style={{ fontWeight: 500, color: "#1C1A17" }}>{app.full_name}</span>
+                <span style={{ fontWeight: 500, color: "#1C1A17" }}>
+                  {app.full_name}
+                  {app.application_number && (
+                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 400, color: "#A89880", marginLeft: "0.6rem", fontSize: "0.8rem" }}>
+                      {app.application_number}
+                    </span>
+                  )}
+                </span>
                 <span style={{ fontSize: "0.8rem", color: "#6B6055" }}>
                   {new Date(app.created_at).toLocaleDateString()} {expandedId === app.id ? "▲" : "▼"}
                 </span>

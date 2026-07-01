@@ -6,6 +6,7 @@
 create table if not exists public.rental_applications (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
+  application_number text,
 
   -- Property (prefilled by the app; rent left blank for applicant)
   property_address text not null default '300 Centre Street',
@@ -61,6 +62,9 @@ create table if not exists public.rental_applications (
   signature_full_name text,
   signed_at timestamptz
 );
+
+-- If the table already existed before this column was added, this backfills it.
+alter table public.rental_applications add column if not exists application_number text;
 
 alter table public.rental_applications enable row level security;
 

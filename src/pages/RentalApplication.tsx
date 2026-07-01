@@ -9,7 +9,7 @@ import { RENTAL_DOCS_BUCKET, supabase } from "@/lib/supabaseClient";
 
 const ACCESS_PASSWORD = "300centre";
 const SESSION_KEY = "rental-application-300-centre-unlocked";
-const MAX_FILE_SIZE_MB = 10;
+const MAX_FILE_SIZE_MB = 30;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 function generateId(): string {
@@ -25,6 +25,27 @@ function generateId(): string {
     const v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
+}
+
+const LENGTH_OPTIONS = ["Less than a year", "1 year", "2 years", "3 years", "4+ years"];
+
+function formatPhoneNumber(raw: string): string {
+  const digits = raw.replace(/\D/g, "").slice(0, 10);
+  const area = digits.slice(0, 3);
+  const prefix = digits.slice(3, 6);
+  const line = digits.slice(6, 10);
+  if (digits.length > 6) return `${area}-${prefix}-${line}`;
+  if (digits.length > 3) return `${area}-${prefix}`;
+  return area;
+}
+
+function withCountryCode(formattedPhone: string): string | null {
+  return formattedPhone ? `+1 ${formattedPhone}` : null;
+}
+
+function generateApplicationNumber(): string {
+  const n = Math.floor(Math.random() * 10000000);
+  return `#${n.toString().padStart(7, "0")}`;
 }
 
 type Occupant = { name: string; age: string; email: string; phone: string };
@@ -190,6 +211,46 @@ function Field({
   );
 }
 
+function PhoneField({
+  label,
+  value,
+  onChange,
+  required,
+}: {
+  label: string;
+  value: string;
+  onChange: (formatted: string) => void;
+  required?: boolean;
+}) {
+  return (
+    <Field label={label}>
+      <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem" }}>
+        <span
+          style={{
+            fontFamily: "'Instrument Sans', sans-serif",
+            fontSize: "0.9rem",
+            fontWeight: 300,
+            color: "#6B6055",
+            padding: "0.625rem 0",
+            borderBottom: "1px solid #DDD5C8",
+          }}
+        >
+          +1
+        </span>
+        <input
+          type="tel"
+          required={required}
+          inputMode="numeric"
+          placeholder="000-000-0000"
+          className="form-input"
+          value={value}
+          onChange={(e) => onChange(formatPhoneNumber(e.target.value))}
+        />
+      </div>
+    </Field>
+  );
+}
+
 export default function RentalApplication() {
   const [unlocked, setUnlocked] = useState(() => sessionStorage.getItem(SESSION_KEY) === "1");
   const [passwordInput, setPasswordInput] = useState("");
@@ -207,6 +268,7 @@ export default function RentalApplication() {
 
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [applicationNumber, setApplicationNumber] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
@@ -284,6 +346,7 @@ export default function RentalApplication() {
     setSubmitting(true);
     try {
       const applicationId = generateId();
+      const applicationNumber = generateApplicationNumber();
 
       const photoIdPath = `${applicationId}/photo-id-${photoIdFile.name}`;
       const { error: photoUploadError } = await supabase.storage
@@ -303,13 +366,14 @@ export default function RentalApplication() {
 
       const { error: insertError } = await supabase.from("rental_applications").insert({
         id: applicationId,
+        application_number: applicationNumber,
         property_address: "300 Centre Street",
         unit: "605",
         monthly_rent: formData.monthlyRent ? Number(formData.monthlyRent) : null,
         desired_move_in_date: formData.desiredMoveInDate || null,
         full_name: formData.fullName,
         date_of_birth: formData.dateOfBirth || null,
-        phone: formData.phone,
+        phone: withCountryCode(formData.phone),
         email: formData.email,
         current_address: formData.currentAddress,
         current_city: formData.currentCity,
@@ -318,17 +382,19 @@ export default function RentalApplication() {
         length_at_current_address: formData.lengthAtCurrentAddress,
         reason_for_leaving: formData.reasonForLeaving,
         landlord_name: formData.landlordName,
-        landlord_phone: formData.landlordPhone,
+        landlord_phone: withCountryCode(formData.landlordPhone),
         employer_name: formData.employerName,
         job_title: formData.jobTitle,
-        employer_phone: formData.employerPhone,
+        employer_phone: withCountryCode(formData.employerPhone),
         employment_length: formData.employmentLength,
         monthly_income: formData.monthlyIncome ? Number(formData.monthlyIncome) : null,
         additional_income_source: formData.additionalIncomeSource,
         additional_income_amount: formData.additionalIncomeAmount
           ? Number(formData.additionalIncomeAmount)
           : null,
-        occupants: occupants.length ? JSON.stringify(occupants) : null,
+        occupants: occupants.length
+          ? JSON.stringify(occupants.map((o) => ({ ...o, phone: withCountryCode(o.phone) ?? "" })))
+          : null,
         has_pets: formData.hasPets === "yes",
         pet_details: formData.hasPets === "yes" ? formData.petDetails : null,
         vehicle_info:
@@ -342,7 +408,7 @@ export default function RentalApplication() {
             : null,
         emergency_contact_name: formData.emergencyContactName,
         emergency_contact_relationship: formData.emergencyContactRelationship,
-        emergency_contact_phone: formData.emergencyContactPhone,
+        emergency_contact_phone: withCountryCode(formData.emergencyContactPhone),
         emergency_contact_email: formData.emergencyContactEmail,
         photo_id_path: photoIdPath,
         income_doc_paths: incomeDocPaths,
@@ -354,6 +420,7 @@ export default function RentalApplication() {
       });
       if (insertError) throw insertError;
 
+      setApplicationNumber(applicationNumber);
       setSubmitted(true);
     } catch (err) {
       console.error(err);
@@ -450,6 +517,34 @@ export default function RentalApplication() {
             Thank you for applying for 300 Centre Street, Unit 605. We've received your documents
             and will be in touch after review.
           </p>
+          {applicationNumber && (
+            <div
+              style={{
+                marginTop: "2rem",
+                display: "inline-block",
+                background: "#FBF9F5",
+                border: "1px solid #DDD5C8",
+                borderRadius: "6px",
+                padding: "1rem 1.75rem",
+              }}
+            >
+              <span className="label-text">Application Number</span>
+              <p
+                style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "1.5rem",
+                  fontWeight: 700,
+                  color: "#1C1A17",
+                  margin: "0.35rem 0 0",
+                }}
+              >
+                {applicationNumber}
+              </p>
+            </div>
+          )}
+          <p style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: "0.8rem", color: "#A89880", fontWeight: 300, marginTop: "1rem" }}>
+            Please save this number for your records.
+          </p>
         </div>
       </div>
     );
@@ -526,9 +621,7 @@ export default function RentalApplication() {
               <Field label="Date of Birth *">
                 <input name="dateOfBirth" type="date" required className="form-input" value={formData.dateOfBirth} onChange={handleChange} />
               </Field>
-              <Field label="Phone *">
-                <input name="phone" type="tel" required className="form-input" value={formData.phone} onChange={handleChange} />
-              </Field>
+              <PhoneField label="Phone *" required value={formData.phone} onChange={(v) => setFormData((prev) => ({ ...prev, phone: v }))} />
               <Field label="Email *">
                 <input name="email" type="email" required className="form-input" value={formData.email} onChange={handleChange} />
               </Field>
@@ -550,7 +643,12 @@ export default function RentalApplication() {
                 <input name="currentPostalCode" required className="form-input" value={formData.currentPostalCode} onChange={handleChange} />
               </Field>
               <Field label="Length at Current Address *">
-                <input name="lengthAtCurrentAddress" required placeholder="e.g. 2 years" className="form-input" value={formData.lengthAtCurrentAddress} onChange={handleChange} />
+                <select name="lengthAtCurrentAddress" required className="form-input" style={{ appearance: "none", cursor: "pointer", background: "transparent" }} value={formData.lengthAtCurrentAddress} onChange={handleChange}>
+                  <option value="" disabled>Select length of time</option>
+                  {LENGTH_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
               </Field>
               <Field label="Reason for Leaving">
                 <input name="reasonForLeaving" className="form-input" value={formData.reasonForLeaving} onChange={handleChange} />
@@ -558,9 +656,7 @@ export default function RentalApplication() {
               <Field label="Current Landlord Name">
                 <input name="landlordName" className="form-input" value={formData.landlordName} onChange={handleChange} />
               </Field>
-              <Field label="Current Landlord Phone">
-                <input name="landlordPhone" type="tel" className="form-input" value={formData.landlordPhone} onChange={handleChange} />
-              </Field>
+              <PhoneField label="Current Landlord Phone" value={formData.landlordPhone} onChange={(v) => setFormData((prev) => ({ ...prev, landlordPhone: v }))} />
             </div>
           </FormSection>
 
@@ -572,11 +668,14 @@ export default function RentalApplication() {
               <Field label="Job Title">
                 <input name="jobTitle" className="form-input" value={formData.jobTitle} onChange={handleChange} />
               </Field>
-              <Field label="Employer Phone">
-                <input name="employerPhone" type="tel" className="form-input" value={formData.employerPhone} onChange={handleChange} />
-              </Field>
+              <PhoneField label="Employer Phone" value={formData.employerPhone} onChange={(v) => setFormData((prev) => ({ ...prev, employerPhone: v }))} />
               <Field label="Length of Employment">
-                <input name="employmentLength" placeholder="e.g. 3 years" className="form-input" value={formData.employmentLength} onChange={handleChange} />
+                <select name="employmentLength" className="form-input" style={{ appearance: "none", cursor: "pointer", background: "transparent" }} value={formData.employmentLength} onChange={handleChange}>
+                  <option value="" disabled>Select length of time</option>
+                  {LENGTH_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
               </Field>
               <Field label="Monthly Gross Income ($)">
                 <input name="monthlyIncome" type="number" min="0" step="0.01" className="form-input" value={formData.monthlyIncome} onChange={handleChange} />
@@ -618,9 +717,7 @@ export default function RentalApplication() {
                       <Field label="Email">
                         <input type="email" className="form-input" value={occupant.email} onChange={(e) => updateOccupant(idx, "email", e.target.value)} />
                       </Field>
-                      <Field label="Phone">
-                        <input type="tel" className="form-input" value={occupant.phone} onChange={(e) => updateOccupant(idx, "phone", e.target.value)} />
-                      </Field>
+                      <PhoneField label="Phone" value={occupant.phone} onChange={(v) => updateOccupant(idx, "phone", v)} />
                       <button type="button" className="btn-ghost" style={{ padding: "0.6rem 0.9rem" }} onClick={() => removeOccupant(idx)}>
                         Remove
                       </button>
@@ -680,9 +777,7 @@ export default function RentalApplication() {
               <Field label="Relationship *">
                 <input name="emergencyContactRelationship" required className="form-input" value={formData.emergencyContactRelationship} onChange={handleChange} />
               </Field>
-              <Field label="Phone *">
-                <input name="emergencyContactPhone" type="tel" required className="form-input" value={formData.emergencyContactPhone} onChange={handleChange} />
-              </Field>
+              <PhoneField label="Phone *" required value={formData.emergencyContactPhone} onChange={(v) => setFormData((prev) => ({ ...prev, emergencyContactPhone: v }))} />
               <Field label="Email">
                 <input name="emergencyContactEmail" type="email" className="form-input" value={formData.emergencyContactEmail} onChange={handleChange} />
               </Field>
