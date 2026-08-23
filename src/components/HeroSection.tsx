@@ -131,7 +131,7 @@ export default function HeroSection() {
             gap: "1rem",
           }}
         >
-          <div style={{ display: "flex", gap: "2.5rem" }}>
+          <div style={{ display: "flex", gap: "1.5rem 2.5rem", flexWrap: "wrap" }}>
             {[
               { label: "Dribbble", href: "https://dribbble.com/shaunvnzt" },
               { label: "Behance", href: "https://www.behance.net/shaunvnzt" },
@@ -146,18 +146,18 @@ export default function HeroSection() {
                 style={{
                   fontSize: "0.72rem",
                   letterSpacing: "0.06em",
-                  color: "var(--pf-ink-faint)",
+                  color: "var(--pf-ink-soft)",
                   textDecoration: "none",
                   transition: "color 0.2s",
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--pf-pen)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--pf-ink-faint)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--pf-ink-soft)")}
               >
                 {s.label} ↗
               </a>
             ))}
           </div>
-          <span className="pf-mono" style={{ fontSize: "0.72rem", letterSpacing: "0.06em", color: "var(--pf-ink-faint)" }}>
+          <span className="pf-mono" style={{ fontSize: "0.72rem", letterSpacing: "0.06em", color: "var(--pf-ink-soft)" }}>
             Winnipeg, Canada
           </span>
         </div>

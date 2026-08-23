@@ -100,7 +100,7 @@ export default function AboutSection() {
               </h2>
             </div>
 
-            <div className="fade-up">
+            <div className="fade-up" style={{ maxWidth: "620px" }}>
               <p style={{
                 fontSize: "0.975rem",
                 fontWeight: 400,
@@ -134,7 +134,7 @@ export default function AboutSection() {
           {/* Right: Experience */}
           <div>
             <div className="fade-up" style={{ marginBottom: "2rem" }}>
-              <span className="pf-mono" style={{ fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--pf-ink-faint)" }}>
+              <span className="pf-mono" style={{ fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--pf-ink-soft)" }}>
                 Experience
               </span>
             </div>
@@ -182,7 +182,7 @@ export default function AboutSection() {
                       </span>
                     )}
                   </div>
-                  <span className="pf-mono" style={{ fontSize: "0.65rem", color: "var(--pf-ink-faint)", letterSpacing: "0.04em", whiteSpace: "nowrap", marginTop: "0.15rem" }}>
+                  <span className="pf-mono" style={{ fontSize: "0.65rem", color: "var(--pf-ink-soft)", letterSpacing: "0.04em", whiteSpace: "nowrap", marginTop: "0.15rem" }}>
                     {exp.period}
                   </span>
                 </div>
@@ -200,7 +200,7 @@ export default function AboutSection() {
 
             {/* Education */}
             <div className="fade-up" style={{ marginTop: "2.5rem" }}>
-              <span className="pf-mono" style={{ display: "block", marginBottom: "1rem", fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--pf-ink-faint)" }}>
+              <span className="pf-mono" style={{ display: "block", marginBottom: "1rem", fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--pf-ink-soft)" }}>
                 Education
               </span>
               <div style={{ borderTop: "1px solid var(--pf-line)", paddingTop: "1.5rem" }}>

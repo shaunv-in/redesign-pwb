@@ -291,11 +291,11 @@ export default function WorkSection() {
             borderTop: "1px solid var(--pf-line)",
           }}
         >
-          <span className="pf-mono" style={{ fontSize: "0.7rem", letterSpacing: "0.08em", color: "var(--pf-ink-faint)" }}>
+          <span className="pf-mono" style={{ fontSize: "0.7rem", letterSpacing: "0.08em", color: "var(--pf-ink-soft)" }}>
             Showing {shown.length} of {dribbbleShots.length} shots
           </span>
 
-          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          <div style={{ display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap" }}>
             {hasMore && (
               <button
                 onClick={handleLoadMore}

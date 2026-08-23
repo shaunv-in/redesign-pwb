@@ -72,7 +72,7 @@ export default function Footer() {
 
           {/* Navigate */}
           <div>
-            <span className="pf-mono" style={{ display: "block", marginBottom: "1.25rem", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(244, 244, 241, 0.35)" }}>
+            <span className="pf-mono" style={{ display: "block", marginBottom: "1.25rem", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(244, 244, 241, 0.55)" }}>
               Navigate
             </span>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
@@ -84,7 +84,7 @@ export default function Footer() {
 
           {/* Connect */}
           <div>
-            <span className="pf-mono" style={{ display: "block", marginBottom: "1.25rem", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(244, 244, 241, 0.35)" }}>
+            <span className="pf-mono" style={{ display: "block", marginBottom: "1.25rem", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(244, 244, 241, 0.55)" }}>
               Connect
             </span>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
@@ -107,7 +107,7 @@ export default function Footer() {
             gap: "1rem",
           }}
         >
-          <span className="pf-mono" style={{ fontSize: "0.65rem", letterSpacing: "0.08em", color: "rgba(244, 244, 241, 0.3)" }}>
+          <span className="pf-mono" style={{ fontSize: "0.65rem", letterSpacing: "0.08em", color: "rgba(244, 244, 241, 0.55)" }}>
             © {year} Shaun Vincent
           </span>
           <button
