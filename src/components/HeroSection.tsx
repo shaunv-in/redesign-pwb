@@ -1,12 +1,35 @@
 /* ==========================================================================
-   HERO — Warm Beige Minimalism
-   Full-height, text-only, bottom-anchored layout. No background image.
+   HERO — full-height, text-led. No stock badge, no photo.
+   A live Winnipeg clock stands in for the generic "available for work"
+   pill, and the headline uses a rotating word + a hand-drawn underline
+   instead of the italic-accent-line formula.
    ========================================================================== */
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import PenUnderline from "@/components/PenUnderline";
+import WordRotator from "@/components/WordRotator";
+
+function useWinnipegClock() {
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    const format = () =>
+      new Intl.DateTimeFormat("en-CA", {
+        hour: "numeric",
+        minute: "2-digit",
+        timeZone: "America/Winnipeg",
+      }).format(new Date());
+    setTime(format());
+    const id = setInterval(() => setTime(format()), 30_000);
+    return () => clearInterval(id);
+  }, []);
+
+  return time;
+}
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
+  const time = useWinnipegClock();
 
   useEffect(() => {
     const items = ref.current?.querySelectorAll(".fade-up");
@@ -19,40 +42,49 @@ export default function HeroSection() {
     <section
       id="hero"
       ref={ref}
+      className="pf-grid-texture"
       style={{
-        background: "#F5F0E8",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-end",
         paddingBottom: "5rem",
         paddingTop: "9rem",
-        borderBottom: "1px solid #DDD5C8",
+        borderBottom: "1px solid var(--pf-line)",
+        backgroundColor: "var(--pf-paper)",
+        backgroundPosition: "-11px -11px",
       }}
     >
       <div className="container">
-
-        {/* Eyebrow */}
-        <div className="fade-up" style={{ marginBottom: "3rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", background: "#4ade80" }} />
-          <span className="label-text">Available for new projects</span>
+        {/* Live status line — replaces the generic "available for new projects" badge */}
+        <div className="fade-up" style={{ marginBottom: "3rem", display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap" }}>
+          <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", background: "var(--pf-pen)" }} />
+          <span className="pf-mono" style={{ fontSize: "0.72rem", letterSpacing: "0.05em", color: "var(--pf-ink-soft)" }}>
+            {time ? `${time} in Winnipeg. ` : ""}Marketing Manager at Paragon Living, open to select freelance work
+          </span>
         </div>
 
         {/* Main headline */}
         <div className="fade-up" style={{ marginBottom: "3.5rem" }}>
           <h1
+            className="pf-serif"
             style={{
-              fontFamily: "'Libre Baskerville', serif",
-              fontWeight: 700,
-              fontSize: "clamp(3rem, 8.5vw, 8rem)",
-              lineHeight: 1.0,
-              letterSpacing: "-0.03em",
-              color: "#1C1A17",
+              fontWeight: 500,
+              fontSize: "clamp(2.75rem, 8vw, 7.25rem)",
+              lineHeight: 0.98,
+              letterSpacing: "-0.02em",
+              color: "var(--pf-ink)",
               margin: 0,
             }}
           >
-            UI/UX Design<br />
-            <em style={{ fontStyle: "italic", fontWeight: 400, color: "#8B6F47" }}>that converts.</em>
+            Design that{" "}
+            <PenUnderline>
+              <WordRotator
+                words={["converts.", "performs.", "connects.", "sells."]}
+                className="pf-serif"
+                interval={2200}
+              />
+            </PenUnderline>
           </h1>
         </div>
 
@@ -68,10 +100,9 @@ export default function HeroSection() {
           }}
         >
           <p style={{
-            fontFamily: "'Instrument Sans', sans-serif",
             fontSize: "1rem",
-            fontWeight: 300,
-            color: "#6B6055",
+            fontWeight: 400,
+            color: "var(--pf-ink-soft)",
             margin: 0,
             lineHeight: 1.75,
             maxWidth: "380px",
@@ -81,8 +112,8 @@ export default function HeroSection() {
           </p>
 
           <div style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap" }}>
-            <a href="#contact" className="btn-primary">Work With Me</a>
-            <a href="#work" className="btn-ghost">View Work</a>
+            <a href="#contact" className="pf-btn">Work With Me</a>
+            <a href="#work" className="pf-btn-ghost">View Work</a>
           </div>
         </div>
 
@@ -92,7 +123,7 @@ export default function HeroSection() {
           style={{
             marginTop: "5rem",
             paddingTop: "2rem",
-            borderTop: "1px solid #DDD5C8",
+            borderTop: "1px solid var(--pf-line)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -104,28 +135,31 @@ export default function HeroSection() {
             {[
               { label: "Dribbble", href: "https://dribbble.com/shaunvnzt" },
               { label: "Behance", href: "https://www.behance.net/shaunvnzt" },
+              { label: "LinkedIn", href: "https://www.linkedin.com/in/shaunvnzt/" },
             ].map((s) => (
               <a
                 key={s.label}
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="pf-mono"
                 style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "0.68rem",
-                  letterSpacing: "0.1em",
-                  color: "#A89880",
+                  fontSize: "0.72rem",
+                  letterSpacing: "0.06em",
+                  color: "var(--pf-ink-faint)",
                   textDecoration: "none",
                   transition: "color 0.2s",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#1C1A17")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#A89880")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--pf-pen)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--pf-ink-faint)")}
               >
                 {s.label} ↗
               </a>
             ))}
           </div>
-          <span className="label-text">Winnipeg, Canada</span>
+          <span className="pf-mono" style={{ fontSize: "0.72rem", letterSpacing: "0.06em", color: "var(--pf-ink-faint)" }}>
+            Winnipeg, Canada
+          </span>
         </div>
       </div>
     </section>

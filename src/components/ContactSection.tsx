@@ -1,15 +1,18 @@
 /* ==========================================================================
-   CONTACT — Warm Beige Minimalism
-   Two-column: left = headline + contact links, right = minimal form
+   CONTACT — two-column: headline + links, and a validated inline form.
    ========================================================================== */
 
 import { useEffect, useRef, useState } from "react";
+import Eyebrow from "@/components/Eyebrow";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ContactSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", projectType: "", message: "" });
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -28,12 +31,22 @@ export default function ContactSection() {
     return () => observer.disconnect();
   }, []);
 
+  const emailValid = formData.email === "" || EMAIL_RE.test(formData.email);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setTouched((prev) => ({ ...prev, [e.target.name]: true }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!EMAIL_RE.test(formData.email)) {
+      setTouched((prev) => ({ ...prev, email: true }));
+      return;
+    }
     setSubmitting(true);
     const subject = encodeURIComponent(`Portfolio Inquiry: ${formData.projectType || "New Project"}`);
     const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nProject Type: ${formData.projectType}\n\nMessage:\n${formData.message}`);
@@ -45,46 +58,32 @@ export default function ContactSection() {
     <section
       id="contact"
       ref={ref}
-      style={{ background: "#F5F0E8", padding: "8rem 0", borderBottom: "1px solid #DDD5C8" }}
+      style={{ background: "var(--pf-paper)", padding: "8rem 0", borderBottom: "1px solid var(--pf-line)" }}
     >
       <div className="container">
         {/* Header */}
-        <div className="fade-up" style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "5rem" }}>
-          <span className="label-text">05 — Let's Work Together</span>
-          <div style={{ flex: 1, height: "1px", background: "#DDD5C8" }} />
+        <div className="fade-up" style={{ marginBottom: "5rem" }}>
+          <Eyebrow>let's work together</Eyebrow>
         </div>
 
-        <div
-          className="contact-grid"
-          style={{ display: "grid", gridTemplateColumns: "1fr", gap: "5rem" }}
-        >
+        <div className="pf-contact-grid">
           {/* Left: Copy */}
           <div>
             <div className="fade-up" style={{ marginBottom: "2rem" }}>
-              <h2 style={{
-                fontFamily: "'Libre Baskerville', serif",
-                fontWeight: 700,
+              <h2 className="pf-serif" style={{
+                fontWeight: 500,
                 fontSize: "clamp(2rem, 4vw, 3.25rem)",
                 lineHeight: 1.1,
-                letterSpacing: "-0.025em",
-                color: "#1C1A17",
+                letterSpacing: "-0.02em",
+                color: "var(--pf-ink)",
                 margin: 0,
               }}>
-                Have a project<br />
-                <em style={{ fontStyle: "italic", fontWeight: 400, color: "#8B6F47" }}>in mind?</em>
+                Have a project in mind?
               </h2>
             </div>
 
             <div className="fade-up">
-              <p style={{
-                fontFamily: "'Instrument Sans', sans-serif",
-                fontSize: "0.975rem",
-                fontWeight: 300,
-                color: "#6B6055",
-                lineHeight: 1.8,
-                marginBottom: "2.5rem",
-                maxWidth: "360px",
-              }}>
+              <p style={{ fontSize: "0.975rem", fontWeight: 400, color: "var(--pf-ink-soft)", lineHeight: 1.8, marginBottom: "2.5rem", maxWidth: "360px" }}>
                 I'd love to hear about it. Fill out the form and I'll get back to you within 24 hours.
               </p>
             </div>
@@ -101,20 +100,18 @@ export default function ContactSection() {
                   target={link.href.startsWith("http") ? "_blank" : undefined}
                   rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                   style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.06em",
-                    color: "#6B6055",
+                    fontSize: "0.88rem",
+                    color: "var(--pf-ink-soft)",
                     textDecoration: "none",
                     transition: "color 0.2s",
                     display: "flex",
                     alignItems: "center",
                     gap: "0.5rem",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#1C1A17")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#6B6055")}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "var(--pf-ink)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "var(--pf-ink-soft)")}
                 >
-                  <span style={{ color: "#8B6F47" }}>→</span>
+                  <span style={{ color: "var(--pf-pen)" }}>→</span>
                   {link.label}
                 </a>
               ))}
@@ -125,35 +122,44 @@ export default function ContactSection() {
           <div className="fade-up">
             {submitted ? (
               <div style={{ padding: "3rem 0" }}>
-                <p style={{
-                  fontFamily: "'Libre Baskerville', serif",
-                  fontSize: "1.5rem",
-                  fontWeight: 700,
-                  color: "#1C1A17",
-                  marginBottom: "0.75rem",
-                }}>
+                <p className="pf-serif" style={{ fontSize: "1.5rem", fontWeight: 500, color: "var(--pf-ink)", marginBottom: "0.75rem" }}>
                   Message sent.
                 </p>
-                <p style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: "0.9rem", color: "#6B6055", fontWeight: 300 }}>
+                <p style={{ fontSize: "0.9rem", color: "var(--pf-ink-soft)", fontWeight: 400 }}>
                   I'll get back to you within 24 hours.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
-                  <div>
-                    <label className="form-label" htmlFor="name">Name</label>
-                    <input id="name" name="name" type="text" required placeholder="Your name" value={formData.name} onChange={handleChange} className="form-input" />
+              <form onSubmit={handleSubmit} noValidate style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.75rem" }}>
+                  <div className="pf-field">
+                    <label className="pf-label" htmlFor="name">Name</label>
+                    <input id="name" name="name" type="text" required placeholder="Your name" value={formData.name} onChange={handleChange} onBlur={handleBlur} className="pf-input" />
                   </div>
-                  <div>
-                    <label className="form-label" htmlFor="email">Email</label>
-                    <input id="email" name="email" type="email" required placeholder="your@email.com" value={formData.email} onChange={handleChange} className="form-input" />
+                  <div className="pf-field">
+                    <label className="pf-label" htmlFor="email">Email</label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="your@email.com"
+                      value={formData.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={`pf-input${touched.email && !emailValid ? " pf-invalid" : ""}`}
+                      aria-invalid={touched.email && !emailValid}
+                      aria-describedby={touched.email && !emailValid ? "email-error" : undefined}
+                    />
+                    {touched.email && !emailValid && (
+                      <p className="pf-error" id="email-error">Enter a valid email address.</p>
+                    )}
                   </div>
                 </div>
 
-                <div>
-                  <label className="form-label" htmlFor="projectType">Project Type</label>
-                  <select id="projectType" name="projectType" required value={formData.projectType} onChange={handleChange} className="form-input" style={{ appearance: "none", cursor: "pointer", background: "transparent" }}>
+                <div className="pf-field">
+                  <label className="pf-label" htmlFor="projectType">Project Type</label>
+                  <select id="projectType" name="projectType" required value={formData.projectType} onChange={handleChange} className="pf-input" style={{ appearance: "none", cursor: "pointer", background: "transparent" }}>
                     <option value="" disabled>Select project type</option>
                     <option value="UI/UX Design">UI/UX Design</option>
                     <option value="Branding">Branding</option>
@@ -163,13 +169,13 @@ export default function ContactSection() {
                   </select>
                 </div>
 
-                <div>
-                  <label className="form-label" htmlFor="message">Message</label>
-                  <textarea id="message" name="message" required rows={4} placeholder="Tell me about your project..." value={formData.message} onChange={handleChange} className="form-input" style={{ resize: "vertical", minHeight: "100px" }} />
+                <div className="pf-field">
+                  <label className="pf-label" htmlFor="message">Message</label>
+                  <textarea id="message" name="message" required rows={4} placeholder="Tell me about your project..." value={formData.message} onChange={handleChange} onBlur={handleBlur} className="pf-input" style={{ resize: "vertical", minHeight: "100px" }} />
                 </div>
 
                 <div>
-                  <button type="submit" disabled={submitting} className="btn-primary" style={{ border: "none", opacity: submitting ? 0.6 : 1 }}>
+                  <button type="submit" disabled={submitting} className="pf-btn" style={{ border: "none", opacity: submitting ? 0.6 : 1 }}>
                     {submitting ? "Sending..." : "Send It →"}
                   </button>
                 </div>

@@ -1,6 +1,5 @@
 /* ==========================================================================
-   HOME — Warm Beige Minimalism
-   Assembles all sections in order.
+   HOME — assembles all sections in order.
    ========================================================================== */
 
 import Navbar from "@/components/Navbar";
@@ -11,17 +10,22 @@ import WorkSection from "@/components/WorkSection";
 import CredibilitySection from "@/components/CredibilitySection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import ProgressRail from "@/components/ProgressRail";
 
 export default function Home() {
   return (
-    <div style={{ background: "#F5F0E8" }}>
+    <div className="pf">
+      <a href="#main" className="pf-skip-link">Skip to content</a>
+      <ProgressRail />
       <Navbar />
-      <HeroSection />
-      <AboutSection />
-      <ServicesSection />
-      <WorkSection />
-      <CredibilitySection />
-      <ContactSection />
+      <main id="main">
+        <HeroSection />
+        <AboutSection />
+        <ServicesSection />
+        <WorkSection />
+        <CredibilitySection />
+        <ContactSection />
+      </main>
       <Footer />
     </div>
   );

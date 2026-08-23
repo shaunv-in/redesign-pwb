@@ -1,9 +1,9 @@
 /* ==========================================================================
-   SERVICES — Warm Beige Minimalism
-   Three-column grid. Numbered cards, no icons.
+   SERVICES — editorial list. Ordinal words instead of mono "01/02/03".
    ========================================================================== */
 
 import { useEffect, useRef } from "react";
+import Eyebrow from "@/components/Eyebrow";
 
 const services = [
   {
@@ -21,8 +21,14 @@ const services = [
   {
     num: "03",
     title: "Marketing & Ad Creative",
-    desc: "Social media content, Meta/Facebook lead gen ads, signage, and digital campaigns — designed to convert.",
+    desc: "Social media content, Meta/Facebook lead gen ads, signage, and digital campaigns, designed to convert.",
     tags: ["Meta Ads", "Social Content", "Digital Campaigns", "Signage"],
+  },
+  {
+    num: "04",
+    title: "Web Development & Automation",
+    desc: "Front-end builds for the designs above, plus the integrations and automated workflows that keep forms, data, and tools talking to each other without manual busywork.",
+    tags: ["Front-End Dev", "Workflow Automation", "API Integrations", "No-Code Tools"],
   },
 ];
 
@@ -50,73 +56,55 @@ export default function ServicesSection() {
     <section
       id="services"
       ref={ref}
-      style={{ background: "#EDE8DF", padding: "8rem 0", borderBottom: "1px solid #DDD5C8" }}
+      style={{ background: "var(--pf-paper-alt)", padding: "8rem 0", borderBottom: "1px solid var(--pf-line)" }}
     >
       <div className="container">
         {/* Header */}
-        <div className="fade-up" style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "5rem" }}>
-          <span className="label-text">02 — Services</span>
-          <div style={{ flex: 1, height: "1px", background: "#DDD5C8" }} />
+        <div className="fade-up" style={{ marginBottom: "3rem" }}>
+          <Eyebrow>services</Eyebrow>
         </div>
 
         <div className="fade-up" style={{ marginBottom: "4rem" }}>
-          <h2 style={{
-            fontFamily: "'Libre Baskerville', serif",
-            fontWeight: 700,
+          <h2 className="pf-serif" style={{
+            fontWeight: 500,
             fontSize: "clamp(2rem, 4vw, 3.25rem)",
             lineHeight: 1.1,
-            letterSpacing: "-0.025em",
-            color: "#1C1A17",
+            letterSpacing: "-0.02em",
+            color: "var(--pf-ink)",
             margin: 0,
           }}>
-            Services built<br />
-            <em style={{ fontStyle: "italic", fontWeight: 400, color: "#8B6F47" }}>to perform.</em>
+            A few ways I can help.
           </h2>
         </div>
 
-        {/* Grid */}
-        <div
-          className="services-grid"
-          style={{ display: "grid", gridTemplateColumns: "1fr", gap: "0" }}
-        >
+        {/* List */}
+        <div className="pf-services-grid">
           {services.map((s, i) => (
             <div
               key={i}
-              className="fade-up"
+              className="fade-up pf-lift"
               style={{
                 padding: "3rem 0",
-                borderTop: "1px solid #DDD5C8",
-                display: "grid",
-                gridTemplateColumns: "auto 1fr",
-                gap: "3rem",
-                alignItems: "start",
+                borderTop: "1px solid var(--pf-line)",
               }}
             >
-              <span style={{
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: "0.7rem",
-                color: "#A89880",
-                letterSpacing: "0.1em",
-                paddingTop: "0.2rem",
-              }}>
-                {s.num}
-              </span>
               <div>
-                <h3 style={{
-                  fontFamily: "'Libre Baskerville', serif",
-                  fontSize: "1.25rem",
-                  fontWeight: 700,
-                  color: "#1C1A17",
+                <h3 className="pf-serif" style={{
+                  fontSize: "1.35rem",
+                  fontWeight: 500,
+                  color: "var(--pf-ink)",
                   margin: "0 0 1rem",
                   letterSpacing: "-0.01em",
                 }}>
+                  <span className="pf-mono" style={{ fontSize: "0.75rem", color: "var(--pf-pen)", letterSpacing: "0.04em", marginRight: "0.75rem", verticalAlign: "middle" }}>
+                    {s.num}
+                  </span>
                   {s.title}
                 </h3>
                 <p style={{
-                  fontFamily: "'Instrument Sans', sans-serif",
-                  fontSize: "0.9rem",
-                  fontWeight: 300,
-                  color: "#6B6055",
+                  fontSize: "0.92rem",
+                  fontWeight: 400,
+                  color: "var(--pf-ink-soft)",
                   lineHeight: 1.75,
                   margin: "0 0 1.5rem",
                   maxWidth: "520px",
@@ -125,19 +113,7 @@ export default function ServicesSection() {
                 </p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                   {s.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      style={{
-                        fontFamily: "'IBM Plex Mono', monospace",
-                        fontSize: "0.65rem",
-                        letterSpacing: "0.08em",
-                        color: "#8B6F47",
-                        border: "1px solid rgba(139,111,71,0.25)",
-                        padding: "0.25rem 0.65rem",
-                      }}
-                    >
-                      {tag}
-                    </span>
+                    <span key={tag} className="pf-chip">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -146,8 +122,8 @@ export default function ServicesSection() {
         </div>
 
         {/* CTA */}
-        <div className="fade-up" style={{ marginTop: "4rem", paddingTop: "3rem", borderTop: "1px solid #DDD5C8" }}>
-          <a href="#contact" className="btn-primary">Start a Project →</a>
+        <div className="fade-up" style={{ marginTop: "4rem", paddingTop: "3rem", borderTop: "1px solid var(--pf-line)" }}>
+          <a href="#contact" className="pf-btn">Start a Project →</a>
         </div>
       </div>
     </section>

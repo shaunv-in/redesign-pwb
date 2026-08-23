@@ -1,10 +1,9 @@
 /* ==========================================================================
-   ABOUT — Warm Beige Minimalism
-   Two-column: left = bio text, right = experience timeline
-   No headshot. Typography-led layout.
+   ABOUT — two-column: bio + experience timeline. No headshot.
    ========================================================================== */
 
 import { useEffect, useRef } from "react";
+import Eyebrow from "@/components/Eyebrow";
 
 const experience = [
   {
@@ -43,7 +42,7 @@ const experience = [
   },
   {
     role: "Real Estate Investor",
-    company: "Bridgewater Centre — Rental Condo",
+    company: "Bridgewater Centre, Rental Condo",
     period: "Ongoing",
     desc: "Owner and investor of a rental condominium unit at Bridgewater Centre, managing tenant relations and long-term asset growth.",
   },
@@ -73,80 +72,61 @@ export default function AboutSection() {
     <section
       id="about"
       ref={ref}
-      style={{ background: "#F5F0E8", padding: "8rem 0", borderBottom: "1px solid #DDD5C8" }}
+      style={{ background: "var(--pf-paper)", padding: "8rem 0", borderBottom: "1px solid var(--pf-line)" }}
     >
       <div className="container">
         {/* Section header */}
-        <div className="fade-up" style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "5rem" }}>
-          <span className="label-text">01 — About</span>
-          <div style={{ flex: 1, height: "1px", background: "#DDD5C8" }} />
+        <div className="fade-up" style={{ marginBottom: "5rem" }}>
+          <Eyebrow>about</Eyebrow>
         </div>
 
         {/* Two-column layout */}
-        <div
-          className="about-grid"
-          style={{ display: "grid", gridTemplateColumns: "1fr", gap: "5rem" }}
-        >
+        <div className="pf-about-grid">
           {/* Left: Bio */}
           <div>
             <div className="fade-up" style={{ marginBottom: "2.5rem" }}>
               <h2
+                className="pf-serif"
                 style={{
-                  fontFamily: "'Libre Baskerville', serif",
-                  fontWeight: 700,
+                  fontWeight: 500,
                   fontSize: "clamp(2rem, 4vw, 3.25rem)",
                   lineHeight: 1.15,
-                  letterSpacing: "-0.025em",
-                  color: "#1C1A17",
+                  letterSpacing: "-0.02em",
+                  color: "var(--pf-ink)",
                   margin: 0,
                 }}
               >
-                Designer who<br />
-                <em style={{ fontStyle: "italic", fontWeight: 400, color: "#8B6F47" }}>performs.</em>
+                A designer who reads the spreadsheet, too.
               </h2>
             </div>
 
             <div className="fade-up">
               <p style={{
-                fontFamily: "'Instrument Sans', sans-serif",
                 fontSize: "0.975rem",
-                fontWeight: 300,
+                fontWeight: 400,
                 lineHeight: 1.85,
-                color: "#6B6055",
+                color: "var(--pf-ink-soft)",
                 marginBottom: "1.25rem",
               }}>
-                I'm Shaun Vincent — a UI/UX designer and marketing creative currently working at{" "}
-                <a href="https://www.paragonliving.com/" target="_blank" rel="noopener noreferrer" style={{ color: "#1C1A17", fontWeight: 500, textDecoration: "underline", textUnderlineOffset: "3px" }}>Paragon Living</a>{" "}
+                I'm Shaun Vincent, a UI/UX designer and marketing creative currently working at{" "}
+                <a href="https://www.paragonliving.com/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--pf-ink)", fontWeight: 600, textDecoration: "underline", textUnderlineOffset: "3px", textDecorationColor: "var(--pf-line)" }}>Paragon Living</a>{" "}
                 as Marketing Manager. I handle everything from digital ad campaigns and content strategy to market research and resident engagement across a portfolio of multifamily residential communities.
               </p>
               <p style={{
-                fontFamily: "'Instrument Sans', sans-serif",
                 fontSize: "0.975rem",
-                fontWeight: 300,
+                fontWeight: 400,
                 lineHeight: 1.85,
-                color: "#6B6055",
+                color: "var(--pf-ink-soft)",
               }}>
-                My background combines design, economics (<a href="https://umanitoba.ca/" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}>University of Manitoba</a>, B.A.), and hands-on marketing execution — which means I design things that don't just look good, they{" "}
-                <em style={{ fontStyle: "italic", color: "rgb(28, 26, 23)" }}>perform</em>.
+                My background combines design, economics (<a href="https://umanitoba.ca/" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}>University of Manitoba</a>, B.A.), and hands-on marketing execution. That means I design things that don't just look good, they{" "}
+                <em className="pf-serif" style={{ fontStyle: "italic", color: "var(--pf-pen)" }}>perform</em>.
               </p>
             </div>
 
             {/* Tags */}
             <div className="fade-up" style={{ marginTop: "2.5rem", display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
               {["Strategy-first", "Figma-native", "Fast turnaround", "Works globally"].map((tag) => (
-                <span
-                  key={tag}
-                  style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "0.68rem",
-                    letterSpacing: "0.08em",
-                    color: "#8B6F47",
-                    border: "1px solid #DDD5C8",
-                    padding: "0.3rem 0.75rem",
-                  }}
-                >
-                  {tag}
-                </span>
+                <span key={tag} className="pf-chip">{tag}</span>
               ))}
             </div>
           </div>
@@ -154,7 +134,9 @@ export default function AboutSection() {
           {/* Right: Experience */}
           <div>
             <div className="fade-up" style={{ marginBottom: "2rem" }}>
-              <span className="label-text">Experience</span>
+              <span className="pf-mono" style={{ fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--pf-ink-faint)" }}>
+                Experience
+              </span>
             </div>
 
             {experience.map((exp, i) => (
@@ -163,16 +145,15 @@ export default function AboutSection() {
                 className="fade-up"
                 style={{
                   padding: "1.75rem 0",
-                  borderTop: "1px solid #DDD5C8",
+                  borderTop: "1px solid var(--pf-line)",
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem", marginBottom: "0.5rem" }}>
                   <div>
                     <h3 style={{
-                      fontFamily: "'Instrument Sans', sans-serif",
                       fontSize: "0.95rem",
-                      fontWeight: 500,
-                      color: "#1C1A17",
+                      fontWeight: 600,
+                      color: "var(--pf-ink)",
                       margin: "0 0 0.2rem",
                     }}>
                       {exp.role}
@@ -183,46 +164,32 @@ export default function AboutSection() {
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
-                          fontFamily: "'IBM Plex Mono', monospace",
-                          fontSize: "0.72rem",
-                          color: "#8B6F47",
+                          fontSize: "0.82rem",
+                          color: "var(--pf-pen)",
                           textDecoration: "none",
-                          letterSpacing: "0.04em",
-                          borderBottom: "1px solid rgba(139,111,71,0.3)",
+                          fontWeight: 500,
+                          borderBottom: "1px solid rgba(42,70,217,0.3)",
                           transition: "border-color 0.2s",
                         }}
-                        onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#8B6F47")}
-                        onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(139,111,71,0.3)")}
+                        onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--pf-pen)")}
+                        onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(42,70,217,0.3)")}
                       >
                         {exp.company} ↗
                       </a>
                     ) : (
-                      <span style={{
-                        fontFamily: "'IBM Plex Mono', monospace",
-                        fontSize: "0.72rem",
-                        color: "#8B6F47",
-                        letterSpacing: "0.04em",
-                      }}>
+                      <span style={{ fontSize: "0.82rem", color: "var(--pf-pen)", fontWeight: 500 }}>
                         {exp.company}
                       </span>
                     )}
                   </div>
-                  <span style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "0.65rem",
-                    color: "#A89880",
-                    letterSpacing: "0.08em",
-                    whiteSpace: "nowrap",
-                    marginTop: "0.15rem",
-                  }}>
+                  <span className="pf-mono" style={{ fontSize: "0.65rem", color: "var(--pf-ink-faint)", letterSpacing: "0.04em", whiteSpace: "nowrap", marginTop: "0.15rem" }}>
                     {exp.period}
                   </span>
                 </div>
                 <p style={{
-                  fontFamily: "'Instrument Sans', sans-serif",
                   fontSize: "0.875rem",
-                  fontWeight: 300,
-                  color: "#6B6055",
+                  fontWeight: 400,
+                  color: "var(--pf-ink-soft)",
                   lineHeight: 1.7,
                   margin: 0,
                 }}>
@@ -233,10 +200,14 @@ export default function AboutSection() {
 
             {/* Education */}
             <div className="fade-up" style={{ marginTop: "2.5rem" }}>
-              <span className="label-text" style={{ display: "block", marginBottom: "1rem" }}>Education</span>
-              <div style={{ borderTop: "1px solid #DDD5C8", paddingTop: "1.5rem" }}>
-                <a href="https://umanitoba.ca/" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: "0.95rem", fontWeight: 500, color: "#1C1A17", margin: "0 0 0.2rem", display: "block", textDecoration: "underline", textUnderlineOffset: "3px" }}>University of Manitoba ↗</a>
-                <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.72rem", color: "#8B6F47", margin: 0, letterSpacing: "0.04em" }}>B.A. Economics · Minor in Computer Science</p>
+              <span className="pf-mono" style={{ display: "block", marginBottom: "1rem", fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--pf-ink-faint)" }}>
+                Education
+              </span>
+              <div style={{ borderTop: "1px solid var(--pf-line)", paddingTop: "1.5rem" }}>
+                <a href="https://umanitoba.ca/" target="_blank" rel="noopener noreferrer" style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--pf-ink)", margin: "0 0 0.2rem", display: "block", textDecoration: "underline", textUnderlineOffset: "3px", textDecorationColor: "var(--pf-line)" }}>
+                  University of Manitoba ↗
+                </a>
+                <p style={{ fontSize: "0.82rem", color: "var(--pf-pen)", margin: 0, fontWeight: 500 }}>B.A. Economics · Minor in Computer Science</p>
               </div>
             </div>
           </div>

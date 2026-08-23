@@ -1,6 +1,5 @@
 /* ==========================================================================
-   NAVBAR — Warm Beige Minimalism
-   Transparent on top, solid linen on scroll. No logo mark — name only.
+   NAVBAR — name, transparent-to-solid on scroll.
    ========================================================================== */
 
 import { useState, useEffect } from "react";
@@ -22,8 +21,8 @@ export default function Navbar() {
     { label: "Contact", href: "#contact" },
   ];
 
-  const borderColor = scrolled ? "#DDD5C8" : "transparent";
-  const bg = scrolled ? "rgba(245, 240, 232, 0.97)" : "transparent";
+  const borderColor = scrolled || menuOpen ? "var(--pf-line)" : "transparent";
+  const bg = menuOpen ? "var(--pf-paper)" : scrolled ? "rgba(244, 244, 241, 0.94)" : "transparent";
 
   return (
     <header
@@ -40,43 +39,34 @@ export default function Navbar() {
       }}
     >
       <div className="container">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "68px" }}>
-
-          {/* Logo — name only */}
-          <a href="#" style={{ textDecoration: "none" }}>
-            <span style={{
-              fontFamily: "'Libre Baskerville', serif",
-              fontSize: "1rem",
-              fontWeight: 700,
-              color: "#1C1A17",
-              letterSpacing: "0.01em",
-            }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "72px" }}>
+          {/* Name */}
+          <a href="#hero" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
+            <span className="pf-wordmark" style={{ color: "var(--pf-ink)" }}>
               Shaun Vincent
             </span>
           </a>
 
           {/* Desktop nav */}
-          <nav className="md-flex" style={{ alignItems: "center", gap: "2.5rem" }}>
+          <nav className="md-flex" style={{ alignItems: "center", gap: "2.25rem" }}>
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 style={{
-                  fontFamily: "'Instrument Sans', sans-serif",
-                  fontSize: "0.82rem",
-                  fontWeight: 400,
-                  color: "#6B6055",
+                  fontSize: "0.88rem",
+                  fontWeight: 500,
+                  color: "var(--pf-ink-soft)",
                   textDecoration: "none",
-                  letterSpacing: "0.02em",
                   transition: "color 0.2s ease",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#1C1A17")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#6B6055")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--pf-ink)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--pf-ink-soft)")}
               >
                 {link.label}
               </a>
             ))}
-            <a href="#contact" className="btn-primary" style={{ padding: "0.5rem 1.25rem", fontSize: "0.78rem" }}>
+            <a href="#contact" className="pf-btn" style={{ padding: "0.6rem 1.4rem", fontSize: "0.8rem" }}>
               Work With Me
             </a>
           </nav>
@@ -87,27 +77,28 @@ export default function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             style={{ background: "none", border: "none", padding: "0.5rem", display: "flex", flexDirection: "column", gap: "5px" }}
             aria-label="Toggle menu"
+            aria-expanded={menuOpen}
           >
-            <span style={{ display: "block", width: "22px", height: "1px", background: "#1C1A17", transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none" }} />
-            <span style={{ display: "block", width: "22px", height: "1px", background: "#1C1A17", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
-            <span style={{ display: "block", width: "22px", height: "1px", background: "#1C1A17", transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none" }} />
+            <span style={{ display: "block", width: "22px", height: "1.5px", background: "var(--pf-ink)", transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none" }} />
+            <span style={{ display: "block", width: "22px", height: "1.5px", background: "var(--pf-ink)", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
+            <span style={{ display: "block", width: "22px", height: "1.5px", background: "var(--pf-ink)", transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none" }} />
           </button>
         </div>
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div style={{ borderTop: "1px solid #DDD5C8", padding: "1.5rem 0", display: "flex", flexDirection: "column", gap: "1.25rem", background: "rgba(245, 240, 232, 0.98)" }}>
+          <div style={{ borderTop: "1px solid var(--pf-line)", padding: "1.5rem 0", display: "flex", flexDirection: "column", gap: "1.25rem", background: "var(--pf-paper)" }}>
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                style={{ fontFamily: "'Instrument Sans', sans-serif", fontSize: "1rem", color: "#1C1A17", textDecoration: "none" }}
+                style={{ fontSize: "1rem", color: "var(--pf-ink)", textDecoration: "none", fontWeight: 500 }}
               >
                 {link.label}
               </a>
             ))}
-            <a href="#contact" className="btn-primary" style={{ alignSelf: "flex-start" }} onClick={() => setMenuOpen(false)}>
+            <a href="#contact" className="pf-btn" style={{ alignSelf: "flex-start" }} onClick={() => setMenuOpen(false)}>
               Work With Me
             </a>
           </div>

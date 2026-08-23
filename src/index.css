@@ -37,26 +37,30 @@
    Border: #DDD5C8 (soft sand)
    ========================================================================== */
 
+/* These shadcn tokens are consumed only by ui/* primitives (Command palette,
+   Dialog, Toaster, ErrorBoundary fallback) — not by the rental application
+   or admin tools, which hardcode their own colors inline. Kept in sync with
+   the .pf palette in the portfolio section below. */
 :root {
-  --radius: 0.25rem;
-  --background: oklch(0.965 0.012 75);       /* #F5F0E8 warm linen */
-  --foreground: oklch(0.16 0.012 65);         /* #1C1A17 deep charcoal */
-  --card: oklch(0.975 0.010 75);
-  --card-foreground: oklch(0.16 0.012 65);
-  --popover: oklch(0.975 0.010 75);
-  --popover-foreground: oklch(0.16 0.012 65);
-  --primary: oklch(0.16 0.012 65);
-  --primary-foreground: oklch(0.965 0.012 75);
-  --secondary: oklch(0.94 0.015 75);
-  --secondary-foreground: oklch(0.16 0.012 65);
-  --muted: oklch(0.92 0.018 75);
-  --muted-foreground: oklch(0.52 0.025 65);
-  --accent: oklch(0.55 0.065 55);             /* #8B6F47 walnut */
-  --accent-foreground: oklch(0.965 0.012 75);
+  --radius: 0.375rem;
+  --background: #F4F4F1;      /* pf-paper */
+  --foreground: #17140F;      /* pf-ink */
+  --card: #F4F4F1;
+  --card-foreground: #17140F;
+  --popover: #F4F4F1;
+  --popover-foreground: #17140F;
+  --primary: #17140F;
+  --primary-foreground: #F4F4F1;
+  --secondary: #E9E9E4;       /* pf-paper-alt */
+  --secondary-foreground: #17140F;
+  --muted: #E9E9E4;
+  --muted-foreground: #6D6555; /* pf-ink-soft */
+  --accent: #E8EAFA;          /* pf-pen-tint */
+  --accent-foreground: #17140F;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.875 0.022 75);            /* #DDD5C8 sand */
-  --input: oklch(0.875 0.022 75);
-  --ring: oklch(0.55 0.065 55);
+  --border: #DCDBD4;          /* pf-line */
+  --input: #DCDBD4;
+  --ring: #2A46D9;            /* pf-pen */
 }
 
 @layer base {
@@ -297,4 +301,329 @@ select.form-input option {
 @media (max-width: 767px) {
   .md-flex { display: none !important; }
   .md-hidden { display: flex !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { opacity: 1; transform: none; transition: none; }
+}
+
+/* ==========================================================================
+   PORTFOLIO (home page) — signature design system
+   Scoped entirely under `.pf` so it can never bleed into the rental
+   application / admin tools, which hardcode the old palette inline and
+   share .container / .form-input / .btn-primary / .btn-ghost with this file.
+   ========================================================================== */
+
+.pf {
+  --pf-paper: #F4F4F1;
+  --pf-paper-alt: #E9E9E4;
+  --pf-ink: #17140F;
+  --pf-ink-soft: #6D6555;
+  --pf-ink-faint: #A79E8A;
+  --pf-line: #DCDBD4;
+  --pf-pen: #2A46D9;
+  --pf-pen-deep: #1C2E9C;
+  --pf-pen-tint: #E8EAFA;
+  --pf-stamp: #C43D1E;
+  --pf-footer: #100E0A;
+
+  background: var(--pf-paper);
+  color: var(--pf-ink);
+  font-family: "Hanken Grotesk", system-ui, sans-serif;
+}
+.pf .pf-serif { font-family: "Fraunces", Georgia, serif; }
+.pf .pf-mono  { font-family: "JetBrains Mono", monospace; }
+
+/* Wordmark — bold grotesk rather than the display serif, which gets muddy
+   at small logo sizes (Fraunces is built for its ink-trap detail to read at
+   large display sizes, not 16px). Reads as a distinct mark against the
+   serif headlines instead of just smaller body type. */
+.pf-wordmark {
+  font-family: "Hanken Grotesk", system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* :where() keeps this at zero specificity so .pf-btn / .pf-btn-ghost (and any
+   future class-based link styling) can still set their own color. Without
+   it, ".pf a" (0,1,1) beat ".pf-btn" (0,1,0) and made solid buttons render
+   with invisible same-color-as-background text. */
+:where(.pf) a { color: inherit; }
+
+/* Visible, on-brand focus ring — real keyboard-accessibility, not a browser default */
+.pf a:focus-visible,
+.pf button:focus-visible,
+.pf input:focus-visible,
+.pf textarea:focus-visible,
+.pf select:focus-visible,
+.pf [tabindex]:focus-visible {
+  outline: 2px solid var(--pf-pen);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection { background: var(--pf-pen); color: var(--pf-paper); }
+
+/* Skip link */
+.pf-skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  background: var(--pf-ink);
+  color: var(--pf-paper);
+  padding: 0.6rem 1rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  z-index: 1000;
+  transition: top 0.2s ease;
+}
+.pf-skip-link:focus { top: 1rem; }
+
+/* Marginalia tag — replaces the "01 — Section" mono-eyebrow formula */
+.pf-eyebrow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: var(--pf-pen);
+  transform: rotate(-2deg);
+  transform-origin: left center;
+}
+.pf-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+  transform: translateY(-4px);
+}
+
+/* Pen-drawn underline under a word/phrase */
+.pf-pen-underline {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+.pf-pen-underline svg {
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  bottom: -0.12em;
+  width: 104%;
+  height: 0.4em;
+  overflow: visible;
+}
+.pf-pen-underline path {
+  fill: none;
+  stroke: var(--pf-pen);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+.pf-pen-underline.pf-drawn path { stroke-dashoffset: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .pf-pen-underline path { transition: none; stroke-dashoffset: 0; }
+}
+
+/* Buttons */
+.pf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.75rem;
+  background: var(--pf-ink);
+  color: var(--pf-paper);
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border: 1px solid var(--pf-ink);
+  border-radius: 3px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.pf-btn:hover { background: var(--pf-pen); border-color: var(--pf-pen); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(42, 70, 217, 0.25); }
+.pf-btn:active { transform: translateY(0); }
+
+.pf-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.75rem;
+  background: transparent;
+  color: var(--pf-ink);
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border: 1px solid var(--pf-line);
+  border-radius: 3px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+.pf-btn-ghost:hover { border-color: var(--pf-ink); transform: translateY(-1px); }
+
+/* Tag chips */
+.pf-chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--pf-ink-soft);
+  border: 1px solid var(--pf-line);
+  border-radius: 100px;
+  padding: 0.32rem 0.8rem;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.pf-chip:hover { border-color: var(--pf-pen); color: var(--pf-pen); background: var(--pf-pen-tint); }
+
+/* Card lift on hover — used instead of JS mouse-tilt for speed/accessibility */
+.pf-lift { transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease, border-color 0.25s ease; }
+.pf-lift:hover { transform: translateY(-3px); }
+
+/* Subtle blueprint dot-grid texture, pure CSS, no image asset */
+.pf-grid-texture {
+  background-image: radial-gradient(circle, rgba(23,20,15,0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Top scroll progress bar */
+.pf-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2.5px;
+  background: var(--pf-pen);
+  z-index: 200;
+  transform-origin: left;
+  transition: width 0.1s linear;
+}
+
+/* Right-edge section rail (desktop only) */
+.pf-rail {
+  position: fixed;
+  right: 1.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 90;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.9rem;
+}
+@media (min-width: 1100px) {
+  .pf-rail { display: flex; }
+}
+.pf-rail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.2rem 0;
+}
+.pf-rail-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--pf-ink);
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+.pf-rail-item:hover .pf-rail-label,
+.pf-rail-item.is-active .pf-rail-label { opacity: 1; transform: translateX(0); }
+.pf-rail-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pf-ink-faint);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.pf-rail-item:hover .pf-rail-dot { background: var(--pf-ink); }
+.pf-rail-item.is-active .pf-rail-dot { background: var(--pf-pen); transform: scale(1.5); }
+
+/* Contact form fields — portfolio-scoped, independent of the rental app's .form-input */
+.pf-field { position: relative; }
+.pf-label {
+  display: block;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--pf-ink-soft);
+  margin-bottom: 0.4rem;
+}
+.pf-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--pf-line);
+  padding: 0.7rem 0.1rem;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 0.95rem;
+  color: var(--pf-ink);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.pf-input:focus { border-bottom-color: var(--pf-pen); }
+.pf-input::placeholder { color: var(--pf-ink-faint); }
+.pf-input.pf-invalid { border-bottom-color: var(--pf-stamp); }
+.pf-error {
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 0.75rem;
+  color: var(--pf-stamp);
+  margin-top: 0.35rem;
+}
+select.pf-input option { background: var(--pf-paper); color: var(--pf-ink); }
+
+/* Word rotator (hero headline) — width transitions to hug the current word,
+   so the pen-underline wrapped around it (sized as 104% of this box) tracks
+   the word's actual length instead of staying pinned to the widest word. */
+.pf-rotator {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pf-rotator-word {
+  display: inline-block;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pf-rotator { transition: none; }
+  .pf-rotator-word { transition: none; }
+}
+
+/* Responsive grid helpers (portfolio-only) */
+.pf-about-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; }
+.pf-services-grid { display: grid; grid-template-columns: 1fr; }
+.pf-work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--pf-line); }
+.pf-cred-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.pf-contact-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; }
+.pf-footer-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+
+@media (min-width: 768px) {
+  .pf-work-grid { grid-template-columns: repeat(3, 1fr); }
+  .pf-cred-grid { grid-template-columns: repeat(2, 1fr); }
+  .pf-footer-grid { grid-template-columns: 1.6fr 1fr 1fr; gap: 2rem; }
+}
+@media (min-width: 1024px) {
+  .pf-about-grid { grid-template-columns: 5fr 7fr; }
+  .pf-contact-grid { grid-template-columns: 1fr 1.3fr; }
+  .pf-cred-grid { grid-template-columns: repeat(4, 1fr); }
 }

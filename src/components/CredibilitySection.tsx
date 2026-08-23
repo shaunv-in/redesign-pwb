@@ -1,14 +1,14 @@
 /* ==========================================================================
-   CREDIBILITY — Warm Beige Minimalism
-   Simple stat row + pull quote. No icons, no cards.
+   CREDIBILITY — stat row + pull quote. No icons, no cards.
    ========================================================================== */
 
 import { useEffect, useRef } from "react";
+import Eyebrow from "@/components/Eyebrow";
 
 const stats = [
   { value: "18+", label: "Dribbble shots published" },
   { value: "5+", label: "Years of experience" },
-  { value: "3", label: "Service disciplines" },
+  { value: "4", label: "Service disciplines" },
   { value: "B.A.", label: "Economics, U of Manitoba" },
 ];
 
@@ -36,48 +36,33 @@ export default function CredibilitySection() {
     <section
       id="credibility"
       ref={ref}
-      style={{ background: "#EDE8DF", padding: "8rem 0", borderBottom: "1px solid #DDD5C8" }}
+      style={{ background: "var(--pf-paper-alt)", padding: "8rem 0", borderBottom: "1px solid var(--pf-line)" }}
     >
       <div className="container">
         {/* Header */}
-        <div className="fade-up" style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "5rem" }}>
-          <span className="label-text">04 — Trusted By</span>
-          <div style={{ flex: 1, height: "1px", background: "#DDD5C8" }} />
+        <div className="fade-up" style={{ marginBottom: "5rem" }}>
+          <Eyebrow>by the numbers</Eyebrow>
         </div>
 
         {/* Stats row */}
-        <div
-          className="cred-grid"
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0", marginBottom: "6rem" }}
-        >
+        <div className="pf-cred-grid" style={{ marginBottom: "6rem" }}>
           {stats.map((stat, i) => (
             <div
               key={i}
               className="fade-up"
-              style={{
-                padding: "2.5rem 0",
-                borderTop: "1px solid #DDD5C8",
-                paddingRight: "2rem",
-              }}
+              style={{ padding: "2.5rem 0", borderTop: "1px solid var(--pf-line)", paddingRight: "2rem" }}
             >
-              <div style={{
-                fontFamily: "'Libre Baskerville', serif",
+              <div className="pf-serif" style={{
                 fontSize: "clamp(2rem, 4vw, 3rem)",
-                fontWeight: 700,
-                color: "#1C1A17",
-                letterSpacing: "-0.03em",
+                fontWeight: 500,
+                color: "var(--pf-ink)",
+                letterSpacing: "-0.02em",
                 lineHeight: 1,
                 marginBottom: "0.5rem",
               }}>
                 {stat.value}
               </div>
-              <div style={{
-                fontFamily: "'Instrument Sans', sans-serif",
-                fontSize: "0.82rem",
-                fontWeight: 300,
-                color: "#6B6055",
-                lineHeight: 1.5,
-              }}>
+              <div style={{ fontSize: "0.85rem", fontWeight: 400, color: "var(--pf-ink-soft)", lineHeight: 1.5 }}>
                 {stat.label}
               </div>
             </div>
@@ -85,27 +70,33 @@ export default function CredibilitySection() {
         </div>
 
         {/* Pull quote */}
-        <div className="fade-up" style={{ maxWidth: "720px" }}>
+        <div className="fade-up" style={{ maxWidth: "760px", position: "relative" }}>
+          <span className="pf-serif" aria-hidden="true" style={{
+            position: "absolute",
+            top: "-2.5rem",
+            left: "-0.5rem",
+            fontSize: "5rem",
+            fontStyle: "italic",
+            color: "var(--pf-pen)",
+            opacity: 0.25,
+            lineHeight: 1,
+          }}>
+            "
+          </span>
           <blockquote style={{ margin: 0, padding: 0 }}>
-            <p style={{
-              fontFamily: "'Libre Baskerville', serif",
+            <p className="pf-serif" style={{
               fontStyle: "italic",
-              fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)",
+              fontSize: "clamp(1.25rem, 2.5vw, 1.85rem)",
               fontWeight: 400,
-              color: "#1C1A17",
+              color: "var(--pf-ink)",
               lineHeight: 1.55,
               margin: "0 0 2rem",
               letterSpacing: "-0.01em",
+              position: "relative",
             }}>
-              "Every pixel has a purpose. From SaaS dashboards to real estate marketing — design that doesn't just look good, it performs."
+              Every pixel has a purpose. From SaaS dashboards to real estate marketing, design that doesn't just look good. It performs.
             </p>
-            <footer style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.68rem",
-              letterSpacing: "0.1em",
-              color: "#A89880",
-              textTransform: "uppercase",
-            }}>
+            <footer style={{ fontSize: "0.82rem", color: "var(--pf-ink-soft)", fontWeight: 500 }}>
               — Shaun Vincent, UI/UX Designer · Winnipeg, Canada
             </footer>
           </blockquote>

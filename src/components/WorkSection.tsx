@@ -1,9 +1,9 @@
 /* ==========================================================================
-   WORK — Warm Beige Minimalism
-   Real Dribbble shot thumbnails. Load More reveals 6 at a time.
+   WORK — real Dribbble shot thumbnails. Load More reveals 6 at a time.
    ========================================================================== */
 
 import { useState, useEffect, useRef } from "react";
+import Eyebrow from "@/components/Eyebrow";
 
 const BATCH = 6;
 
@@ -140,7 +140,7 @@ export default function WorkSection() {
     <section
       id="work"
       ref={ref}
-      style={{ background: "#F5F0E8", padding: "8rem 0", borderBottom: "1px solid #DDD5C8" }}
+      style={{ background: "var(--pf-paper)", padding: "8rem 0", borderBottom: "1px solid var(--pf-line)" }}
     >
       <div className="container">
         {/* Header */}
@@ -155,30 +155,22 @@ export default function WorkSection() {
           }}
         >
           <div>
-            <div
-              className="fade-up"
-              style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "2.5rem" }}
-            >
-              <span className="label-text">03 — Selected Work</span>
-              <div style={{ flex: 1, height: "1px", background: "#DDD5C8", minWidth: "60px" }} />
+            <div className="fade-up" style={{ marginBottom: "2rem" }}>
+              <Eyebrow>selected work</Eyebrow>
             </div>
             <div className="fade-up">
               <h2
+                className="pf-serif"
                 style={{
-                  fontFamily: "'Libre Baskerville', serif",
-                  fontWeight: 700,
+                  fontWeight: 500,
                   fontSize: "clamp(2rem, 4vw, 3.25rem)",
                   lineHeight: 1.1,
-                  letterSpacing: "-0.025em",
-                  color: "#1C1A17",
+                  letterSpacing: "-0.02em",
+                  color: "var(--pf-ink)",
                   margin: 0,
                 }}
               >
-                18 shots.
-                <br />
-                <em style={{ fontStyle: "italic", fontWeight: 400, color: "#8B6F47" }}>
-                  Every pixel purposeful.
-                </em>
+                18 shots. Every pixel purposeful.
               </h2>
             </div>
           </div>
@@ -187,7 +179,7 @@ export default function WorkSection() {
               href="https://dribbble.com/shaunvnzt"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-ghost"
+              className="pf-btn-ghost"
             >
               View All on Dribbble ↗
             </a>
@@ -195,15 +187,7 @@ export default function WorkSection() {
         </div>
 
         {/* Grid */}
-        <div
-          className="portfolio-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "1px",
-            background: "#DDD5C8",
-          }}
-        >
+        <div className="pf-work-grid">
           {shown.map((shot, i) => {
             const isLatest = latestBatch.includes(i);
             const isRevealed = revealed.has(i);
@@ -219,7 +203,7 @@ export default function WorkSection() {
                   display: "block",
                   position: "relative",
                   overflow: "hidden",
-                  background: "#EDE8DF",
+                  background: "var(--pf-paper-alt)",
                   textDecoration: "none",
                   aspectRatio: "4/3",
                 }}
@@ -253,7 +237,7 @@ export default function WorkSection() {
                   style={{
                     position: "absolute",
                     inset: 0,
-                    background: "rgba(245, 240, 232, 0.93)",
+                    background: "rgba(244, 244, 241, 0.95)",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -261,15 +245,16 @@ export default function WorkSection() {
                     gap: "0.5rem",
                     opacity: 0,
                     transition: "opacity 0.3s ease",
+                    boxShadow: "inset 0 0 0 2px var(--pf-pen)",
                   }}
                 >
                   <span
+                    className="pf-serif"
                     style={{
-                      fontFamily: "'Libre Baskerville', serif",
                       fontSize: "1rem",
-                      fontWeight: 700,
-                      color: "#1C1A17",
-                      letterSpacing: "-0.01em",
+                      fontWeight: 500,
+                      fontStyle: "italic",
+                      color: "var(--pf-ink)",
                       textAlign: "center",
                       padding: "0 1rem",
                     }}
@@ -277,11 +262,11 @@ export default function WorkSection() {
                     {shot.title}
                   </span>
                   <span
+                    className="pf-mono"
                     style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
                       fontSize: "0.65rem",
-                      letterSpacing: "0.12em",
-                      color: "#8B6F47",
+                      letterSpacing: "0.1em",
+                      color: "var(--pf-pen)",
                       textTransform: "uppercase",
                     }}
                   >
@@ -303,17 +288,10 @@ export default function WorkSection() {
             flexWrap: "wrap",
             gap: "1.5rem",
             paddingTop: "2rem",
-            borderTop: "1px solid #DDD5C8",
+            borderTop: "1px solid var(--pf-line)",
           }}
         >
-          <span
-            style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.7rem",
-              letterSpacing: "0.1em",
-              color: "#A89880",
-            }}
-          >
+          <span className="pf-mono" style={{ fontSize: "0.7rem", letterSpacing: "0.08em", color: "var(--pf-ink-faint)" }}>
             Showing {shown.length} of {dribbbleShots.length} shots
           </span>
 
@@ -321,7 +299,7 @@ export default function WorkSection() {
             {hasMore && (
               <button
                 onClick={handleLoadMore}
-                className="btn-primary"
+                className="pf-btn"
                 style={{ border: "none", cursor: "pointer" }}
               >
                 Load More ({dribbbleShots.length - visible} remaining)
@@ -331,7 +309,7 @@ export default function WorkSection() {
               href="https://dribbble.com/shaunvnzt"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-ghost"
+              className="pf-btn-ghost"
             >
               Dribbble ↗
             </a>
@@ -339,7 +317,7 @@ export default function WorkSection() {
               href="https://www.behance.net/shaunvnzt"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-ghost"
+              className="pf-btn-ghost"
             >
               Behance ↗
             </a>
@@ -358,16 +336,6 @@ export default function WorkSection() {
         .shot-revealed {
           opacity: 1;
           transform: translateY(0);
-        }
-        @media (max-width: 768px) {
-          .portfolio-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-        }
-        @media (max-width: 480px) {
-          .portfolio-grid {
-            grid-template-columns: 1fr !important;
-          }
         }
       `}</style>
     </section>
