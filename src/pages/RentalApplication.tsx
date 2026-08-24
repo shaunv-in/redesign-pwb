@@ -4,8 +4,9 @@
    design system used across the rest of the site.
    ========================================================================== */
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RENTAL_DOCS_BUCKET, supabase } from "@/lib/supabaseClient";
+import { loadLegacyFonts } from "@/lib/legacyFonts";
 
 const ACCESS_PASSWORD = "300centre";
 const SESSION_KEY = "rental-application-300-centre-unlocked";
@@ -412,6 +413,10 @@ function getMinMoveInDate(): string {
 }
 
 export default function RentalApplication() {
+  useEffect(() => {
+    loadLegacyFonts();
+  }, []);
+
   const [minMoveInDate] = useState(getMinMoveInDate);
   const [unlocked, setUnlocked] = useState(() => sessionStorage.getItem(SESSION_KEY) === "1");
   const [passwordInput, setPasswordInput] = useState("");

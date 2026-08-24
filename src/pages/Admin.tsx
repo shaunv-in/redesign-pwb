@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { RENTAL_DOCS_BUCKET, supabase } from "@/lib/supabaseClient";
 import { buildApplicationPdf, downloadPdfBytes, type PdfAttachment, type PdfSection } from "@/lib/applicationPdf";
+import { loadLegacyFonts } from "@/lib/legacyFonts";
 
 const STATUS_OPTIONS = ["New", "Pending", "Approved", "Rejected", "Cancelled"];
 const STATUS_COLORS: Record<string, string> = {
@@ -699,6 +700,10 @@ export default function Admin() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [tab, setTab] = useState<"active" | "deleted">("active");
+
+  useEffect(() => {
+    loadLegacyFonts();
+  }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
