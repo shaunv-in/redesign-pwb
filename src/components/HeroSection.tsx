@@ -6,7 +6,6 @@
    ========================================================================== */
 
 import { useEffect, useState } from "react";
-import PenUnderline from "@/components/PenUnderline";
 import WordRotator from "@/components/WordRotator";
 
 function useWinnipegClock() {
@@ -51,7 +50,11 @@ export default function HeroSection() {
         <div style={{ marginBottom: "3rem", display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap" }}>
           <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", background: "var(--pf-pen)" }} />
           <span className="pf-mono" style={{ fontSize: "0.72rem", letterSpacing: "0.05em", color: "var(--pf-ink-soft)" }}>
-            {time ? `${time} in Winnipeg. ` : ""}Marketing Manager at Paragon Living, open to select freelance work
+            {/* Fixed-width slot (JetBrains Mono is a true monospace, so `ch` is exact) reserves
+                space for the longest realistic time string up front — otherwise the clock
+                effect populating this after mount grows the line and shifts everything below
+                it. A smaller, real contributor to layout shift on this page. */}
+            <span style={{ display: "inline-block", minWidth: "10ch" }}>{time}</span> in Winnipeg. Marketing Manager at Paragon Living, open to select freelance work
           </span>
         </div>
 
@@ -69,13 +72,11 @@ export default function HeroSection() {
             }}
           >
             Design that{" "}
-            <PenUnderline>
-              <WordRotator
-                words={["converts.", "performs.", "connects.", "sells."]}
-                className="pf-serif"
-                interval={2200}
-              />
-            </PenUnderline>
+            <WordRotator
+              words={["converts.", "performs.", "connects.", "sells."]}
+              className="pf-serif"
+              interval={2200}
+            />
           </h1>
         </div>
 

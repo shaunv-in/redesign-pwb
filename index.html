@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shaun Vincent — UI/UX Designer</title>
     <meta name="description" content="Shaun Vincent is a Winnipeg-based UI/UX and visual designer with 5+ years of experience across product design, branding, and web." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- Portfolio fonts only, trimmed to the weights/styles actually used on the home page:
@@ -14,7 +15,14 @@
          Instrument Sans, IBM Plex Mono) — that's loaded on demand only when those routes mount
          (see src/lib/legacyFonts.ts), so home-page visitors never pay for fonts they don't use.
          Loaded non-render-blocking: fetched in parallel with page render, then swapped in as a
-         real stylesheet once ready. noscript fallback covers no-JS clients. -->
+         real stylesheet once ready. noscript fallback covers no-JS clients.
+
+         A blocking load + display=optional was tried here to chase down this page's CLS score,
+         on the theory that a late font swap (from an async load, well after first paint) was
+         reflowing the page. It wasn't: the actual cause was WordRotator sizing its live layout
+         box to the current word (see WordRotator.tsx) — fixed there, structurally, so it no
+         longer matters when or whether these fonts swap in. Reverted to non-blocking, since
+         blocking cost ~2.4s under throttled conditions for a problem it wasn't fixing. -->
     <link
       rel="preload"
       as="style"
