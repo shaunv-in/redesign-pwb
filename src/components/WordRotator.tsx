@@ -51,13 +51,17 @@ export default function WordRotator({
 
   return (
     <>
-      {/* Offscreen: measured once on mount, never shown */}
-      <span aria-hidden="true" style={{ position: "absolute", visibility: "hidden", pointerEvents: "none", whiteSpace: "nowrap", top: 0, left: 0 }}>
-        {words.map((word, i) => (
-          <span key={word} ref={(el) => { measureRefs.current[i] = el; }} className={className}>
-            {word}
-          </span>
-        ))}
+      {/* Offscreen: measured once on mount, never shown. The 0x0 + overflow:hidden
+          wrapper clips it out of the page's scrollable area — visibility:hidden
+          alone still lets an absolutely-positioned box widen document.scrollWidth. */}
+      <span aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, width: 0, height: 0, overflow: "hidden" }}>
+        <span style={{ position: "absolute", whiteSpace: "nowrap" }}>
+          {words.map((word, i) => (
+            <span key={word} ref={(el) => { measureRefs.current[i] = el; }} className={className}>
+              {word}
+            </span>
+          ))}
+        </span>
       </span>
 
       <span
