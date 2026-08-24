@@ -11,17 +11,37 @@ const RentalApplication = lazy(() => import("@/pages/RentalApplication"));
 const Admin = lazy(() => import("@/pages/Admin"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
+// Home is eagerly imported and never suspends, so it's kept out of the
+// Suspense boundary below — wrapping it anyway broke hydration for the
+// prerendered "/" route: renderToString() doesn't emit the boundary
+// markers streaming SSR does, so the client tree (with a Suspense
+// boundary) didn't match the server tree (without one), even though
+// nothing ever actually suspended.
 function Router() {
   return (
-    <Suspense fallback={null}>
-      <Switch>
-        <Route path={"/"} component={Home} />
-        <Route path={"/apply/300-centre"} component={RentalApplication} />
-        <Route path={"/admin"} component={Admin} />
-        <Route path={"/404"} component={NotFound} />
-        <Route component={NotFound} />
-      </Switch>
-    </Suspense>
+    <Switch>
+      <Route path={"/"} component={Home} />
+      <Route path={"/apply/300-centre"}>
+        <Suspense fallback={null}>
+          <RentalApplication />
+        </Suspense>
+      </Route>
+      <Route path={"/admin"}>
+        <Suspense fallback={null}>
+          <Admin />
+        </Suspense>
+      </Route>
+      <Route path={"/404"}>
+        <Suspense fallback={null}>
+          <NotFound />
+        </Suspense>
+      </Route>
+      <Route>
+        <Suspense fallback={null}>
+          <NotFound />
+        </Suspense>
+      </Route>
+    </Switch>
   );
 }
 
