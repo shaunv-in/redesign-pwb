@@ -5,7 +5,7 @@
    instead of the italic-accent-line formula.
    ========================================================================== */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import PenUnderline from "@/components/PenUnderline";
 import WordRotator from "@/components/WordRotator";
 
@@ -28,20 +28,11 @@ function useWinnipegClock() {
 }
 
 export default function HeroSection() {
-  const ref = useRef<HTMLDivElement>(null);
   const time = useWinnipegClock();
-
-  useEffect(() => {
-    const items = ref.current?.querySelectorAll(".fade-up");
-    items?.forEach((el, i) => {
-      setTimeout(() => (el as HTMLElement).classList.add("visible"), 80 + i * 130);
-    });
-  }, []);
 
   return (
     <section
       id="hero"
-      ref={ref}
       className="pf-grid-texture"
       style={{
         minHeight: "100vh",
@@ -57,7 +48,7 @@ export default function HeroSection() {
     >
       <div className="container">
         {/* Live status line — replaces the generic "available for new projects" badge */}
-        <div className="fade-up" style={{ marginBottom: "3rem", display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap" }}>
+        <div style={{ marginBottom: "3rem", display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap" }}>
           <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", background: "var(--pf-pen)" }} />
           <span className="pf-mono" style={{ fontSize: "0.72rem", letterSpacing: "0.05em", color: "var(--pf-ink-soft)" }}>
             {time ? `${time} in Winnipeg. ` : ""}Marketing Manager at Paragon Living, open to select freelance work
@@ -65,7 +56,7 @@ export default function HeroSection() {
         </div>
 
         {/* Main headline */}
-        <div className="fade-up" style={{ marginBottom: "3.5rem" }}>
+        <div style={{ marginBottom: "3.5rem" }}>
           <h1
             className="pf-serif"
             style={{
@@ -90,7 +81,6 @@ export default function HeroSection() {
 
         {/* Sub-line + CTAs */}
         <div
-          className="fade-up"
           style={{
             display: "flex",
             flexWrap: "wrap",
@@ -119,7 +109,6 @@ export default function HeroSection() {
 
         {/* Bottom meta row */}
         <div
-          className="fade-up"
           style={{
             marginTop: "5rem",
             paddingTop: "2rem",
