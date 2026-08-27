@@ -492,12 +492,6 @@ select.form-input option {
 .pf-lift { transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease, border-color 0.25s ease; }
 .pf-lift:hover { transform: translateY(-3px); }
 
-/* Subtle blueprint dot-grid texture, pure CSS, no image asset */
-.pf-grid-texture {
-  background-image: radial-gradient(circle, rgba(23,20,15,0.09) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
-
 /* Top scroll progress bar */
 .pf-progress-bar {
   position: fixed;

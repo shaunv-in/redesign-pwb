@@ -32,7 +32,6 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="pf-grid-texture"
       style={{
         minHeight: "100vh",
         display: "flex",
@@ -42,7 +41,6 @@ export default function HeroSection() {
         paddingTop: "9rem",
         borderBottom: "1px solid var(--pf-line)",
         backgroundColor: "var(--pf-paper)",
-        backgroundPosition: "-11px -11px",
       }}
     >
       <div className="container">
@@ -54,7 +52,7 @@ export default function HeroSection() {
                 space for the longest realistic time string up front — otherwise the clock
                 effect populating this after mount grows the line and shifts everything below
                 it. A smaller, real contributor to layout shift on this page. */}
-            <span style={{ display: "inline-block", minWidth: "10ch" }}>{time}</span> in Winnipeg. Marketing Manager at Paragon Living, open to select freelance work
+            <span style={{ display: "inline-block", minWidth: "10ch" }}>{time}</span> in Winnipeg.
           </span>
         </div>
 
