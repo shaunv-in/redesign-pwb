@@ -43,11 +43,8 @@ export default function ServicesSection() {
       style={{ background: "var(--pf-paper-alt)", borderBottom: "1px solid var(--pf-line)" }}
     >
       <div className="container">
-        <div className="pf-section-head pf-section-head-row fade-up">
+        <div className="pf-section-head fade-up">
           <h2 className="pf-h2">A few ways I can help.</h2>
-          <a href="#contact" className="pf-btn">
-            Work With Me
-          </a>
         </div>
 
         <div className="pf-services-grid fade-up">

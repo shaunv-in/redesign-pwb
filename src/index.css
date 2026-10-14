@@ -1092,8 +1092,6 @@ a.pf-xp-company:hover { text-decoration: underline; text-underline-offset: 3px; 
 .pf-service p { font-size: 0.94rem; line-height: 1.7; color: var(--pf-ink-soft); margin: 0; max-width: 46ch; }
 .pf-service .pf-tags { margin-top: auto; padding-top: 0.5rem; }
 .pf-service:hover .pf-chip { border-color: var(--pf-line-strong); }
-/* Heading with its action on the same line (stacks on narrow screens). */
-.pf-section-head-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem 2rem; }
 
 /* ---------- Credibility: stat band + quote ---------- */
 .pf-cred-grid {
