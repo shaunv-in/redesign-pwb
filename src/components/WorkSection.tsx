@@ -1,9 +1,12 @@
 /* ==========================================================================
-   WORK — real Dribbble shot thumbnails. Load More reveals 6 at a time.
+   WORK — Tucked (Shaun's own product) leads, then real Dribbble shot
+   thumbnails as rounded tiles with captions. Load More reveals 6 at a time.
    ========================================================================== */
 
-import { useState, useEffect, useRef } from "react";
-import Eyebrow from "@/components/Eyebrow";
+import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
+import TuckedFeature from "@/components/TuckedFeature";
+import { useReveal } from "@/hooks/useReveal";
 
 const BATCH = 6;
 
@@ -101,243 +104,70 @@ const dribbbleShots = [
 ];
 
 export default function WorkSection() {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useReveal<HTMLElement>(0.04, 60);
   const [visible, setVisible] = useState(BATCH);
-  const [latestBatch, setLatestBatch] = useState<number[]>([]);
-  const [revealed, setRevealed] = useState<Set<number>>(new Set());
-
-  // Intersection observer for section entrance
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll(".fade-up").forEach((el, i) => {
-              setTimeout(() => (el as HTMLElement).classList.add("visible"), i * 60);
-            });
-          }
-        });
-      },
-      { threshold: 0.05 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+  const [latestStart, setLatestStart] = useState<number | null>(null);
 
   const handleLoadMore = () => {
-    const nextStart = visible;
-    const nextEnd = Math.min(visible + BATCH, dribbbleShots.length);
-    const batch = Array.from({ length: nextEnd - nextStart }, (_, i) => nextStart + i);
-    setLatestBatch(batch);
-    setRevealed(prev => new Set(Array.from(prev).concat(batch)));
-    setVisible(nextEnd);
+    setLatestStart(visible);
+    setVisible((v) => Math.min(v + BATCH, dribbbleShots.length));
   };
 
   const shown = dribbbleShots.slice(0, visible);
-  const hasMore = visible < dribbbleShots.length;
+  const remaining = dribbbleShots.length - visible;
 
   return (
-    <section
-      id="work"
-      ref={ref}
-      style={{ background: "var(--pf-paper)", padding: "8rem 0", borderBottom: "1px solid var(--pf-line)" }}
-    >
+    <section id="work" ref={ref} className="pf-section" style={{ borderBottom: "1px solid var(--pf-line)" }}>
       <div className="container">
-        {/* Header */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "1.5rem",
-            marginBottom: "5rem",
-          }}
-        >
-          <div>
-            <div className="fade-up" style={{ marginBottom: "2rem" }}>
-              <Eyebrow>selected work</Eyebrow>
-            </div>
-            <div className="fade-up">
-              <h2
-                className="pf-serif"
-                style={{
-                  fontWeight: 500,
-                  fontSize: "clamp(2rem, 4vw, 3.25rem)",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.02em",
-                  color: "var(--pf-ink)",
-                  margin: 0,
-                }}
-              >
-                18 shots. Every pixel purposeful.
-              </h2>
-            </div>
-          </div>
-          <div className="fade-up">
-            <a
-              href="https://dribbble.com/shaunvnzt"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pf-btn-ghost"
-            >
-              View All on Dribbble ↗
-            </a>
-          </div>
+        <div className="pf-section-head fade-up">
+          <h2 className="pf-h2">Things I've designed and built.</h2>
         </div>
 
-        {/* Grid */}
+        <TuckedFeature />
+
+        <div className="pf-work-sub fade-up">
+          <h3 className="pf-h3">From the Dribbble archive</h3>
+          <span className="pf-meta pf-num">
+            {shown.length} of {dribbbleShots.length} shots
+          </span>
+        </div>
+
         <div className="pf-work-grid">
           {shown.map((shot, i) => {
-            const isLatest = latestBatch.includes(i);
-            const isRevealed = revealed.has(i);
-            const className = isLatest ? "shot-new" : isRevealed ? "shot-revealed" : "fade-up";
+            // First batch reveals with the section; later batches animate in as they're added.
+            const cls = latestStart !== null && i >= latestStart ? "shot-new" : i < BATCH ? "fade-up" : "";
             return (
-              <a
-                key={shot.url}
-                href={shot.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={className}
-                style={{
-                  display: "block",
-                  position: "relative",
-                  overflow: "hidden",
-                  background: "var(--pf-paper-alt)",
-                  textDecoration: "none",
-                  aspectRatio: "4/3",
-                }}
-                onMouseEnter={(e) => {
-                  const overlay = e.currentTarget.querySelector(".work-overlay") as HTMLElement;
-                  const img = e.currentTarget.querySelector("img") as HTMLElement;
-                  if (overlay) overlay.style.opacity = "1";
-                  if (img) img.style.transform = "scale(1.04)";
-                }}
-                onMouseLeave={(e) => {
-                  const overlay = e.currentTarget.querySelector(".work-overlay") as HTMLElement;
-                  const img = e.currentTarget.querySelector("img") as HTMLElement;
-                  if (overlay) overlay.style.opacity = "0";
-                  if (img) img.style.transform = "scale(1)";
-                }}
-              >
-                <img
-                  src={shot.img}
-                  alt={shot.title}
-                  loading="lazy"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    display: "block",
-                    transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)",
-                  }}
-                />
-                <div
-                  className="work-overlay"
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: "rgba(244, 244, 241, 0.95)",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "0.5rem",
-                    opacity: 0,
-                    transition: "opacity 0.3s ease",
-                    boxShadow: "inset 0 0 0 2px var(--pf-pen)",
-                  }}
-                >
-                  <span
-                    className="pf-serif"
-                    style={{
-                      fontSize: "1rem",
-                      fontWeight: 500,
-                      fontStyle: "italic",
-                      color: "var(--pf-ink)",
-                      textAlign: "center",
-                      padding: "0 1rem",
-                    }}
-                  >
-                    {shot.title}
-                  </span>
-                  <span
-                    className="pf-mono"
-                    style={{
-                      fontSize: "0.65rem",
-                      letterSpacing: "0.1em",
-                      color: "var(--pf-pen)",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    View on Dribbble ↗
-                  </span>
+              <a key={shot.url} href={shot.url} target="_blank" rel="noopener noreferrer" className={`pf-shot ${cls}`}>
+                <div className="pf-shot-media">
+                  <img src={shot.img} alt="" width={400} height={300} loading="lazy" decoding="async" />
+                </div>
+                <div className="pf-shot-caption">
+                  <span>{shot.title}</span>
+                  <ArrowUpRight size={16} strokeWidth={1.75} aria-hidden="true" />
                 </div>
               </a>
             );
           })}
         </div>
 
-        {/* Load More / Counter */}
-        <div
-          style={{
-            marginTop: "3rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "1.5rem",
-            paddingTop: "2rem",
-            borderTop: "1px solid var(--pf-line)",
-          }}
-        >
-          <span className="pf-mono" style={{ fontSize: "0.7rem", letterSpacing: "0.08em", color: "var(--pf-ink-soft)" }}>
-            Showing {shown.length} of {dribbbleShots.length} shots
-          </span>
-
-          <div style={{ display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap" }}>
-            {hasMore && (
-              <button
-                onClick={handleLoadMore}
-                className="pf-btn"
-                style={{ border: "none", cursor: "pointer" }}
-              >
-                Load More ({dribbbleShots.length - visible} remaining)
-              </button>
-            )}
-            <a
-              href="https://dribbble.com/shaunvnzt"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pf-btn-ghost"
-            >
-              Dribbble ↗
+        <div className="pf-work-foot">
+          {remaining > 0 ? (
+            <button type="button" onClick={handleLoadMore} className="pf-btn">
+              Load More ({remaining} remaining)
+            </button>
+          ) : (
+            <span className="pf-meta">That's the full archive.</span>
+          )}
+          <div className="pf-work-foot-links">
+            <a href="https://dribbble.com/shaunvnzt" target="_blank" rel="noopener noreferrer" className="pf-btn-ghost">
+              Dribbble <ArrowUpRight size={16} strokeWidth={1.75} aria-hidden="true" />
             </a>
-            <a
-              href="https://www.behance.net/shaunvnzt"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pf-btn-ghost"
-            >
-              Behance ↗
+            <a href="https://www.behance.net/shaunvnzt" target="_blank" rel="noopener noreferrer" className="pf-btn-ghost">
+              Behance <ArrowUpRight size={16} strokeWidth={1.75} aria-hidden="true" />
             </a>
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes shotReveal {
-          from { opacity: 0; transform: translateY(20px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .shot-new {
-          animation: shotReveal 0.45s cubic-bezier(0.16,1,0.3,1) both;
-        }
-        .shot-revealed {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      `}</style>
     </section>
   );
 }

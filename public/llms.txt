@@ -2,17 +2,18 @@
 
 > UI/UX and visual designer based in Winnipeg, Canada. Personal portfolio site covering services, selected work, professional background, and contact.
 
-Shaun Vincent is a UI/UX designer and marketing creative, currently Marketing Manager at Paragon Living and co-owner/creative director at Side Lane Studio. Open to select freelance work in UI/UX design, branding, marketing creative, and web development/automation.
+Shaun Vincent is a UI/UX designer and marketing creative, currently Marketing Manager at Paragon Living, co-owner of Side Lane Studio, and founder, designer, and developer of Tucked (https://tucked.ca), a free, private budget app made in Canada. The Tucked web app is live; a native iPhone app is coming soon. Open to select freelance work in UI/UX design, branding, marketing creative, and web development/automation.
 
 ## Pages
 
-- [Home](https://shaunvincent.net/): Overview, services, experience, selected work, and a contact form.
+- [Home](https://shaunvincent.net/): Overview, selected work (led by Tucked), experience, services, and a contact form.
 
 ## Profiles
 
 - [Dribbble](https://dribbble.com/shaunvnzt): Design shot portfolio.
 - [Behance](https://www.behance.net/shaunvnzt): Case study portfolio.
 - [LinkedIn](https://www.linkedin.com/in/shaunvnzt/): Professional profile.
+- [Tucked](https://tucked.ca): Free, private budget app Shaun designed and built. Web app live, iPhone app coming soon.
 - [Side Lane Studio](https://www.sidelanestudio.com/): Creative studio co-owned by Shaun.
 
 ## Contact

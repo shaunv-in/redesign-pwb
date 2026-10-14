@@ -41,7 +41,22 @@ export default function WordRotator({
   const widestWord = words.reduce((a, b) => (b.length > a.length ? b : a), words[0] ?? "");
 
   useEffect(() => {
-    setWidths(measureRefs.current.map((el) => el?.getBoundingClientRect().width ?? 0));
+    const measure = () => setWidths(measureRefs.current.map((el) => el?.getBoundingClientRect().width ?? 0));
+    measure();
+    // Fonts load non-blocking (see index.html), so the first measurement can
+    // be taken in the fallback face, which is wider than Fraunces and left
+    // the underline overshooting the word. `fonts.ready` alone isn't enough:
+    // the stylesheet swaps in after mount, so ready can resolve before the
+    // face is even requested. Re-measure whenever a font load finishes.
+    const fonts = document.fonts;
+    if (!fonts) return;
+    let cancelled = false;
+    fonts.ready.then(() => !cancelled && measure());
+    fonts.addEventListener("loadingdone", measure);
+    return () => {
+      cancelled = true;
+      fonts.removeEventListener("loadingdone", measure);
+    };
     // words is expected to be a stable list for the component's lifetime
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

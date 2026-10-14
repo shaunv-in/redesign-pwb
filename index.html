@@ -5,8 +5,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shaun Vincent — UI/UX Designer</title>
-    <meta name="description" content="Shaun Vincent is a Winnipeg-based UI/UX and visual designer with 5+ years of experience across product design, branding, and web." />
+    <meta name="description" content="Shaun Vincent is a Winnipeg-based UI/UX and visual designer with 5+ years of experience across product design, branding, and web, and the founder of Tucked, a calm, private budget app." />
+    <meta name="color-scheme" content="light dark" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Theme bootstrap: runs before first paint so the prerendered page never
+         flashes the wrong theme. A saved choice (from the navbar toggle) wins;
+         otherwise follow the OS. Also marks <html class="js"> so scroll-reveal
+         styles only hide content when JS is actually there to reveal it. -->
+    <script>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add("js");
+        var t = null;
+        try { t = localStorage.getItem("pf-theme"); } catch (e) {}
+        if (t !== "light" && t !== "dark") {
+          t = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        d.setAttribute("data-theme", t);
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- Portfolio fonts only, trimmed to the weights/styles actually used on the home page:

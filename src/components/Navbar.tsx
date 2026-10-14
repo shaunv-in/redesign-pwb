@@ -1,107 +1,86 @@
 /* ==========================================================================
-   NAVBAR — name, transparent-to-solid on scroll.
+   NAVBAR — floating pill that frosts in once the page leaves the top.
+   "Scrolled" is driven by an IntersectionObserver on a sentinel at the top
+   of the page (see Home.tsx), not a scroll listener.
    ========================================================================== */
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
+
+export const navLinks = [
+  { label: "Work", href: "#work" },
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Contact", href: "#contact" },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const sentinel = document.getElementById("pf-top-sentinel");
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(([entry]) => setScrolled(!entry.isIntersecting));
+    observer.observe(sentinel);
+    return () => observer.disconnect();
   }, []);
 
-  const navLinks = [
-    { label: "About", href: "#about" },
-    { label: "Services", href: "#services" },
-    { label: "Work", href: "#work" },
-    { label: "Contact", href: "#contact" },
-  ];
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
-  const borderColor = scrolled || menuOpen ? "var(--pf-line)" : "transparent";
-  const bg = menuOpen ? "var(--pf-paper)" : scrolled ? "rgba(244, 244, 241, 0.94)" : "transparent";
+  const close = () => setMenuOpen(false);
 
   return (
-    <header
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        background: bg,
-        borderBottom: `1px solid ${borderColor}`,
-        backdropFilter: scrolled ? "blur(10px)" : "none",
-        transition: "background 0.35s ease, border-color 0.35s ease",
-      }}
-    >
+    <header className={`pf-nav${scrolled ? " is-scrolled" : ""}${menuOpen ? " is-open" : ""}`}>
       <div className="container">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "72px" }}>
-          {/* Name */}
-          <a href="#hero" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
-            <span className="pf-wordmark" style={{ color: "var(--pf-ink)" }}>
-              Shaun Vincent
-            </span>
+        <div className="pf-nav-bar">
+          <a href="#hero" className="pf-wordmark" style={{ textDecoration: "none", color: "var(--pf-ink)" }}>
+            Shaun Vincent
           </a>
 
-          {/* Desktop nav */}
-          <nav className="md-flex" style={{ alignItems: "center", gap: "2.25rem" }}>
+          <nav className="pf-nav-links" aria-label="Primary">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                style={{
-                  fontSize: "0.88rem",
-                  fontWeight: 500,
-                  color: "var(--pf-ink-soft)",
-                  textDecoration: "none",
-                  transition: "color 0.2s ease",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--pf-ink)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--pf-ink-soft)")}
-              >
+              <a key={link.href} href={link.href} className="pf-nav-link">
                 {link.label}
               </a>
             ))}
-            <a href="#contact" className="pf-btn" style={{ padding: "0.6rem 1.4rem", fontSize: "0.8rem" }}>
-              Work With Me
-            </a>
           </nav>
 
-          {/* Mobile hamburger */}
-          <button
-            className="md-hidden"
-            onClick={() => setMenuOpen(!menuOpen)}
-            style={{ background: "none", border: "none", padding: "0.5rem", display: "flex", flexDirection: "column", gap: "5px" }}
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
-          >
-            <span style={{ display: "block", width: "22px", height: "1.5px", background: "var(--pf-ink)", transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none" }} />
-            <span style={{ display: "block", width: "22px", height: "1.5px", background: "var(--pf-ink)", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
-            <span style={{ display: "block", width: "22px", height: "1.5px", background: "var(--pf-ink)", transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none" }} />
-          </button>
+          <div className="pf-nav-actions">
+            <ThemeToggle />
+            <a href="#contact" className="pf-btn pf-btn-sm pf-nav-cta">
+              Work With Me
+            </a>
+            <button
+              type="button"
+              className="pf-icon-btn pf-nav-menu-btn"
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls="pf-mobile-menu"
+            >
+              {menuOpen ? <X size={20} strokeWidth={1.75} /> : <Menu size={20} strokeWidth={1.75} />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile menu */}
         {menuOpen && (
-          <div style={{ borderTop: "1px solid var(--pf-line)", padding: "1.5rem 0", display: "flex", flexDirection: "column", gap: "1.25rem", background: "var(--pf-paper)" }}>
+          <nav id="pf-mobile-menu" className="pf-nav-sheet" aria-label="Mobile">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                style={{ fontSize: "1rem", color: "var(--pf-ink)", textDecoration: "none", fontWeight: 500 }}
-              >
+              <a key={link.href} href={link.href} onClick={close}>
                 {link.label}
               </a>
             ))}
-            <a href="#contact" className="pf-btn" style={{ alignSelf: "flex-start" }} onClick={() => setMenuOpen(false)}>
-              Work With Me
+            <a href="#contact" className="pf-btn" onClick={close}>
+              Work With Me <ArrowUpRight size={16} strokeWidth={2} aria-hidden="true" />
             </a>
-          </div>
+          </nav>
         )}
       </div>
     </header>
