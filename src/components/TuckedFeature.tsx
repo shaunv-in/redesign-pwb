@@ -6,6 +6,7 @@
    ========================================================================== */
 
 import { ArrowUpRight, Globe, Smartphone } from "lucide-react";
+import { useMounted } from "@/hooks/useMounted";
 
 const screens = [
   { src: "/work/tucked/bills.webp", alt: "Tucked bills screen with upcoming bills and paydays" },
@@ -14,11 +15,12 @@ const screens = [
 ];
 
 export default function TuckedFeature() {
+  const mounted = useMounted();
   return (
     <article className="pf-feature fade-up" aria-labelledby="tucked-title">
       <div className="pf-feature-copy">
         <div className="pf-feature-brand">
-          <img src="/work/tucked/tucked-logo-on-dark.svg" alt="Tucked" width={91} height={30} />
+          <img src={mounted ? "/work/tucked/tucked-logo-on-dark.svg" : undefined} alt="Tucked" width={91} height={30} />
         </div>
 
         <h3 id="tucked-title" className="pf-feature-title">
@@ -56,9 +58,10 @@ export default function TuckedFeature() {
       <div className="pf-feature-stage">
         {screens.map((s, i) => (
           <div key={s.src} className={`pf-phone pf-phone-${i}`}>
+            {/* src is attached after mount; see useMounted. */}
             <img
-              src={s.src}
-              srcSet={`${s.src.replace(".webp", "-480.webp")} 480w, ${s.src} 780w`}
+              src={mounted ? s.src : undefined}
+              srcSet={mounted ? `${s.src.replace(".webp", "-480.webp")} 480w, ${s.src} 780w` : undefined}
               sizes="(min-width: 960px) 300px, 50vw"
               alt={s.alt}
               width={780}
@@ -66,6 +69,9 @@ export default function TuckedFeature() {
               loading="lazy"
               decoding="async"
             />
+            <noscript>
+              <img src={s.src} alt={s.alt} width={780} height={1562} loading="lazy" />
+            </noscript>
           </div>
         ))}
       </div>

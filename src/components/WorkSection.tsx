@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import TuckedFeature from "@/components/TuckedFeature";
 import { useReveal } from "@/hooks/useReveal";
+import { useMounted } from "@/hooks/useMounted";
 
 const BATCH = 6;
 
@@ -105,6 +106,7 @@ const dribbbleShots = [
 
 export default function WorkSection() {
   const ref = useReveal<HTMLElement>(0.04, 60);
+  const mounted = useMounted();
   const [visible, setVisible] = useState(BATCH);
   const [latestStart, setLatestStart] = useState<number | null>(null);
 
@@ -139,7 +141,11 @@ export default function WorkSection() {
             return (
               <a key={shot.url} href={shot.url} target="_blank" rel="noopener noreferrer" className={`pf-shot ${cls}`}>
                 <div className="pf-shot-media">
-                  <img src={shot.img} alt="" width={400} height={300} loading="lazy" decoding="async" />
+                  {/* src is attached after mount; see useMounted. */}
+                  <img src={mounted ? shot.img : undefined} alt="" width={400} height={300} loading="lazy" decoding="async" />
+                  <noscript>
+                    <img src={shot.img} alt="" width={400} height={300} loading="lazy" />
+                  </noscript>
                 </div>
                 <div className="pf-shot-caption">
                   <span>{shot.title}</span>

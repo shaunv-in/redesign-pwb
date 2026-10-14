@@ -1,6 +1,7 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App";
 import { loadAnalytics } from "./lib/analytics";
+import { loadFonts } from "./lib/loadFonts";
 import "./portfolio.css";
 
 const root = document.getElementById("root")!;
@@ -15,4 +16,5 @@ if (root.hasChildNodes() && window.location.pathname === "/") {
   createRoot(root).render(<App />);
 }
 
+loadFonts();
 loadAnalytics();

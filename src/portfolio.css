@@ -530,7 +530,7 @@ button:not(:disabled), [role="button"]:not([aria-disabled="true"]), a[href] { cu
 :root[data-theme="dark"] body:has(.pf) { background: #0E0F11; }
 
 .pf .pf-serif { font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto; }
-.pf .pf-mono  { font-family: "JetBrains Mono", monospace; }
+.pf .pf-mono  { font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace; }
 .pf .pf-num   { font-variant-numeric: tabular-nums; }
 
 /* Wordmark — bold grotesk rather than the display serif, which gets muddy
@@ -1565,3 +1565,9 @@ select.pf-input option { background: var(--pf-surface); color: var(--pf-ink); }
   .js .pf-h2.fade-up { clip-path: none; }
   .js .pf-shot.fade-up:not(.visible) .pf-shot-media img { transform: none; }
 }
+
+/* Below-the-fold images get their src after mount (see useMounted); keep the
+   empty frames clean instead of showing alt text for that first instant. */
+.pf-phone img:not([src]),
+.pf-feature-brand img:not([src]),
+.pf-shot-media img:not([src]) { visibility: hidden; }

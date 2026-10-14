@@ -40,7 +40,7 @@ export default function HeroSection() {
     <section id="hero" className="pf-hero">
       <div className="container pf-hero-in">
         <div className="pf-hero-status pf-mono">
-          {/* Fixed-width slot (JetBrains Mono is a true monospace, so `ch` is exact) reserves
+          {/* Fixed-width slot (the clock uses a monospace stack, so `ch` is exact) reserves
               space for the longest realistic time string up front, so the clock populating
               after mount never shifts the layout below it. */}
           <span>

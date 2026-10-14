@@ -34,6 +34,19 @@ const cssPath = path.join(distDir, cssLinkMatch[1]);
 const css = await readFile(cssPath, "utf8");
 html = html.replace(cssLinkMatch[0], `<style>${css}</style>`);
 
+// Start the app bundle after first paint on "/". The home page is fully
+// prerendered, so nothing needs JS to appear; fetching ~75 KB of React at
+// high priority alongside the HTML only delayed first paint on throttled
+// mobile. Other routes (rental application, admin, 404) render client-side,
+// so they still load the bundle immediately.
+const moduleTag = html.match(/<script type="module" crossorigin src="(\/assets\/[^"]+\.js)"><\/script>/);
+if (!moduleTag) {
+  throw new Error('prerender.mjs: expected a built <script type="module" src="/assets/*.js"> tag in dist/index.html — check the build output shape before editing this script.');
+}
+html = html.replace(moduleTag[0], "");
+const loader = `<script>(function(){var s=document.createElement("script");s.type="module";s.crossOrigin="";s.src=${JSON.stringify(moduleTag[1])};function go(){document.head.appendChild(s)}if(location.pathname==="/"){requestAnimationFrame(function(){requestAnimationFrame(go)})}else{go()}})()</script>`;
+html = html.replace("</body>", `${loader}\n</body>`);
+
 await writeFile(indexHtml, html);
 
 await rm(path.join(root, "dist-ssr"), { recursive: true, force: true });
