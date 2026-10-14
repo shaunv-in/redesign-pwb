@@ -120,7 +120,7 @@ export default function WorkSection() {
     <section id="work" ref={ref} className="pf-section" style={{ borderBottom: "1px solid var(--pf-line)" }}>
       <div className="container">
         <div className="pf-section-head fade-up">
-          <h2 className="pf-h2">Things I've designed and built.</h2>
+          <h2 className="pf-h2">Selected work.</h2>
         </div>
 
         <TuckedFeature />
