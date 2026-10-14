@@ -56,7 +56,16 @@ export default function TuckedFeature() {
       <div className="pf-feature-stage">
         {screens.map((s, i) => (
           <div key={s.src} className={`pf-phone pf-phone-${i}`}>
-            <img src={s.src} alt={s.alt} width={780} height={1562} loading="lazy" decoding="async" />
+            <img
+              src={s.src}
+              srcSet={`${s.src.replace(".webp", "-480.webp")} 480w, ${s.src} 780w`}
+              sizes="(min-width: 960px) 300px, 50vw"
+              alt={s.alt}
+              width={780}
+              height={1562}
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         ))}
       </div>

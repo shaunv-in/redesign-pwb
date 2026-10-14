@@ -3,6 +3,9 @@
    Supabase-authenticated view of submitted 300 Centre Street applications.
    ========================================================================== */
 
+// Full app stylesheet (Tailwind + shadcn tokens + rental/admin classes).
+// Loaded with this lazy route only; the home page ships portfolio.css alone.
+import "@/index.css";
 import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { RENTAL_DOCS_BUCKET, supabase } from "@/lib/supabaseClient";

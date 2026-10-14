@@ -1,0 +1,1567 @@
+/* ==========================================================================
+   PORTFOLIO STYLESHEET — the only CSS the home page loads (inlined into the
+   prerendered HTML by scripts/prerender.mjs). Tailwind and the shadcn/rental
+   styles live in index.css and load only with the routes that use them, so
+   home visitors no longer download ~100 KB of utilities they never use.
+   Starts with Tailwind's own preflight so element defaults match exactly.
+   ========================================================================== */
+
+/*
+  1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
+  2. Remove default margins and padding
+  3. Reset all borders.
+*/
+
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+  box-sizing: border-box; /* 1 */
+  margin: 0; /* 2 */
+  padding: 0; /* 2 */
+  border: 0 solid; /* 3 */
+}
+
+/*
+  1. Use a consistent sensible line-height in all browsers.
+  2. Prevent adjustments of font size after orientation changes in iOS.
+  3. Use a more readable tab size.
+  4. Use the user's configured `sans` font-family by default.
+  5. Use the user's configured `sans` font-feature-settings by default.
+  6. Use the user's configured `sans` font-variation-settings by default.
+  7. Disable tap highlights on iOS.
+*/
+
+html,
+:host {
+  line-height: 1.5; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+  tab-size: 4; /* 3 */
+  font-family: ui-sans-serif,
+    system-ui,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    'Noto Color Emoji'; /* 4 */
+  font-feature-settings: normal; /* 5 */
+  font-variation-settings: normal; /* 6 */
+  -webkit-tap-highlight-color: transparent; /* 7 */
+}
+
+/*
+  1. Add the correct height in Firefox.
+  2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
+  3. Reset the default border style to a 1px solid border.
+*/
+
+hr {
+  height: 0; /* 1 */
+  color: inherit; /* 2 */
+  border-top-width: 1px; /* 3 */
+}
+
+/*
+  Add the correct text decoration in Chrome, Edge, and Safari.
+*/
+
+abbr:where([title]) {
+  -webkit-text-decoration: underline dotted;
+  text-decoration: underline dotted;
+}
+
+/*
+  Remove the default font size and weight for headings.
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/*
+  Reset links to optimize for opt-in styling instead of opt-out.
+*/
+
+a {
+  color: inherit;
+  -webkit-text-decoration: inherit;
+  text-decoration: inherit;
+}
+
+/*
+  Add the correct font weight in Edge and Safari.
+*/
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/*
+  1. Use the user's configured `mono` font-family by default.
+  2. Use the user's configured `mono` font-feature-settings by default.
+  3. Use the user's configured `mono` font-variation-settings by default.
+  4. Correct the odd `em` font sizing in all browsers.
+*/
+
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    'Liberation Mono',
+    'Courier New',
+    monospace; /* 1 */
+  font-feature-settings: normal; /* 2 */
+  font-variation-settings: normal; /* 3 */
+  font-size: 1em; /* 4 */
+}
+
+/*
+  Add the correct font size in all browsers.
+*/
+
+small {
+  font-size: 80%;
+}
+
+/*
+  Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+*/
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/*
+  1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
+  2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
+  3. Remove gaps between table borders by default.
+*/
+
+table {
+  text-indent: 0; /* 1 */
+  border-color: inherit; /* 2 */
+  border-collapse: collapse; /* 3 */
+}
+
+/*
+  Use the modern Firefox focus style for all focusable elements.
+*/
+
+:-moz-focusring {
+  outline: auto;
+}
+
+/*
+  Add the correct vertical alignment in Chrome and Firefox.
+*/
+
+progress {
+  vertical-align: baseline;
+}
+
+/*
+  Add the correct display in Chrome and Safari.
+*/
+
+summary {
+  display: list-item;
+}
+
+/*
+  Make lists unstyled by default.
+*/
+
+ol,
+ul,
+menu {
+  list-style: none;
+}
+
+/*
+  1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
+  2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
+      This can trigger a poorly considered lint error in some tools but is included by design.
+*/
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block; /* 1 */
+  vertical-align: middle; /* 2 */
+}
+
+/*
+  Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
+*/
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/*
+  1. Inherit font styles in all browsers.
+  2. Remove border radius in all browsers.
+  3. Remove background color in all browsers.
+  4. Ensure consistent opacity for disabled states in all browsers.
+*/
+
+button,
+input,
+select,
+optgroup,
+textarea,
+::file-selector-button {
+  font: inherit; /* 1 */
+  font-feature-settings: inherit; /* 1 */
+  font-variation-settings: inherit; /* 1 */
+  letter-spacing: inherit; /* 1 */
+  color: inherit; /* 1 */
+  border-radius: 0; /* 2 */
+  background-color: transparent; /* 3 */
+  opacity: 1; /* 4 */
+}
+
+/*
+  Restore default font weight.
+*/
+
+:where(select:is([multiple], [size])) optgroup {
+  font-weight: bolder;
+}
+
+/*
+  Restore indentation.
+*/
+
+:where(select:is([multiple], [size])) optgroup option {
+  padding-inline-start: 20px;
+}
+
+/*
+  Restore space after button.
+*/
+
+::file-selector-button {
+  margin-inline-end: 4px;
+}
+
+/*
+  Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
+*/
+
+::placeholder {
+  opacity: 1;
+}
+
+/*
+  Set the default placeholder color to a semi-transparent version of the current text color in browsers that do not
+  crash when using `color-mix(…)` with `currentcolor`. (https://github.com/tailwindlabs/tailwindcss/issues/17194)
+*/
+
+@supports (not (-webkit-appearance: -apple-pay-button)) /* Not Safari */ or
+  (contain-intrinsic-size: 1px) /* Safari 17+ */ {
+  ::placeholder {
+    color: color-mix(in oklab, currentcolor 50%, transparent);
+  }
+}
+
+/*
+  Prevent resizing textareas horizontally by default.
+*/
+
+textarea {
+  resize: vertical;
+}
+
+/*
+  Remove the inner padding in Chrome and Safari on macOS.
+*/
+
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/*
+  1. Ensure date/time inputs have the same height when empty in iOS Safari.
+  2. Ensure text alignment can be changed on date/time inputs in iOS Safari.
+*/
+
+::-webkit-date-and-time-value {
+  min-height: 1lh; /* 1 */
+  text-align: inherit; /* 2 */
+}
+
+/*
+  Prevent height from changing on date/time inputs in macOS Safari when the input is set to `display: block`.
+*/
+
+::-webkit-datetime-edit {
+  display: inline-flex;
+}
+
+/*
+  Remove excess padding from pseudo-elements in date/time inputs to ensure consistent height across browsers.
+*/
+
+::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+::-webkit-datetime-edit,
+::-webkit-datetime-edit-year-field,
+::-webkit-datetime-edit-month-field,
+::-webkit-datetime-edit-day-field,
+::-webkit-datetime-edit-hour-field,
+::-webkit-datetime-edit-minute-field,
+::-webkit-datetime-edit-second-field,
+::-webkit-datetime-edit-millisecond-field,
+::-webkit-datetime-edit-meridiem-field {
+  padding-block: 0;
+}
+
+/*
+  Center dropdown marker shown on inputs with paired `<datalist>`s in Chrome. (https://github.com/tailwindlabs/tailwindcss/issues/18499)
+*/
+
+::-webkit-calendar-picker-indicator {
+  line-height: 1;
+}
+
+/*
+  Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
+*/
+
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+/*
+  Correct the inability to style the border radius in iOS Safari.
+*/
+
+button,
+input:where([type='button'], [type='reset'], [type='submit']),
+::file-selector-button {
+  appearance: button;
+}
+
+/*
+  Correct the cursor style of increment and decrement buttons in Safari.
+*/
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/*
+  Make elements with the HTML hidden attribute stay hidden by default.
+*/
+
+[hidden]:where(:not([hidden='until-found'])) {
+  display: none !important;
+}
+
+
+body { background: #F4F4F1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+button:not(:disabled), [role="button"]:not([aria-disabled="true"]), a[href] { cursor: pointer; }
+
+/* ==========================================================================
+   FADE-UP ANIMATION
+   ========================================================================== */
+.js .fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js .fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .fade-up { opacity: 1; transform: none; transition: none; }
+}
+
+/* ==========================================================================
+   CONTAINER
+   ========================================================================== */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: 1200px;
+}
+@media (min-width: 768px) {
+  .container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+@media (min-width: 1280px) {
+  .container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+.flex { min-height: 0; min-width: 0; }
+
+/* ==========================================================================
+   PORTFOLIO (home page) — signature design system
+   Scoped entirely under `.pf` so it can never bleed into the rental
+   application / admin tools, which hardcode the old palette inline and
+   share .container / .form-input / .btn-primary / .btn-ghost with this file.
+
+   Shape rule: interactive controls (buttons, chips, nav, toggles) are full
+   pills; media and content tiles are 16px (--pf-radius); inputs are
+   underline-only. Nothing else gets a radius.
+
+   Theme: light tokens below are the default. Dark applies when the inline
+   bootstrap in index.html sets <html data-theme="dark"> (saved choice or OS
+   preference), and via prefers-color-scheme as the no-JS fallback.
+   ========================================================================== */
+
+.pf {
+  --pf-paper: #F4F4F1;
+  --pf-paper-alt: #EBEBE6;
+  --pf-surface: #FAFAF8;
+  --pf-ink: #17140F;
+  --pf-ink-soft: #5F584A;
+  --pf-ink-faint: #776F61;
+  --pf-line: #DCDBD4;
+  --pf-line-strong: #C9C8BF;
+  --pf-pen: #2A46D9;
+  --pf-pen-deep: #1C2E9C;
+  --pf-pen-tint: #E5E8FB;
+  --pf-on-pen: #F7F7F4;
+  --pf-stamp: #C43D1E;
+  --pf-footer: #100E0A;
+  --pf-nav-bg: rgba(244, 244, 241, 0.78);
+  --pf-shadow: 0 1px 2px rgba(23, 20, 15, 0.04), 0 8px 24px rgba(23, 20, 15, 0.06);
+  --pf-radius: 16px;
+  --pf-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  background: var(--pf-paper);
+  color: var(--pf-ink);
+  font-family: "Hanken Grotesk", system-ui, sans-serif;
+  color-scheme: light;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark tokens — same roles, cool near-black paper (the light paper is a
+   neutral, not a cream, so its dark twin stays neutral too). The pen is
+   lifted to a lighter cobalt so links and the underline keep AA contrast. */
+:root[data-theme="dark"] .pf {
+  --pf-paper: #0E0F11;
+  --pf-paper-alt: #141518;
+  --pf-surface: #18191D;
+  --pf-ink: #EDECE6;
+  --pf-ink-soft: #A9A79D;
+  --pf-ink-faint: #8C8A81;
+  --pf-line: #26272C;
+  --pf-line-strong: #36373D;
+  --pf-pen: #8A9CFF;
+  --pf-pen-deep: #B3C0FF;
+  --pf-pen-tint: rgba(138, 156, 255, 0.12);
+  --pf-on-pen: #0E0F11;
+  --pf-stamp: #FF8266;
+  --pf-footer: #08090A;
+  --pf-nav-bg: rgba(14, 15, 17, 0.72);
+  --pf-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .pf {
+    --pf-paper: #0E0F11;
+    --pf-paper-alt: #141518;
+    --pf-surface: #18191D;
+    --pf-ink: #EDECE6;
+    --pf-ink-soft: #A9A79D;
+    --pf-ink-faint: #8C8A81;
+    --pf-line: #26272C;
+    --pf-line-strong: #36373D;
+    --pf-pen: #8A9CFF;
+    --pf-pen-deep: #B3C0FF;
+    --pf-pen-tint: rgba(138, 156, 255, 0.12);
+    --pf-on-pen: #0E0F11;
+    --pf-stamp: #FF8266;
+    --pf-footer: #08090A;
+    --pf-nav-bg: rgba(14, 15, 17, 0.72);
+    color-scheme: dark;
+  }
+}
+/* Keep the canvas behind overscroll / rubber-banding in the same theme. */
+:root[data-theme="dark"] body:has(.pf) { background: #0E0F11; }
+
+.pf .pf-serif { font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto; }
+.pf .pf-mono  { font-family: "JetBrains Mono", monospace; }
+.pf .pf-num   { font-variant-numeric: tabular-nums; }
+
+/* Wordmark — bold grotesk rather than the display serif, which gets muddy
+   at small logo sizes. */
+.pf-wordmark {
+  font-family: "Hanken Grotesk", system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* :where() keeps this at zero specificity so class-based link styling wins. */
+:where(.pf) a { color: inherit; }
+
+.pf a:focus-visible,
+.pf button:focus-visible,
+.pf input:focus-visible,
+.pf textarea:focus-visible,
+.pf select:focus-visible,
+.pf [tabindex]:focus-visible {
+  outline: 2px solid var(--pf-pen);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.pf .pf-btn:focus-visible,
+.pf .pf-btn-ghost:focus-visible,
+.pf .pf-icon-btn:focus-visible { border-radius: 999px; }
+
+.pf ::selection { background: var(--pf-pen); color: var(--pf-on-pen); }
+.pf { caret-color: var(--pf-pen); accent-color: var(--pf-pen); }
+
+/* Shared type roles */
+.pf-h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(2.1rem, 4.4vw, 3.5rem);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  color: var(--pf-ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.pf-lede {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--pf-ink-soft);
+  max-width: 58ch;
+  margin: 0;
+  text-wrap: pretty;
+}
+.pf-label {
+  display: block;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--pf-ink-soft);
+  margin-bottom: 0.4rem;
+}
+
+/* Section rhythm */
+.pf-section { padding: clamp(5rem, 10vw, 8.5rem) 0; }
+.pf-section-head { display: grid; gap: 1.25rem; margin-bottom: clamp(3rem, 6vw, 4.5rem); }
+
+/* Skip link */
+.pf-skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  background: var(--pf-ink);
+  color: var(--pf-paper);
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 1000;
+  transition: top 0.2s ease;
+}
+.pf-skip-link:focus { top: 1rem; }
+
+/* Marginalia tag — the pen-written aside. Used once, sparingly. */
+.pf-eyebrow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--pf-pen);
+  transform: rotate(-2deg);
+  transform-origin: left center;
+}
+.pf-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+  transform: translateY(-4px);
+}
+
+/* Pen-drawn underline under a word/phrase */
+.pf-pen-underline {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+.pf-pen-underline svg {
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  bottom: -0.12em;
+  width: 104%;
+  height: 0.4em;
+  overflow: visible;
+}
+.pf-pen-underline path {
+  fill: none;
+  stroke: var(--pf-pen);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.9s var(--pf-ease) 0.15s;
+}
+.pf-pen-underline.pf-drawn path { stroke-dashoffset: 0; }
+
+/* Inline text link with a pen underline that thickens on hover */
+.pf-link {
+  color: var(--pf-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--pf-line-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.2s ease, color 0.2s ease;
+}
+.pf-link:hover { text-decoration-color: var(--pf-pen); color: var(--pf-pen); }
+
+/* Buttons — pills */
+.pf-btn,
+.pf-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 46px;
+  padding: 0 1.4rem;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  white-space: nowrap;
+  text-decoration: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+              transform 0.2s var(--pf-ease), box-shadow 0.2s ease;
+}
+.pf-btn {
+  background: var(--pf-ink);
+  color: var(--pf-paper);
+  border: 1px solid var(--pf-ink);
+}
+.pf-btn:hover {
+  background: var(--pf-pen);
+  border-color: var(--pf-pen);
+  color: var(--pf-on-pen);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--pf-pen) 28%, transparent);
+}
+.pf-btn-ghost {
+  background: transparent;
+  color: var(--pf-ink);
+  border: 1px solid var(--pf-line-strong);
+}
+.pf-btn-ghost:hover { border-color: var(--pf-ink); transform: translateY(-1px); }
+.pf-btn:active,
+.pf-btn-ghost:active { transform: translateY(0) scale(0.98); }
+.pf-btn:disabled { opacity: 0.6; cursor: progress; transform: none; box-shadow: none; }
+.pf-btn svg,
+.pf-btn-ghost svg { transition: transform 0.25s var(--pf-ease); }
+.pf-btn:hover svg,
+.pf-btn-ghost:hover svg { transform: translate(2px, -1px); }
+.pf-btn-sm { min-height: 38px; padding: 0 1.1rem; font-size: 0.84rem; }
+
+/* Square-ish icon button (theme toggle, menu) */
+.pf-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--pf-ink);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.pf-icon-btn:hover { background: var(--pf-paper-alt); border-color: var(--pf-line); }
+
+/* Tag chips */
+.pf-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--pf-ink-soft);
+  border: 1px solid var(--pf-line);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+/* ---------- Navbar: floating pill ---------- */
+.pf-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0.75rem 0;
+  pointer-events: none;
+}
+.pf-nav-bar {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 60px;
+  padding: 0 0.6rem 0 1.25rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease,
+              backdrop-filter 0.35s ease;
+}
+.pf-nav.is-scrolled .pf-nav-bar,
+.pf-nav.is-open .pf-nav-bar {
+  background: var(--pf-nav-bg);
+  border-color: var(--pf-line);
+  box-shadow: var(--pf-shadow);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+}
+.pf-nav-links { display: none; align-items: center; gap: 0.25rem; }
+.pf-nav-link {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--pf-ink-soft);
+  text-decoration: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.pf-nav-link:hover { color: var(--pf-ink); background: var(--pf-paper-alt); }
+.pf-nav-actions { display: flex; align-items: center; gap: 0.35rem; }
+.pf-nav-cta { display: none; }
+.pf-nav-menu-btn { display: inline-grid; }
+.pf-nav-sheet {
+  pointer-events: auto;
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border-radius: 24px;
+  background: var(--pf-surface);
+  border: 1px solid var(--pf-line);
+  box-shadow: var(--pf-shadow);
+  display: grid;
+  gap: 0.25rem;
+  transform-origin: top center;
+  animation: pfSheetIn 0.28s var(--pf-ease);
+}
+.pf-nav-sheet a:not(.pf-btn) {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--pf-ink);
+  text-decoration: none;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--pf-line);
+}
+.pf-nav-sheet .pf-btn { margin-top: 0.75rem; }
+@keyframes pfSheetIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+@media (min-width: 820px) {
+  .pf-nav-links { display: flex; }
+  .pf-nav-cta { display: inline-flex; }
+  .pf-nav-menu-btn { display: none; }
+  .pf-nav-sheet { display: none; }
+}
+
+/* Theme toggle — both icons are always rendered (so the prerendered markup
+   matches hydration no matter the theme); CSS shows the right one. */
+.pf-theme-toggle .pf-icon-sun { display: none; }
+:root[data-theme="dark"] .pf-theme-toggle .pf-icon-sun { display: block; }
+:root[data-theme="dark"] .pf-theme-toggle .pf-icon-moon { display: none; }
+
+/* ---------- Hero ---------- */
+.pf-hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding: 7rem 0 2.5rem;
+  border-bottom: 1px solid var(--pf-line);
+}
+/* Auto margins above the status line and the meta row split the free space,
+   so the headline block sits centred in the viewport and the social row
+   pins to the bottom edge. */
+.pf-hero > .container { flex: 1; display: flex; flex-direction: column; }
+.pf-hero-status { margin-top: auto; }
+.pf-hero-status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 2.25rem;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  color: var(--pf-ink-soft);
+}
+.pf-hero-status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pf-pen);
+}
+.pf-hero-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(3rem, 9vw, 7.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: var(--pf-ink);
+  margin: 0 0 3rem;
+}
+/* Description and its actions form one group on the leading edge, in
+   reading order (HIG: leading alignment, group related items), instead of
+   splitting the buttons off to the far right. */
+.pf-hero-row {
+  margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+}
+.pf-hero-sub {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--pf-ink-soft);
+  max-width: 38ch;
+  margin: 0;
+  text-wrap: pretty;
+}
+.pf-hero-sub strong { color: var(--pf-ink); font-weight: 600; }
+.pf-hero-ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.pf-hero-meta {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--pf-line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.pf-social { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pf-social a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--pf-ink-soft);
+  text-decoration: none;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--pf-line);
+  border-radius: 999px;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+.pf-social a:hover { color: var(--pf-pen); border-color: var(--pf-pen); background: var(--pf-pen-tint); }
+.pf-hero-place { font-size: 0.82rem; color: var(--pf-ink-soft); }
+
+/* Hero entrance — one orchestrated moment on load. Content is visible by
+   default; the animation only plays when motion is allowed. */
+@media (prefers-reduced-motion: no-preference) {
+  .pf-hero-in > * {
+    animation: pfHeroIn 0.9s var(--pf-ease) both;
+  }
+  .pf-hero-in > :nth-child(2) { animation-delay: 0.08s; }
+  .pf-hero-in > :nth-child(3) { animation-delay: 0.18s; }
+  .pf-hero-in > :nth-child(4) { animation-delay: 0.28s; }
+}
+/* No opacity in the keyframes on purpose: the headline is the LCP element,
+   and a fade from 0 would hold LCP until the animation ends. A focus-pull
+   (blur + rise) reads as an entrance while painting on the first frame. */
+@keyframes pfHeroIn {
+  from { transform: translateY(14px); filter: blur(8px); }
+  to   { transform: none; filter: none; }
+}
+
+/* ---------- Work ---------- */
+.pf-work-sub {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: clamp(4rem, 8vw, 6rem) 0 2rem;
+}
+.pf-h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: var(--pf-ink);
+}
+.pf-meta { font-size: 0.82rem; color: var(--pf-ink-soft); }
+
+/* Tucked feature — the product's own dark world, framed as a case-study plate.
+   It stays dark in both themes: it is artwork from Tucked, not page chrome. */
+.pf-feature {
+  --tk-bg: #0A0B0C;
+  --tk-ink: #F7F5EF;
+  --tk-soft: rgba(247, 245, 239, 0.68);
+  --tk-line: rgba(247, 245, 239, 0.12);
+  --tk-green: #3DD598;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+  border-radius: calc(var(--pf-radius) + 8px);
+  background: var(--tk-bg);
+  color: var(--tk-ink);
+  border: 1px solid var(--pf-line);
+}
+.pf-feature::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60% 70% at 0% 100%, rgba(38, 120, 82, 0.38), transparent 70%),
+    radial-gradient(55% 65% at 100% 0%, rgba(52, 86, 150, 0.42), transparent 70%);
+}
+.pf-feature-copy {
+  padding: clamp(1.75rem, 4vw, 3.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.pf-feature-brand { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.pf-feature-brand img { height: 30px; width: auto; display: block; }
+.pf-feature-role {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--tk-soft);
+  border: 1px solid var(--tk-line);
+  border-radius: 999px;
+  padding: 0.28rem 0.75rem;
+}
+.pf-feature-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-wrap: balance;
+}
+.pf-feature-title em { font-style: italic; color: var(--tk-green); }
+.pf-feature-body {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--tk-soft);
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+.pf-feature-status { display: grid; gap: 0.6rem; margin: 0; padding: 0; list-style: none; }
+.pf-feature-status li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.92rem;
+  color: var(--tk-ink);
+}
+.pf-feature-status svg { flex: none; color: var(--tk-soft); }
+.pf-feature-status .is-soon { color: var(--tk-soft); }
+.pf-status-pill {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  white-space: nowrap;
+}
+.pf-status-pill.is-live { color: var(--tk-green); background: rgba(61, 213, 152, 0.12); }
+.pf-status-pill.is-soon { color: var(--tk-ink); background: rgba(247, 245, 239, 0.1); }
+.pf-feature-status li + li { padding-top: 0.6rem; border-top: 1px solid var(--tk-line); }
+.pf-feature-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.25rem; }
+.pf-feature .pf-btn { background: var(--tk-ink); color: var(--tk-bg); border-color: var(--tk-ink); }
+.pf-feature .pf-btn:hover { background: var(--tk-green); border-color: var(--tk-green); color: var(--tk-bg); box-shadow: 0 6px 20px rgba(61, 213, 152, 0.25); }
+.pf-feature .pf-btn-ghost { color: var(--tk-ink); border-color: rgba(247, 245, 239, 0.28); }
+.pf-feature .pf-btn-ghost:hover { border-color: var(--tk-ink); }
+.pf-feature a:focus-visible { outline-color: var(--tk-green); }
+
+.pf-feature-stage {
+  position: relative;
+  min-height: 300px;
+  padding-top: 0.5rem !important;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 1.5rem;
+  overflow: hidden;
+}
+.pf-phone {
+  position: relative;
+  width: clamp(150px, 38%, 230px);
+  aspect-ratio: 780 / 1562;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: transform 0.6s var(--pf-ease);
+  margin-bottom: -18%;
+}
+.pf-phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.pf-phone-1 { z-index: 2; }
+.pf-phone-2 { z-index: 1; margin-left: -12%; transform: translateY(14%) rotate(6deg); }
+.pf-phone-0 { z-index: 1; margin-right: -12%; transform: translateY(14%) rotate(-6deg); }
+.pf-feature:hover .pf-phone-0 { transform: translate(-6px, 10%) rotate(-8deg); }
+.pf-feature:hover .pf-phone-2 { transform: translate(6px, 10%) rotate(8deg); }
+.pf-feature:hover .pf-phone-1 { transform: translateY(-3%); }
+
+@media (min-width: 960px) {
+  .pf-feature { grid-template-columns: 1.05fr 1fr; min-height: 560px; }
+  .pf-feature-copy { justify-content: center; }
+  .pf-feature-stage { min-height: 0; padding: 3.5rem 1.5rem 0 !important; }
+  .pf-phone { width: clamp(210px, 50%, 300px); margin-bottom: -16%; }
+}
+@media (max-width: 520px) {
+  .pf-phone-0 { display: none; }
+  .pf-phone { width: 50%; }
+  .pf-phone-1 { margin-left: 10%; }
+}
+
+/* Dribbble shot grid — rounded media tiles with captions below */
+.pf-work-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem 1.25rem;
+}
+@media (min-width: 560px) { .pf-work-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .pf-work-grid { grid-template-columns: repeat(3, 1fr); } }
+.pf-shot { display: grid; gap: 0.8rem; text-decoration: none; color: var(--pf-ink); }
+.pf-shot-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--pf-radius);
+  background: var(--pf-paper-alt);
+  border: 1px solid var(--pf-line);
+  transition: box-shadow 0.35s ease, transform 0.35s var(--pf-ease);
+}
+.pf-shot-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s var(--pf-ease);
+}
+.pf-shot:hover .pf-shot-media { transform: translateY(-3px); box-shadow: var(--pf-shadow); }
+.pf-shot:hover .pf-shot-media img { transform: scale(1.035); }
+.pf-shot-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.pf-shot-caption svg { color: var(--pf-ink-faint); transition: color 0.2s ease, transform 0.25s var(--pf-ease); }
+.pf-shot:hover .pf-shot-caption svg { color: var(--pf-pen); transform: translate(2px, -2px); }
+
+.pf-work-foot {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+.pf-work-foot-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+@keyframes shotReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.shot-new { animation: shotReveal 0.5s var(--pf-ease) both; }
+.shot-new:nth-child(6n+2) { animation-delay: 0.05s; }
+.shot-new:nth-child(6n+3) { animation-delay: 0.1s; }
+.shot-new:nth-child(6n+4) { animation-delay: 0.15s; }
+.shot-new:nth-child(6n+5) { animation-delay: 0.2s; }
+.shot-new:nth-child(6n)   { animation-delay: 0.25s; }
+
+/* ---------- About ---------- */
+.pf-about-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; }
+@media (min-width: 1024px) { .pf-about-grid { grid-template-columns: 5fr 6fr; gap: 6rem; } }
+.pf-about-copy p { font-size: 1rem; line-height: 1.8; color: var(--pf-ink-soft); margin: 0 0 1.25rem; max-width: 60ch; }
+.pf-about-copy em { font-family: "Fraunces", Georgia, serif; font-style: italic; color: var(--pf-pen); }
+.pf-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+.pf-subhead {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--pf-ink-soft);
+  margin-bottom: 1rem;
+}
+.pf-xp { list-style: none; margin: 0; padding: 0; }
+.pf-xp li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25rem 1.5rem;
+  padding: 1.35rem 0;
+  border-top: 1px solid var(--pf-line);
+}
+.pf-xp li:last-child { border-bottom: 1px solid var(--pf-line); }
+.pf-xp h3 { font-size: 0.98rem; font-weight: 600; color: var(--pf-ink); margin: 0; }
+.pf-xp-period { font-size: 0.8rem; color: var(--pf-ink-soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pf-xp-company { grid-column: 1 / -1; font-size: 0.86rem; font-weight: 500; color: var(--pf-pen); text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem; width: fit-content; }
+a.pf-xp-company:hover { text-decoration: underline; text-underline-offset: 3px; }
+.pf-xp p { grid-column: 1 / -1; font-size: 0.88rem; line-height: 1.65; color: var(--pf-ink-soft); margin: 0.35rem 0 0; max-width: 60ch; }
+.pf-xp li.is-highlight h3::after {
+  content: "New";
+  margin-left: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  vertical-align: 0.15em;
+  color: var(--pf-pen);
+  background: var(--pf-pen-tint);
+  border-radius: 999px;
+  padding: 0.12rem 0.5rem;
+}
+.pf-edu { margin-top: 2.5rem; }
+.pf-edu a { font-size: 0.98rem; }
+.pf-edu p { font-size: 0.86rem; color: var(--pf-ink-soft); margin: 0.3rem 0 0; }
+
+/* ---------- Services: hairline 2x2 grid ---------- */
+.pf-services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--pf-line);
+  border: 1px solid var(--pf-line);
+  border-radius: calc(var(--pf-radius) + 8px);
+  overflow: hidden;
+}
+@media (min-width: 820px) { .pf-services-grid { grid-template-columns: 1fr 1fr; } }
+.pf-service {
+  background: var(--pf-paper-alt);
+  padding: clamp(1.75rem, 3.5vw, 2.75rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: background-color 0.3s ease;
+}
+.pf-service:hover { background: var(--pf-surface); }
+.pf-service h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: var(--pf-ink);
+}
+.pf-service-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--pf-pen);
+  background: var(--pf-pen-tint);
+  transition: transform 0.4s var(--pf-ease);
+}
+.pf-service:hover .pf-service-icon { transform: rotate(-8deg) scale(1.06); }
+.pf-service p { font-size: 0.94rem; line-height: 1.7; color: var(--pf-ink-soft); margin: 0; max-width: 46ch; }
+.pf-service .pf-tags { margin-top: auto; padding-top: 0.5rem; }
+.pf-service:hover .pf-chip { border-color: var(--pf-line-strong); }
+
+/* ---------- Credibility: stat band + quote ---------- */
+.pf-cred-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem 2rem;
+  padding-bottom: clamp(4rem, 8vw, 6rem);
+  margin-bottom: clamp(4rem, 8vw, 6rem);
+  border-bottom: 1px solid var(--pf-line);
+}
+@media (min-width: 1024px) { .pf-cred-grid { grid-template-columns: repeat(4, 1fr); } }
+.pf-stat-value {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: var(--pf-ink);
+  font-variant-numeric: tabular-nums;
+}
+.pf-stat-label { font-size: 0.9rem; line-height: 1.5; color: var(--pf-ink-soft); margin-top: 0.75rem; max-width: 22ch; }
+/* Full-width statement: large enough to span the container in 2-3
+   balanced lines instead of a narrow column with empty space beside it. */
+.pf-quote { margin: 0; }
+.pf-quote p {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-size: clamp(2rem, 5.2vw, 4.4rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--pf-ink);
+  margin: 0;
+  text-wrap: balance;
+  padding-bottom: 0.1em;
+}
+.pf-quote p::before { content: "\201C"; color: var(--pf-pen); }
+.pf-quote p::after { content: "\201D"; color: var(--pf-pen); }
+
+/* ---------- Contact ---------- */
+.pf-contact-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; }
+@media (min-width: 1024px) { .pf-contact-grid { grid-template-columns: 1fr 1.25fr; gap: 6rem; } }
+.pf-contact-links { display: grid; gap: 0.25rem; margin-top: 2.5rem; }
+.pf-contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: fit-content;
+  font-size: 0.95rem;
+  color: var(--pf-ink-soft);
+  text-decoration: none;
+  padding: 0.45rem 0;
+  transition: color 0.2s ease;
+}
+.pf-contact-links a svg { color: var(--pf-pen); transition: transform 0.25s var(--pf-ease); }
+.pf-contact-links a:hover { color: var(--pf-ink); }
+.pf-contact-links a:hover svg { transform: translateX(3px); }
+.pf-form-card {
+  background: var(--pf-surface);
+  border: 1px solid var(--pf-line);
+  border-radius: calc(var(--pf-radius) + 8px);
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+}
+.pf-form { display: flex; flex-direction: column; gap: 1.75rem; }
+.pf-form-row { display: grid; grid-template-columns: 1fr; gap: 1.75rem; }
+@media (min-width: 560px) { .pf-form-row { grid-template-columns: 1fr 1fr; } }
+.pf-field { position: relative; }
+.pf-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--pf-line-strong);
+  border-radius: 0;
+  padding: 0.7rem 0.1rem;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 1rem;
+  color: var(--pf-ink);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.pf .pf-input:focus-visible { outline: none; }
+.pf-input:focus { border-bottom-color: var(--pf-pen); box-shadow: 0 1px 0 0 var(--pf-pen); }
+.pf-input::placeholder { color: var(--pf-ink-faint); }
+.pf-input.pf-invalid { border-bottom-color: var(--pf-stamp); }
+select.pf-input { appearance: none; cursor: pointer; padding-right: 1.5rem; }
+select.pf-input option { background: var(--pf-surface); color: var(--pf-ink); }
+.pf-select-wrap { position: relative; }
+.pf-select-wrap svg { position: absolute; right: 0.1rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--pf-ink-soft); }
+.pf-error { font-size: 0.78rem; color: var(--pf-stamp); margin: 0.4rem 0 0; }
+.pf-help { font-size: 0.78rem; color: var(--pf-ink-soft); margin: 0.4rem 0 0; }
+.pf-form-done { display: grid; gap: 0.75rem; justify-items: start; padding: 1rem 0; }
+.pf-form-done h3 { font-family: "Fraunces", Georgia, serif; font-size: 1.6rem; font-weight: 500; margin: 0; color: var(--pf-ink); }
+.pf-form-done p { margin: 0; color: var(--pf-ink-soft); }
+
+/* ---------- Footer (always dark) ---------- */
+.pf-footer { background: var(--pf-footer); color: #F4F4F1; }
+.pf-footer-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; padding: 5rem 0 3.5rem; }
+@media (min-width: 768px) { .pf-footer-grid { grid-template-columns: 1.6fr 1fr 1fr; gap: 2rem; } }
+.pf-footer-label { display: block; margin-bottom: 1.25rem; font-size: 0.78rem; font-weight: 600; color: rgba(244, 244, 241, 0.55); }
+.pf-footer-links { display: flex; flex-direction: column; gap: 0.85rem; }
+.pf-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: fit-content;
+  font-size: 0.9rem;
+  color: rgba(244, 244, 241, 0.62);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.pf-footer-link:hover { color: #F4F4F1; }
+.pf-footer-blurb { font-size: 0.9rem; color: rgba(244, 244, 241, 0.62); line-height: 1.7; margin: 1rem 0 1.5rem; max-width: 34ch; }
+.pf-footer-hello {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #F4F4F1;
+  text-decoration: none;
+}
+.pf-footer-hello svg { color: #8A9CFF; transition: transform 0.25s var(--pf-ease); }
+.pf-footer-hello:hover svg { transform: translateX(3px); }
+.pf-footer-bar {
+  border-top: 1px solid rgba(244, 244, 241, 0.12);
+  padding: 1.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: rgba(244, 244, 241, 0.55);
+}
+.pf-footer-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: rgba(244, 244, 241, 0.62);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.pf-footer-top:hover { color: #F4F4F1; }
+
+/* ---------- Scroll progress + rail ---------- */
+/* Pure CSS scroll-driven progress bar where supported; hidden elsewhere
+   (it's decoration, so no JS scroll listener fallback). */
+.pf-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background: var(--pf-pen);
+  z-index: 200;
+  transform-origin: left;
+  transform: scaleX(0);
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .pf-progress-bar {
+      display: block;
+      animation: pfProgress linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+@keyframes pfProgress { to { transform: scaleX(1); } }
+
+.pf-rail {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 90;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.9rem;
+}
+@media (min-width: 1280px) { .pf-rail { display: flex; } }
+.pf-rail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.2rem 0;
+}
+.pf-rail-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--pf-ink);
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+.pf-rail-item:hover .pf-rail-label,
+.pf-rail-item.is-active .pf-rail-label { opacity: 1; transform: translateX(0); }
+.pf-rail-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pf-line-strong);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.pf-rail-item:hover .pf-rail-dot { background: var(--pf-ink); }
+.pf-rail-item.is-active .pf-rail-dot { background: var(--pf-pen); transform: scale(1.5); }
+
+/* Word rotator (hero headline) */
+.pf-rotator {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  transition: width 0.4s var(--pf-ease);
+}
+.pf-rotator-word {
+  display: inline-block;
+  white-space: nowrap;
+  color: var(--pf-pen);
+  transition: opacity 0.2s ease;
+}
+
+/* Scrollbar, themed */
+.pf { scrollbar-color: var(--pf-line-strong) transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pen-underline path { transition: none; stroke-dashoffset: 0; }
+  .pf-rotator, .pf-rotator-word { transition: none; }
+  .pf-phone, .pf-shot-media, .pf-shot-media img, .pf-service-icon { transition: none; }
+  .pf-nav-sheet, .shot-new { animation: none; }
+}
+
+/* ==========================================================================
+   MOTION LAYER — each effect has one job; all collapse under reduced motion.
+   ========================================================================== */
+
+.pf-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Anchor jumps glide, and land below the fixed nav instead of under it. */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.pf) { scroll-behavior: smooth; }
+}
+.pf section[id] { scroll-margin-top: 72px; }
+.pf #hero { scroll-margin-top: 0; }
+
+/* Hero word swap: the old word lifts and blurs away, the new one rises in. */
+.pf-rotator-word {
+  transition: opacity 0.26s ease, transform 0.42s var(--pf-ease), filter 0.32s ease;
+}
+.pf-rotator-word.is-out { opacity: 0; transform: translateY(-0.18em); filter: blur(6px); }
+.pf-rotator-word.is-in { opacity: 0; transform: translateY(0.22em); filter: blur(6px); transition: none; }
+
+/* Section headings rise out of a mask as their section reveals (hierarchy:
+   the heading lands first, the content follows in the stagger). */
+.js .pf-h2.fade-up {
+  clip-path: inset(0 0 100% 0);
+  transition: opacity 0.7s var(--pf-ease), transform 0.9s var(--pf-ease), clip-path 0.9s var(--pf-ease);
+}
+.js .pf-h2.fade-up.visible { clip-path: inset(-20% -5% -25% -5%); }
+
+/* Dribbble tiles: image settles from a slight zoom as the tile reveals. */
+.js .pf-shot.fade-up .pf-shot-media img { transition: transform 1.1s var(--pf-ease); }
+.js .pf-shot.fade-up:not(.visible) .pf-shot-media img { transform: scale(1.08); }
+
+/* "Live now" carries a real status, so it gets the one pulsing dot. */
+.pf-status-pill.is-live { display: inline-flex; align-items: center; gap: 0.4rem; }
+.pf-status-pill.is-live::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0 rgba(61, 213, 152, 0.6);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pf-status-pill.is-live::before { animation: pfPulse 2.2s ease-out infinite; }
+}
+@keyframes pfPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(61, 213, 152, 0.55); }
+  70%  { box-shadow: 0 0 0 7px rgba(61, 213, 152, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(61, 213, 152, 0); }
+}
+
+/* Scroll-driven (CSS view timelines, no JS): the Tucked phones rise into the
+   card as it scrolls up, and the pull quote inks in word by word. Browsers
+   without support simply show the finished state. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .pf-feature { view-timeline-name: --tucked; }
+    .pf-phone img { will-change: transform; }
+    .pf-feature-stage {
+      animation: pfStageRise linear both;
+      animation-timeline: --tucked;
+      animation-range: entry 0% cover 45%;
+    }
+
+    .pf-quote { view-timeline-name: --quote; }
+    .pf-quote-word {
+      animation: pfInk linear both;
+      animation-timeline: --quote;
+      animation-range: entry calc(10% + var(--i) * 4%) cover calc(22% + var(--i) * 2%);
+    }
+  }
+}
+@keyframes pfStageRise {
+  from { transform: translateY(70px); opacity: 0.4; }
+  to   { transform: none; opacity: 1; }
+}
+/* Blur-to-sharp only, at full ink colour: an opacity fade would leave the
+   not-yet-inked words failing contrast checks (and readers) mid-scroll. */
+@keyframes pfInk {
+  from { filter: blur(5px); }
+  to   { filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .pf-rotator-word, .pf-rotator-word.is-out, .pf-rotator-word.is-in { transition: none; opacity: 1; transform: none; filter: none; }
+  .js .pf-h2.fade-up { clip-path: none; }
+  .js .pf-shot.fade-up:not(.visible) .pf-shot-media img { transform: none; }
+}

@@ -18,7 +18,11 @@ let html = await readFile(indexHtml, "utf8");
 if (!html.includes('<div id="root"></div>')) {
   throw new Error('prerender.mjs: expected `<div id="root"></div>` in dist/index.html — check the build output shape before editing this script.');
 }
-html = html.replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`);
+// The email_off markers tell Cloudflare's Email Address Obfuscation to leave
+// this markup alone. Without them it rewrites every address into an encoded
+// span plus a decoder script, so the HTML React hydrates no longer matches
+// what it rendered (React error #418, logged on every page load).
+html = html.replace('<div id="root"></div>', `<!--email_off--><div id="root">${appHtml}</div><!--/email_off-->`);
 
 // Inline the built CSS (small — a single ~20KB stylesheet shared by every
 // route) so the browser never blocks first paint on fetching it separately.

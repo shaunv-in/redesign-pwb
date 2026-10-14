@@ -4,6 +4,9 @@
    design system used across the rest of the site.
    ========================================================================== */
 
+// Full app stylesheet (Tailwind + shadcn tokens + rental/admin classes).
+// Loaded with this lazy route only; the home page ships portfolio.css alone.
+import "@/index.css";
 import { useEffect, useRef, useState } from "react";
 import { RENTAL_DOCS_BUCKET, supabase } from "@/lib/supabaseClient";
 import { loadLegacyFonts } from "@/lib/legacyFonts";

@@ -1,3 +1,6 @@
+// Full app stylesheet (Tailwind + shadcn tokens + rental/admin classes).
+// Loaded with this lazy route only; the home page ships portfolio.css alone.
+import "@/index.css";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircle, Home } from "lucide-react";

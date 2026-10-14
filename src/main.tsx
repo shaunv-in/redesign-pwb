@@ -1,7 +1,7 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App";
 import { loadAnalytics } from "./lib/analytics";
-import "./index.css";
+import "./portfolio.css";
 
 const root = document.getElementById("root")!;
 

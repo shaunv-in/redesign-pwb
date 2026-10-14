@@ -1,0 +1,19 @@
+{
+  "specVersion": "1.0",
+  "entries": [
+    {
+      "identifier": "urn:air:shaunvincent.net:portfolio:shaun-vincent-profile",
+      "displayName": "Shaun Vincent: Portfolio Guide for AI Agents",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://shaunvincent.net/llms.txt",
+      "description": "Markdown summary of Shaun Vincent, a Winnipeg-based UI/UX and visual designer and founder of Tucked: services, selected work, experience, profiles, and how to get in touch.",
+      "tags": ["portfolio", "ui-ux-design", "branding", "marketing", "tucked"],
+      "representativeQueries": [
+        "who is Shaun Vincent and what does he design",
+        "how do I hire Shaun Vincent for a UI/UX or branding project",
+        "what is Tucked, the budget app Shaun Vincent founded"
+      ],
+      "updatedAt": "2026-10-14T00:00:00Z"
+    }
+  ]
+}
