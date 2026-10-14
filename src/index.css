@@ -734,19 +734,21 @@ select.form-input option {
   color: var(--pf-ink);
   margin: 0 0 3rem;
 }
+/* Description and its actions form one group on the leading edge, in
+   reading order (HIG: leading alignment, group related items), instead of
+   splitting the buttons off to the far right. */
 .pf-hero-row {
   margin-bottom: 4rem;
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 2rem;
 }
 .pf-hero-sub {
   font-size: 1.05rem;
   line-height: 1.7;
   color: var(--pf-ink-soft);
-  max-width: 34ch;
+  max-width: 38ch;
   margin: 0;
   text-wrap: pretty;
 }
