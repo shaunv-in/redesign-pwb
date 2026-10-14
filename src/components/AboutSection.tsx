@@ -16,11 +16,11 @@ type Experience = {
 
 const experience: Experience[] = [
   {
-    role: "Founder, Designer & Developer",
+    role: "Founder",
     company: "Tucked",
     companyUrl: "https://tucked.ca",
     period: "Current",
-    desc: "A free, private budget app made in Canada. I designed and built it end to end. The web app is live now, with a native iPhone app coming soon.",
+    desc: "A free, private budget app made in Canada. The web app is live now, with a native iPhone app coming soon.",
     highlight: true,
   },
   {
@@ -92,8 +92,7 @@ export default function AboutSection() {
                 <a href="https://tucked.ca" target="_blank" rel="noopener noreferrer" className="pf-link">
                   Tucked
                 </a>
-                , a calm, private budget app I designed and built myself. The web app is live, and the iPhone app is
-                on the way.
+                , a calm, private budget app. The web app is live, and the iPhone app is on the way.
               </p>
               <p>
                 My background combines design, economics (

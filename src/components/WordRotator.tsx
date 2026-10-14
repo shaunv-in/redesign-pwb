@@ -35,7 +35,9 @@ export default function WordRotator({
   className?: string;
 }) {
   const [index, setIndex] = useState(0);
-  const [fading, setFading] = useState(false);
+  // idle -> out (old word lifts + blurs away) -> in (new word placed below,
+  // no transition) -> idle (new word settles up into place).
+  const [phase, setPhase] = useState<"idle" | "out" | "in">("idle");
   const [widths, setWidths] = useState<number[] | null>(null);
   const measureRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const widestWord = words.reduce((a, b) => (b.length > a.length ? b : a), words[0] ?? "");
@@ -64,14 +66,22 @@ export default function WordRotator({
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timers: number[] = [];
     const id = setInterval(() => {
-      setFading(true);
-      setTimeout(() => {
-        setIndex((i) => (i + 1) % words.length);
-        setFading(false);
-      }, 200);
+      setPhase("out");
+      timers.push(
+        window.setTimeout(() => {
+          setIndex((i) => (i + 1) % words.length);
+          setPhase("in");
+          // Two frames so the "in" start position paints before settling.
+          requestAnimationFrame(() => requestAnimationFrame(() => setPhase("idle")));
+        }, 260)
+      );
     }, interval);
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      timers.forEach(clearTimeout);
+    };
   }, [words, interval]);
 
   const width = widths?.[index];
@@ -102,7 +112,7 @@ export default function WordRotator({
             className="pf-rotator"
             style={width != null ? { width } : undefined}
           >
-            <span className={`pf-rotator-word ${className ?? ""}`} style={{ opacity: fading ? 0 : 1 }}>
+            <span className={`pf-rotator-word ${className ?? ""}${phase !== "idle" ? ` is-${phase}` : ""}`}>
               {words[index]}
             </span>
           </span>

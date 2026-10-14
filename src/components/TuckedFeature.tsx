@@ -19,7 +19,6 @@ export default function TuckedFeature() {
       <div className="pf-feature-copy">
         <div className="pf-feature-brand">
           <img src="/work/tucked/tucked-logo-on-dark.svg" alt="Tucked" width={91} height={30} />
-          <span className="pf-feature-role">Founder, designer & developer</span>
         </div>
 
         <h3 id="tucked-title" className="pf-feature-title">
@@ -27,8 +26,8 @@ export default function TuckedFeature() {
         </h3>
 
         <p className="pf-feature-body">
-          I designed and built Tucked end to end. It shows what's left this month, which bills and paydays are coming,
-          and how savings are tracking. Free, no ads, made in Canada.
+          See what's left this month, which bills and paydays are coming, and how your savings are tracking. Free, no
+          ads, made in Canada.
         </p>
 
         <ul className="pf-feature-status">
