@@ -409,7 +409,7 @@ html.vfull .top{display:none}
       <article class="chapter" data-i="5">
         <span class="k">05 · First floor · <span id="ch-ff">950</span> sq.ft</span>
         <h2>Upstairs</h2>
-        <p>Two matching bedrooms of about 17.5 m², each with a bath, a 55-inch TV and an L-shaped corner balcony. The theatre is gone: its corner is now open space, kept clear.</p>
+        <p>Two bedroom suites upstairs: Bedroom 3 (about 21 m²) in front and Bedroom 4 (about 18 m²) at the back, each with a walk-in closet that leads through to its own bath, a 55-inch TV and a balcony. The theatre is gone; the landing stays open.</p>
       </article>
       <article class="chapter" data-i="6">
         <span class="k">06 · The roof works</span>
@@ -496,6 +496,9 @@ html.vfull .top{display:none}
         <button type="button" data-v="in" aria-label="Zoom in" title="Zoom in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <button type="button" data-v="out" aria-label="Zoom out" title="Zoom out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
         <button type="button" data-v="floors" aria-label="Floors: whole house. Press to show the first floor." title="Floors"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="l3" d="M12 3l8 4-8 4-8-4z"/><path class="l2" d="M4 11.5l8 4 8-4"/><path class="l1" d="M4 16l8 4 8-4"/></svg></button>
+        <button type="button" data-v="layout" aria-pressed="false" aria-label="Layout view: off. Press to see the ground floor with the lid off." title="Layout view (lid off)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 12h8M12 4v16M12 15h8"/></svg></button>
+        <button type="button" data-v="furn" aria-pressed="true" aria-label="Furniture shown. Press to hide it." title="Furniture on / off"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12V7a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v5"/><path d="M3 12h18v5H3z"/><path d="M5 17v3M19 17v3"/></svg></button>
+        <button type="button" data-v="sun" aria-pressed="false" aria-label="Lighting: sunlit. Press for flat light without shadows." title="Flat light (no sun, no shadows)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8a4 4 0 1 0 0-8z"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></button>
         <button type="button" data-v="play" aria-label="Show both cars backing out through the gate" title="Show the cars backing out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg></button>
         <button type="button" data-v="reset" aria-label="Reset view" title="Reset view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5"/></svg></button>
         <button type="button" data-v="full" aria-label="Full screen" title="Full screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="ex" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
@@ -537,7 +540,7 @@ html.vfull .top{display:none}
           <div>Beds with the head to the east</div><div>All four beds have their headboard on the east wall</div>
           <div>At least a queen bed in every bedroom</div><div>Queen beds in Bedrooms 2, 3 and 4, and a king in the master</div>
           <div>Ground-floor master with a courtyard on its wall, in the style of your reel</div><div>A 3 m timber-framed glass door with sheer curtains opens to a private courtyard running to the boundary walls. It has grass-jointed stone pavers, an exposed brick wall and a split-stone wall, an open black steel grid overhead with fine bars above the walls, a wooden swing on rods, two rattan armchairs and big-leaf plants. The north courtyard gets the same floor, walls and grid.</div>
-          <div>Two matching bedrooms upstairs, both with balconies and 55-inch TVs</div><div>Bedrooms 3 and 4 are about 17.5 m² each, with a bath, wardrobe and a 55-inch TV facing the bed. Bedroom 3's balcony is a straight 4.4 m × 1 m strip standing out of the front of the house, with a glass door beside the TV; Bedroom 4's is cut into its corner, because balconies can't project into the side or back yards.</div>
+          <div>Two bedroom suites upstairs, each with a walk-in closet, bath, balcony and 55-inch TV</div><div>Bedroom 3 is about 21 m² and Bedroom 4 about 18 m². Behind each bed's head wall comes a walk-in closet and then the bath, so the beds sit on a clear wall facing the TV. Bedroom 3's balcony is a straight 4.4 m × 1 m strip standing out of the front of the house, reached by a wider glass door at the end of the TV wall; Bedroom 4's is cut into its corner, because balconies can't project into the side or back yards. Bedroom 4's closet and bath take the east end of the old open space.</div>
           <div>No theatre; open space upstairs with no sofa</div><div>The theatre is removed. Its corner and the landing form one clear open space, and the rest went into the two bedrooms.</div>
           <div>650 L fridge</div><div>A side-by-side fridge, 0.92 × 0.74 m, in the kitchen beside the pantry</div>
           <div>Courtyards and the garden under the stair, without glass</div><div>The stair garden opens through a steel grille to a north courtyard that runs to the boundary wall</div>
@@ -564,7 +567,7 @@ html.vfull .top{display:none}
       <div class="code">S-01<b>Site</b></div>
       <div class="body">
         <h2>The plot and what it's like</h2>
-        <figure class="dollhouse" style="margin:0 0 14px"><img id="plan-photo" src="renders/plan_gf.jpg" alt="The ground floor seen from above with the roof and first floor removed" style="width:100%;border-radius:10px;display:block" loading="lazy"><figcaption style="font-size:.85rem;opacity:.75;margin-top:6px">Lid-off view of the floor chosen above, rendered from the same model as the drawing.</figcaption></figure>
+        <figure class="dollhouse" style="margin:0 0 14px"><div class="tabs" role="group" aria-label="Lighting of the lid-off view" style="margin-bottom:8px"><button class="chip" data-light="sun" aria-pressed="true">Sunlit</button><button class="chip" data-light="flat" aria-pressed="false">Flat light, no shadows</button></div><img id="plan-photo" src="renders/plan_gf.jpg" alt="The ground floor seen from above with the roof and first floor removed" style="width:100%;border-radius:10px;display:block" loading="lazy"><figcaption style="font-size:.85rem;opacity:.75;margin-top:6px">Lid-off view of the floor chosen above, rendered from the same model as the drawing. Flat light takes the sun and its shadows away so every room reads clearly.</figcaption></figure>
         <div class="drawing">
           <svg id="siteplan" role="img" aria-label="Site plan showing the plot, setbacks, house, gates, cars and roads"></svg>
           <div class="drawing-cap"><span>Site plan · north to the left · lane at the bottom</span><span id="site-cap"></span></div>
@@ -656,7 +659,7 @@ html.vfull .top{display:none}
           <div class="tactic"><h3>Courtyards in the yards</h3><p>The side and back yards become two private courtyards and a utility yard with the well, instead of leftover strips.</p><span class="m">≈ 30 m² of usable outdoor space</span></div>
           <div class="tactic"><h3>Height instead of area</h3><p>The sunken living rises to the roof. The study gallery upstairs looks into it, and the tall west window gets a jaali screen.</p><span class="m">Double height over 10 m²</span></div>
           <div class="tactic"><h3>Every corner used</h3><p>Study desk in the gallery, bookshelves along the upstairs passage, a wash alcove by the dining, and a work area behind the kitchen.</p><span class="m">No dead corridors</span></div>
-          <div class="tactic"><h3>Bedrooms over balconies</h3><p>Bedroom 3's balcony stands out over the front path, so the room keeps its full width.</p><span class="m">≈ 17.5 m² per bedroom</span></div>
+          <div class="tactic"><h3>Bedrooms over balconies</h3><p>Bedroom 3's balcony stands out over the front path, so the room keeps its full width.</p><span class="m">≈ 21 m² and 18 m²</span></div>
           <div class="tactic"><h3>Roof as a room</h3><p>The raised solar frame shades the roof, which gives you a sheltered space to dry clothes and somewhere to sit at dusk.</p><span class="m">≈ 60 m² of usable roof</span></div>
           <div class="tactic"><h3>Storage built in</h3><p>A walk-in for the master, full wardrobes in every bedroom, a pantry, the laundry and the closet under the stair.</p><span class="m">≈ 12 m of full-height storage</span></div>
       </div>
@@ -820,7 +823,7 @@ const GF_SLAB = [[3.6, 5.8], [6.6, 5.8], [6.6, 4], [9, 4], [9, YB], [X145, YB], 
 const FF_SLAB = [[3.6, 4], [4.6, 4], [4.6, 3.0], [9, 3.0], [9, YB], [X145, YB], [X106, 10.6], [-0.2, 10.6], [-0.2, 10.1], [1.8, 10.1], [1.8, 7], [3.6, 7]];
 const ROOF_HOLE = [[X7, 7], [1.8, 7], [1.8, 10.6], [X106, 10.6]];
 const SLOT = [[X7, 7], [-0.2, 7], [-0.2, 10.6], [X106, 10.6]];
-const OPEN_FF = [[1.8, 7], [3.6, 7], [3.6, 4], [4.6, 4], [4.6, 10.2], [4.0, 10.2], [4.0, YB], [X145, YB], [X106, 10.6], [1.8, 10.6]];
+const OPEN_FF = [[1.8, 7], [3.6, 7], [3.6, 4], [4.6, 4], [4.6, 10.5], [3.6, 10.5], [3.6, 12.6], [-0.6, 12.6], [-0.6, YB], [X145, YB], [X106, 10.6], [1.8, 10.6]];
 // open-to-sky courtyards that run to the boundary walls, the well, septic tank and soak pit, the curved corner gate
 const COURT_M = [[9, 10.6], [11, 10.6], [11, 16], [5.6, 16], [5.6, YB], [9, YB]];
 const COURT_N = [[PX(7), 7], [X7, 7], [X106, 10.6], [PX(10.6), 10.6]];
@@ -858,17 +861,19 @@ const ROOMS = [
   { id: 'stair2', lvl: 'ff', name: 'Stair to roof', kind: 'circ', poly: R4(-0.2, 7, 1.8, 10.1) },
   { id: 'landing', lvl: 'ff', name: 'Landing', kind: 'circ', poly: R4(-0.2, 10.1, 1.8, 10.6) },
   { id: 'open', lvl: 'ff', name: 'Open space', kind: 'circ', poly: OPEN_FF, lp: [1.4, 12.6], note: 'kept clear' },
-  { id: 'bed3', lvl: 'ff', name: 'Bedroom 3', kind: 'bed', poly: R4(4.6, 4, 9, 8.3), lp: [6.6, 6.0] },
+  { id: 'bed3', lvl: 'ff', name: 'Bedroom 3', kind: 'bed', poly: R4(4.6, 4, 9, 8.8), lp: [6.6, 6.0] },
   { id: 'balc3', lvl: 'ff', name: 'Balcony', kind: 'out', poly: R4(4.6, 3, 9, 4), lp: [6.8, 3.5] },
-  { id: 'bath3', lvl: 'ff', name: 'Bath 3', kind: 'wet', poly: R4(6.9, 8.3, 9, 10.2) },
-  { id: 'bath4', lvl: 'ff', name: 'Bath 4', kind: 'wet', poly: R4(4.6, 8.3, 6.9, 10.2) },
-  { id: 'bed4', lvl: 'ff', name: 'Bedroom 4', kind: 'bed', poly: [[4.0, 10.2], [9, 10.2], [9, 12], [8, 12], [8, 13.5], [6.6, 13.5], [6.6, YB], [4.0, YB]], lp: [5.6, 11.6] },
+  { id: 'walkin3', lvl: 'ff', name: 'Walk-in 3', kind: 'serv', poly: R4(4.6, 8.8, 6.9, 10.5) },
+  { id: 'bath3', lvl: 'ff', name: 'Bath 3', kind: 'wet', poly: R4(6.9, 8.8, 9, 10.5) },
+  { id: 'walkin4', lvl: 'ff', name: 'Walk-in 4', kind: 'serv', poly: R4(1.5, 12.6, 3.6, YB) },
+  { id: 'bath4', lvl: 'ff', name: 'Bath 4', kind: 'wet', poly: R4(-0.6, 12.6, 1.5, YB) },
+  { id: 'bed4', lvl: 'ff', name: 'Bedroom 4', kind: 'bed', poly: [[3.6, 10.5], [9, 10.5], [9, 12], [8, 12], [8, 13.5], [6.6, 13.5], [6.6, YB], [3.6, YB]], lp: [5.6, 11.6] },
   { id: 'balc4', lvl: 'ff', name: 'Balcony', kind: 'out', poly: [[8, 12], [9, 12], [9, YB], [6.6, YB], [6.6, 13.5], [8, 13.5]], lp: [8.2, 14.0] },
 ];
 ROOMS.forEach(r => { r.area = area(r.poly); r.c = r.lp || centroid(r.poly); });
 const RA = id => ROOMS.find(r => r.id === id).area;
 const GF_BU = area(GF_OUT);
-const FF_KEYS = ['open', 'stair2', 'landing', 'bed3', 'bath3', 'bath4', 'bed4'];
+const FF_KEYS = ['open', 'stair2', 'landing', 'bed3', 'walkin3', 'bath3', 'bed4', 'walkin4', 'bath4'];
 const FF_BU = FF_KEYS.reduce((s, k) => s + RA(k), 0);
 const TOTAL = GF_BU + FF_BU, PLOT_A = area(PLOT);
 
@@ -901,23 +906,26 @@ const WALLS = [
   // first floor — outside walls (the front leg of Bedroom 3's L balcony stands 1 m out of the house)
   { l: F, a: [X4, 4], b: [3.6, 4], al: 'l', ops: [{ at: .15, w: 2.8, sill: 0, head: 2.75, t: 'glass' }] },
   { l: F, a: [3.6, 4], b: [4.6, 4], al: 'l', ops: [{ at: .15, w: .7, sill: .9, head: 2.4, t: 'win' }] },
-  { l: F, a: [4.6, 4], b: [9, 4], al: 'l', ops: [{ at: 2.8, w: 1.2, sill: 0, head: 2.4, t: 'glass', door: true }] },   // TV wall; glass door to the front balcony right of the TV
-  { l: F, a: [9, 4], b: [9, 12], al: 'l', ops: [{ at: 2.1, w: 1.4, sill: .9, head: 2.3, t: 'win' }, { at: 4.7, w: .7, sill: 1.6, head: 2.3, t: 'win' }, { at: 7.0, w: .9, sill: .9, head: 2.3, t: 'win' }] },
+  { l: F, a: [4.6, 4], b: [9, 4], al: 'l', ops: [{ at: .25, w: 1.3, sill: 0, head: 2.4, t: 'glass', door: true }] },   // TV wall; glass door to the front balcony right of the TV
+  { l: F, a: [9, 4], b: [9, 12], al: 'l', ops: [{ at: 2.1, w: 1.4, sill: .9, head: 2.3, t: 'win' }, { at: 4.9, w: .7, sill: 1.6, head: 2.3, t: 'win' }, { at: 7.0, w: .9, sill: .9, head: 2.3, t: 'win' }] },
   { l: F, a: [9, 12], b: [8.0, 12], al: 'l', ops: [], accent: true },
   { l: F, a: [8.0, 12], b: [8.0, 13.5], al: 'l', ops: [{ at: .15, w: 1.2, sill: 0, head: 2.4, t: 'glass', door: true }] },
   { l: F, a: [8.0, 13.5], b: [6.6, 13.5], al: 'l', ops: [{ at: .2, w: 1.0, sill: .9, head: 2.4, t: 'win' }] },
   { l: F, a: [6.6, 13.5], b: [6.6, YB], al: 'l', ops: [], accent: true },
-  { l: F, a: [6.6, YB], b: [X145, YB], al: 'l', ops: [{ at: .3, w: 2.0, sill: 1.75, head: 2.4, t: 'win' }, { at: 3.2, w: 1.6, sill: .9, head: 2.4, t: 'win' }, { at: 5.6, w: 1.6, sill: .9, head: 2.4, t: 'win' }] },
+  { l: F, a: [6.6, YB], b: [X145, YB], al: 'l', ops: [{ at: .3, w: 2.0, sill: 1.75, head: 2.4, t: 'win' }, { at: 3.2, w: 1.6, sill: 1.75, head: 2.4, t: 'win' }, { at: 5.6, w: 1.2, sill: 1.5, head: 2.4, t: 'win' }] },
   { l: F, a: [X145, YB], b: [X106, 10.6], al: 'l', ops: [{ at: .9, w: 1.6, sill: .9, head: 2.4, t: 'win' }] },
   { l: F, a: [X106, 10.6], b: [X7, 7], al: 'l', ops: [{ at: .05, w: Math.hypot(X7 - X106, 3.6) - .1, sill: 0, head: 3.15, t: 'jaali' }] },
   { l: F, a: [X7, 7], b: [X4, 4], al: 'l', ops: [{ at: .25, w: Math.hypot(X4 - X7, 3) - .5, sill: .3, head: 2.7, t: 'glass' }] },
   // first floor — inside
-  { l: F, a: [4.6, 4], b: [4.6, 8.3], t: .12, ops: [{ at: 2.3, w: .8, sill: 0, head: 2.4, t: 'open', sw: 'r' }] },
-  { l: F, a: [4.6, 8.3], b: [9, 8.3], t: .12, ops: [{ at: 3.5, w: .75, sill: 0, head: 2.4, t: 'open' }] },
-  { l: F, a: [6.9, 8.3], b: [6.9, 10.2], t: .12, ops: [] },
-  { l: F, a: [4.6, 8.3], b: [4.6, 10.2], t: .12, ops: [] },
-  { l: F, a: [4.0, 10.2], b: [9, 10.2], t: .12, ops: [{ at: 2.1, w: .75, sill: 0, head: 2.4, t: 'open', sw: 'r' }] },
-  { l: F, a: [4.0, 10.2], b: [4.0, YB], t: .12, ops: [{ at: 1.2, w: .8, sill: 0, head: 2.4, t: 'open', sw: 'r' }] },
+  { l: F, a: [4.6, 4], b: [4.6, 8.8], t: .12, ops: [{ at: 2.3, w: .8, sill: 0, head: 2.4, t: 'open', sw: 'r' }] },
+  { l: F, a: [4.6, 8.8], b: [9, 8.8], t: .12, ops: [{ at: .4, w: .8, sill: 0, head: 2.4, t: 'open' }] },        // Bedroom 3 → walk-in 3
+  { l: F, a: [6.9, 8.8], b: [6.9, 10.5], t: .12, ops: [{ at: .15, w: .75, sill: 0, head: 2.4, t: 'open' }] },    // walk-in 3 → bath 3
+  { l: F, a: [4.6, 8.8], b: [4.6, 10.5], t: .12, ops: [] },
+  { l: F, a: [3.6, 10.5], b: [9, 10.5], t: .12, ops: [{ at: .15, w: .8, sill: 0, head: 2.4, t: 'open', sw: 'r' }] },   // landing → Bedroom 4
+  { l: F, a: [3.6, 10.5], b: [3.6, YB], t: .12, ops: [{ at: 2.4, w: .8, sill: 0, head: 2.4, t: 'open', sw: 'r' }] },   // Bedroom 4 → walk-in 4
+  { l: F, a: [-0.6, 12.6], b: [3.6, 12.6], t: .12, ops: [] },
+  { l: F, a: [1.5, 12.6], b: [1.5, YB], t: .12, ops: [{ at: .5, w: .75, sill: 0, head: 2.4, t: 'open' }] },      // walk-in 4 → bath 4
+  { l: F, a: [-0.6, 12.6], b: [-0.6, YB], t: .12, ops: [] },
 ];
 const RAILS = [[[1.8, 7], [3.6, 7], 'glass'], [[3.6, 4.05], [3.6, 7], 'glass'], [[4.62, 3.05], [8.95, 3.05]], [[8.95, 3.05], [8.95, 4]], [[4.62, 3.05], [4.62, 4]], [[8.95, 12], [8.95, YB - .05]], [[6.6, YB - .05], [8.95, YB - .05]]];     // first floor
 const GF_RAILS = [[[3.6, 5.85], [3.6, 6.3]]];
@@ -951,15 +959,17 @@ const FURN = [
   { t: 'counter', l: G, r: [3.65, 12.5, 4.15, 13.7] }, { t: 'wc', l: G, r: [5.0, 12.0, 5.55, 12.5] }, { t: 'glass', l: G, r: [4.4, 13.36, 5.55, 13.39], nop: true },
   { t: 'bed', l: G, r: [6.25, 12.3, 8.2, 14.45], b: 'y1', king: true }, { t: 'box', l: G, r: [5.75, 13.95, 6.2, 14.4], h: .5, m: 'timber' }, { t: 'box', l: G, r: [8.25, 13.95, 8.7, 14.4], h: .5, m: 'timber' },
   { t: 'chair', l: G, r: [8.05, 10.85, 8.8, 11.6], b: 'x1' }, { t: 'box', l: G, r: [6.95, 10.65, 7.85, 11.05], h: .75, m: 'timber' },
-  // first floor: the open space stays clear. Bedroom 3 (queen, head east, 55" TV on the west wall) + bath 3 + L balcony standing out to the west
-  { t: 'bed', l: F, r: [5.47, 6.2, 7.12, 8.28], b: 'y1' }, { t: 'box', l: F, r: [7.17, 7.85, 7.6, 8.27], h: .5, m: 'timber' }, { t: 'box', l: F, r: [5.0, 7.85, 5.42, 8.27], h: .5, m: 'timber' },
-  { t: 'wardrobe', l: F, r: [4.62, 4.1, 5.2, 6.0] }, { t: 'box', l: F, r: [5.4, 4.05, 6.95, 4.45], h: .45, m: 'timber' }, { t: 'tv', l: F, r: [5.68, 4.02, 6.91, 4.06], wall: 'y0' },
-  { t: 'counter', l: F, r: [6.95, 8.4, 7.45, 9.3] }, { t: 'wc', l: F, r: [6.95, 9.6, 7.5, 10.15] }, { t: 'glass', l: F, r: [8.0, 9.17, 9.0, 9.2], nop: true }, { t: 'glass', l: F, r: [7.97, 9.2, 8.0, 10.15], nop: true },
-  { t: 'chair', l: F, r: [5.8, 3.12, 6.5, 3.82], b: 'y1' }, { t: 'chair', l: F, r: [6.6, 3.12, 7.3, 3.82], b: 'y1' }, { t: 'box', l: F, r: [4.7, 3.12, 5.6, 3.4], h: .45, m: 'planter' }, { t: 'box', l: F, r: [8.65, 3.1, 8.92, 3.9], h: .45, m: 'planter' }, { t: 'box', l: F, r: [8.6, 4.15, 8.92, 5.4], h: .5, m: 'planter' },
-  // Bedroom 4 (matching size; queen, head east, 55" TV on the west wall) + bath 4 + L balcony cut into the corner
-  { t: 'bed', l: F, r: [4.47, 12.35, 6.12, 14.45], b: 'y1' }, { t: 'box', l: F, r: [4.05, 13.98, 4.42, 14.4], h: .5, m: 'timber' }, { t: 'box', l: F, r: [6.17, 13.98, 6.55, 14.4], h: .5, m: 'timber' },
-  { t: 'wardrobe', l: F, r: [6.9, 10.25, 8.95, 10.85] }, { t: 'box', l: F, r: [4.45, 10.27, 5.95, 10.6], h: .45, m: 'timber' }, { t: 'tv', l: F, r: [4.69, 10.26, 5.92, 10.3], wall: 'y0' },
-  { t: 'counter', l: F, r: [4.65, 9.2, 5.15, 10.1] }, { t: 'wc', l: F, r: [4.65, 8.4, 5.2, 8.9] }, { t: 'glass', l: F, r: [5.6, 9.2, 6.9, 9.23], nop: true },
+  // first floor: Bedroom 3 (queen on the east wall, 55" TV on the west wall) → walk-in 3 → bath 3; straight balcony standing out to the west
+  { t: 'bed', l: F, r: [6.0, 6.7, 7.65, 8.78], b: 'y1' }, { t: 'box', l: F, r: [7.7, 8.35, 8.13, 8.77], h: .5, m: 'timber' }, { t: 'box', l: F, r: [5.52, 8.35, 5.95, 8.77], h: .5, m: 'timber' },
+  { t: 'box', l: F, r: [6.1, 4.05, 7.95, 4.45], h: .45, m: 'timber' }, { t: 'tv', l: F, r: [6.4, 4.02, 7.65, 4.06], wall: 'y0' }, { t: 'chair', l: F, r: [8.2, 4.5, 8.9, 5.2], b: 'x1' }, { t: 'box', l: F, r: [8.6, 5.4, 8.92, 6.5], h: .5, m: 'planter' },
+  { t: 'wardrobe', l: F, r: [4.62, 9.9, 6.85, 10.48] },
+  { t: 'wc', l: F, r: [7.0, 9.85, 7.55, 10.4] }, { t: 'counter', l: F, r: [8.0, 8.85, 8.95, 9.35] }, { t: 'glass', l: F, r: [8.0, 9.45, 8.03, 10.45], nop: true }, { t: 'glass', l: F, r: [8.0, 9.45, 9.0, 9.48], nop: true },
+  { t: 'chair', l: F, r: [7.0, 3.12, 7.7, 3.82], b: 'y1' }, { t: 'chair', l: F, r: [7.8, 3.12, 8.5, 3.82], b: 'y1' }, { t: 'box', l: F, r: [6.3, 3.1, 6.8, 3.4], h: .45, m: 'planter' }, { t: 'box', l: F, r: [8.6, 3.1, 8.92, 3.9], h: .45, m: 'planter' },
+  // Bedroom 4 (queen on the east wall, 55" TV on the north wall) → walk-in 4 → bath 4 at the east end of the old open space; L balcony cut into the corner
+  { t: 'bed', l: F, r: [4.5, 12.4, 6.15, 14.48], b: 'y1' }, { t: 'box', l: F, r: [4.02, 14.02, 4.44, 14.44], h: .5, m: 'timber' }, { t: 'box', l: F, r: [6.2, 14.02, 6.62, 14.44], h: .5, m: 'timber' },
+  { t: 'box', l: F, r: [4.7, 10.55, 6.25, 10.95], h: .45, m: 'timber' }, { t: 'tv', l: F, r: [4.85, 10.52, 6.1, 10.56], wall: 'y0' }, { t: 'chair', l: F, r: [7.2, 10.7, 7.9, 11.4], b: 'y0' },
+  { t: 'wardrobe', l: F, r: [1.55, 13.9, 3.55, 14.48] }, { t: 'box', l: F, r: [2.2, 12.65, 3.0, 13.0], h: 2.0, m: 'shelf' },
+  { t: 'wc', l: F, r: [-0.5, 12.65, 0.05, 13.2] }, { t: 'counter', l: F, r: [-0.55, 13.3, -0.05, 13.85] }, { t: 'glass', l: F, r: [-0.55, 13.9, 1.45, 13.93], nop: true },
   { t: 'chair', l: F, r: [8.1, 12.2, 8.8, 12.9], b: 'x1' }, { t: 'chair', l: F, r: [7.0, 13.65, 7.7, 14.35], b: 'y1' }, { t: 'box', l: F, r: [8.6, 13.1, 8.92, 14.4], h: .5, m: 'planter' },
 ];
 const CARS = [
@@ -1029,11 +1039,11 @@ const SVC = [
   ['fan', G, 7.2, 12.4], ['lt', G, 6.2, 11.4], ['lt', G, 8.4, 11.4], ['ac', G, 5.65, 13.2], ['sw', G, 6.0, 10.65], ['s6', G, 5.75, 14.45], ['s6', G, 8.7, 14.45], ['s16', G, 5.65, 12.6], ['s6', G, 8.95, 11.0],
   ['ev', G, 8.6, 3.95], ['s6', G, 6.2, 3.95],
   // first floor: open space, two bedrooms with TVs, two baths
-  ['lt', F, 4.1, 5.5], ['fan', F, 3.0, 8.8], ['lt', F, 2.6, 8.0], ['lt', F, 3.6, 9.6], ['lt', F, 1.2, 12.0], ['lt', F, 2.6, 13.4], ['fan', F, 1.4, 12.6], ['ap', F, 3.0, 11.0], ['s6', F, 1.95, 9.0], ['s6', F, 3.95, 12.6], ['s6', F, 0.0, YB - .05], ['sw', F, 1.95, 10.45], ['sw', F, 3.95, 11.0],
+  ['lt', F, 4.1, 5.5], ['fan', F, 3.0, 8.8], ['lt', F, 2.6, 8.0], ['lt', F, 3.6, 9.6], ['lt', F, 1.2, 12.0], ['lt', F, 2.6, 11.6], ['fan', F, 0.5, 11.6], ['ap', F, 3.0, 11.0], ['s6', F, 1.95, 9.0], ['s6', F, 3.95, 12.6], ['s6', F, 0.0, YB - .05], ['sw', F, 1.95, 10.45], ['sw', F, 3.4, 10.7],
   ['fan', F, 6.3, 6.0], ['lt', F, 5.3, 5.0], ['lt', F, 7.4, 6.8], ['ac', F, 6.3, 4.05], ['tv', F, 6.3, 4.1], ['s6', F, 5.2, 8.25], ['s6', F, 7.4, 8.25], ['s16', F, 4.65, 4.5], ['sw', F, 4.65, 7.2], ['lt', F, 8.4, 3.6],
-  ['lt', F, 7.9, 9.2], ['exh', F, 8.95, 9.7], ['gey', F, 6.95, 9.4], ['s6', F, 6.95, 8.5], ['sw', F, 7.9, 8.35],
-  ['lt', F, 5.7, 9.2], ['exh', F, 6.85, 8.6], ['gey', F, 4.65, 9.0], ['s6', F, 4.65, 10.0], ['sw', F, 6.5, 10.15],
-  ['fan', F, 5.3, 12.4], ['lt', F, 5.0, 11.3], ['lt', F, 7.4, 11.3], ['ac', F, 5.3, 10.25], ['tv', F, 5.3, 10.3], ['s6', F, 4.1, 14.45], ['s6', F, 6.5, 14.45], ['s16', F, 7.95, 11.0], ['sw', F, 4.05, 12.4], ['lt', F, 7.6, 14.0],
+  ['lt', F, 7.95, 9.65], ['exh', F, 8.95, 10.0], ['gey', F, 6.95, 10.3], ['s6', F, 8.3, 8.85], ['sw', F, 7.0, 9.75],
+  ['lt', F, 5.75, 9.65], ['sw', F, 5.9, 8.85], ['lt', F, 2.55, 13.55], ['sw', F, 3.45, 13.3], ['lt', F, 0.45, 13.55], ['exh', F, -0.55, 14.2], ['gey', F, 1.4, 14.3], ['s6', F, -0.55, 13.3], ['sw', F, 1.4, 13.0],
+  ['fan', F, 5.3, 12.4], ['lt', F, 5.0, 11.3], ['lt', F, 7.4, 11.3], ['ac', F, 5.3, 10.55], ['tv', F, 5.45, 10.6], ['s6', F, 4.1, 14.45], ['s6', F, 6.5, 14.45], ['s16', F, 7.95, 11.0], ['sw', F, 3.7, 10.8], ['lt', F, 7.6, 14.0],
   // roof and outside: tank, arrester, ODUs, panels, pump at the well, gate motor; CCTV on all four sides, the gate and the roof
   ['tank', 'rf', 0.8, 8.8], ['la', 'rf', 0.8, 10.2], ['lt', 'rf', 1.9, 10.4], ['acu', 'rf', 2.6, 14.0], ['acu', 'rf', 3.6, 14.0], ['acu', 'rf', 4.6, 14.0], ['acu', 'rf', 5.6, 14.0], ['acu', 'rf', 6.6, 14.0],
   ...PV.map(([x, y]) => ['pv', 'rf', x + .56, y + 1.14]),
@@ -1187,7 +1197,9 @@ function drawPlan(lvl) {
   $('#plan-cap').textContent = lvl === 'gf' ? `Ground floor · FFL +0.60 · ${fmt0(GF_BU * SQFT)} sq.ft built-up` : lvl === 'ff' ? `First floor · FFL +3.90 · ${fmt0(FF_BU * SQFT)} sq.ft built-up` : 'Roof · +7.30 · stair cabin to +9.75';
   $('#plan-code').firstChild.textContent = { gf: 'A-101', ff: 'A-102', rf: 'A-103' }[lvl];
 }
-document.querySelectorAll('[data-plan]').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('[data-plan]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); drawPlan(b.dataset.plan); const pp = document.getElementById('plan-photo'); if (pp) pp.src = { gf: 'renders/plan_gf.jpg', ff: 'renders/plan_ff.jpg', rf: 'renders/roof.jpg' }[b.dataset.plan]; }));
+const planPhoto = () => { const pp = document.getElementById('plan-photo'); if (!pp) return; const f = planPhoto.floor || 'gf'; pp.src = f === 'rf' ? 'renders/roof.jpg' : `renders/plan_${f}${planPhoto.flat ? '_flat' : ''}.jpg`; };
+document.querySelectorAll('[data-light]').forEach(b => b.addEventListener('click', () => { planPhoto.flat = b.dataset.light === 'flat'; document.querySelectorAll('[data-light]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); planPhoto(); }));
+document.querySelectorAll('[data-plan]').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('[data-plan]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); drawPlan(b.dataset.plan); planPhoto.floor = b.dataset.plan; planPhoto(); }));
 $('#svc-toggle').addEventListener('change', e => { svcOn = e.target.checked; drawPlan(curPlan); });
 drawPlan('gf');
 { // services legend + schedule
@@ -1235,7 +1247,7 @@ const MOVES = [
   { t: 'A 12 m gate, tested', d: 'Telescopic leaves open 6.6 m of the lane frontage and a curved run wraps the corner. Both cars were simulated backing out with 15 cm to spare. The traced outlines on the site plan are those paths.', o: { house: false, hi: (s, f) => el('polyline', { points: f.pts(GATE_LINE), class: 'pl-hi', style: 'fill:none;stroke-width:5' }, s) } },
   { t: 'Kitchen and well to the north-east', d: 'The kitchen takes the back north corner with north and east windows. The well sits just outside in the corner of the plot.', o: { cars: false, hi: (s, f) => { el('polygon', { points: f.pts(ROOMS.find(r => r.id === 'kitchen').poly), class: 'pl-hi' }, s); el('circle', { cx: f.X(WELL.c[0]), cy: f.Y(WELL.c[1]), r: WELL.r * f.S, class: 'pl-hi' }, s); } } },
   { t: 'Courtyards to the boundary', d: 'The stair garden opens to a north courtyard, and the master bedroom to its own courtyard. Both run to raised boundary walls and stay open to the sky.', o: { cars: false, hi: (s, f) => [COURT_M, COURT_N].forEach(p => el('polygon', { points: f.pts(p), class: 'pl-hi' }, s)) } },
-  { t: 'Two matching rooms upstairs', d: 'With the theatre gone, Bedrooms 3 and 4 are about 18 m² each, with a bath, a 55-inch TV and a balcony: a straight one out front for Bedroom 3, a corner one for Bedroom 4.', o: { cars: false, hi: (s, f) => ['bed3', 'balc3', 'bed4', 'balc4'].forEach(id => el('polygon', { points: f.pts(ROOMS.find(r => r.id === id).poly), class: 'pl-hi' }, s)) } },
+  { t: 'Two matching rooms upstairs', d: 'With the theatre gone, each room upstairs is a suite: Bedroom 3 (about 21 m²) and Bedroom 4 (about 18 m²), each with a walk-in closet leading through to its bath, a 55-inch TV and a balcony: a straight one out front for Bedroom 3, a corner one for Bedroom 4.', o: { cars: false, hi: (s, f) => ['bed3', 'walkin3', 'bath3', 'balc3', 'bed4', 'walkin4', 'bath4', 'balc4'].forEach(id => el('polygon', { points: f.pts(ROOMS.find(r => r.id === id).poly), class: 'pl-hi' }, s)) } },
 ];
 { const box = $('#moves'); MOVES.forEach(m => { const card = document.createElement('div'); card.className = 'move'; const svg = el('svg', { role: 'img', 'aria-label': m.t }); card.append(svg); const tx = document.createElement('div'); tx.innerHTML = `<h3>${m.t}</h3><p>${m.d}</p>`; card.append(tx); box.append(card); sitePlan(svg, { ...m.o, mini: true, S: 12 }); }); }
 
@@ -1265,7 +1277,7 @@ $('#rules-body').innerHTML = RULES.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[
 
 /* area schedule */
 {
-  const order = ['sunken', 'foyer', 'sitout', 'dining', 'garden', 'closet', 'kitchen', 'work', 'wash', 'powder', 'bed2', 'bath2', 'master', 'walkin', 'mbath', 'open', 'bed3', 'bath3', 'bed4', 'bath4', 'stair2', 'landing'];
+  const order = ['sunken', 'foyer', 'sitout', 'dining', 'garden', 'closet', 'kitchen', 'work', 'wash', 'powder', 'bed2', 'bath2', 'master', 'walkin', 'mbath', 'open', 'bed3', 'walkin3', 'bath3', 'bed4', 'walkin4', 'bath4', 'stair2', 'landing'];
   const rows = order.map(id => ROOMS.find(r => r.id === id)).map(r => `<tr><td>${r.name}</td><td>${r.lvl === 'gf' ? 'Ground' : 'First'}</td><td class="n">${fmt(r.area)}</td><td class="n">${fmt0(r.area * SQFT)}</td></tr>`);
   $('#schedule tbody').innerHTML = rows.join('') +
     `<tr class="sum"><td>Ground floor built-up</td><td>excl. porch</td><td class="n">${fmt(GF_BU)}</td><td class="n">${fmt0(GF_BU * SQFT)}</td></tr>` +
@@ -1285,8 +1297,8 @@ const CARDS = [
   ['gf', 'Bedroom 2', 'bed2', 'Queen bed with the head to the east, a full wardrobe and its own bath at the front. The wash basin and powder room sit just outside.', 'bed2'],
   ['gf', 'Master bedroom and courtyard', 'master', 'King bed with the head to the east, a walk-in and bath. A 3 m timber-framed glass door with sheer curtains opens to the courtyard from your reel: grass-jointed stone, a brick wall and a split-stone wall, an open steel grid overhead, a wooden swing and rattan chairs.', 'master'],
   ['ff', 'Open space', 'open', 'The old theatre corner and the landing become one open space looking over the double-height living room, kept clear with no sofa or TV.', 'lounge'],
-  ['ff', 'Bedroom 3', 'bed3', 'Front corner, about 17.5 m². Queen bed with the head to the east, a 55-inch TV facing it, a wardrobe and its own bath. A straight balcony, 4.4 m long and 1 m deep, stands out of the front of the house, reached by a glass door beside the TV. Two chairs and planters at each end.', 'bed3'],
-  ['ff', 'Bedroom 4', 'bed4', 'Back corner, matching Bedroom 3 at about 17.5 m², with a queen bed facing a 55-inch TV, a wardrobe and its own bath. Its L-shaped balcony is cut into the corner because the side and back yards can\'t take a projecting one.', 'bed4'],
+  ['ff', 'Bedroom 3', 'bed3', 'Front corner, about 21 m². Queen bed on the east wall with a 55-inch TV facing it across the room; behind the head wall a walk-in closet (2.3 × 1.7 m) leads through to Bath 3. A straight balcony, 4.4 m long and 1 m deep, stands out of the front of the house, reached by a 1.3 m glass door at the end of the TV wall, with two chairs and planters.', 'bed3'],
+  ['ff', 'Bedroom 4', 'bed4', 'Back corner, about 18 m², with a queen bed on the east wall facing a 55-inch TV. Its walk-in closet (2.1 × 1.9 m) and Bath 4 take the east end of the old open space, in the same bed → closet → bath sequence. The L-shaped balcony is cut into the corner because the side and back yards can\'t take a projecting one.', 'bed4'],
   ['ff', 'Roof', 'stair2', 'The stair continues to a cabin with the 2,000 L tank on top. About 8.8 kW of solar sits on a raised frame, with shaded space underneath.', 'roof'],
   ['gf', 'Parking and gates', 'sitout', 'The Audi Q5 and the black Thar Roxx park nose to tail in the 4 m front strip. They sit under a wood-lined canopy with a backlit screen at the north end, and the sit-out is recessed into the house beside the door, out of their way. A 12 m gate opens most of the lane frontage and wraps the corner. Both cars were simulated backing out with room to spare, and the play button in the viewer shows how. A wicket door between the cars is the walk-in gate. EV charger on the front wall.', 'gates'],
 ];
@@ -1893,7 +1905,9 @@ function sunPos(utcMs) {
 }
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const bg = new THREE.Color(); let sunSig = '';
+let flatLight = false;   // viewer toggle: no sun, no shadows, even light
 function setSun(month, hour) {
+  setSun.last = [month, hour];
   const { alt, az } = sunPos(Date.UTC(2026, month - 1, 21, 0, 0) + (hour - 5.5) * 3600e3);
   const e = Math.sin(az * D2R), n = Math.cos(az * D2R), ca = Math.cos(alt * D2R), yb = Y_BEARING * D2R, xb = (Y_BEARING + 90) * D2R;
   const dir = new THREE.Vector3((e * Math.sin(xb) + n * Math.cos(xb)) * ca, Math.sin(alt * D2R), -(e * Math.sin(yb) + n * Math.cos(yb)) * ca).normalize();
@@ -1903,6 +1917,7 @@ function setSun(month, hour) {
   sun.intensity = 3.0 * THREE.MathUtils.smoothstep(alt, 0, 14);
   sun.color.setHSL(.09, .7, .52 + .38 * THREE.MathUtils.smoothstep(alt, 2, 30));
   hemi.intensity = .06 + .3 * day; renderer.toneMappingExposure = .38 + .34 * day;
+  if (flatLight) { sun.intensity = 0; hemi.intensity = .95; renderer.toneMappingExposure = .72; }
   sky.visible = day > .02; scene.background = bg.setHSL(.6, .35, .05 + .1 * day);
   scene.fog.color.setHSL(.4, .08, .1 + .7 * day);
   if (envRT) envRT.dispose(); envRT = pmrem.fromScene(envScene, 0, .1, 2000); scene.environment = day > .02 ? envRT.texture : null;
@@ -1989,14 +2004,14 @@ function updateLayers(dt) {
   if (Math.abs(roofT - lift.roof) < 1e-3) lift.roof = roofT; if (Math.abs(ffT - lift.ff) < 1e-3) lift.ff = ffT;
   groups.roof.position.y = lift.roof * 9; groups.roof.visible = lift.roof < .97 && sh('roof');
   groups.ff.position.y = lift.ff * 9; groups.ff.visible = lift.ff < .97 && sh('ff');
-  cut.constant = lift.ff > .02 ? THREE.MathUtils.lerp(LV.gfTop + .05, LV.gf + 1.55, THREE.MathUtils.smoothstep(lift.ff, .3, 1)) : 100;
+  cut.constant = lift.ff > .02 ? THREE.MathUtils.lerp(LV.gfTop + .05, LV.gf + 1.55, THREE.MathUtils.smoothstep(lift.ff, .3, 1)) : (view.on && view.layout === 'ff' && lift.roof > .97 ? LV.ff + 1.55 : 100);
   gtao.enabled = cut.constant > 50 && !isCoarse && !(view.on && view.mode === 'walk');
   groups.furnGF.visible = groups.furnFF.visible = (state.explore ? state.furn : true) && sh('furniture');
   groups.wallsGF.visible = groups.wallsFF.visible = sh('walls'); groups.cars.visible = sh('cars'); groups.boundary.visible = sh('boundary');
   roomLabels.ff.forEach(o => o.visible = lab === 1 && groups.ff.visible); roomLabels.gf.forEach(o => o.visible = lab === 2);
   groups.setbacks.visible = set > .5; setbackLabels.forEach(o => o.visible = set > .5);
   groups.context.visible = (state.explore ? state.ctx : true) && sh('neighbours'); groups.trees.visible = (state.explore ? state.ctx : true) && sh('trees');
-  return [lift.roof.toFixed(3), lift.ff.toFixed(3), lab, set > .5, state.furn, state.ctx, view.on ? Object.values(view.show).join('') : ''].join(',');
+  return [lift.roof.toFixed(3), lift.ff.toFixed(3), lab, set > .5, state.furn, state.ctx, view.layout || '', view.on ? Object.values(view.show).join('') : ''].join(',');
 }
 const clock = new THREE.Clock(); let stageVisible = true, activeCh = -1, lastSig = '', size = '';
 new IntersectionObserver(es => es.forEach(e => stageVisible = e.isIntersecting), { rootMargin: '100px' }).observe(story);
@@ -2178,6 +2193,17 @@ function setFloors(level) {
   b.setAttribute('aria-label', `Floors: ${FLOOR_TXT[level]}. Press to show the ${FLOOR_TXT[next]}.`); b.title = `Floors: ${FLOOR_TXT[level]}`;
   b.querySelector('.l3').classList.toggle('off', level !== 'all'); b.querySelector('.l2').classList.toggle('off', level === 'gf');
 }
+const LAYOUT_TXT = { off: 'off', gf: 'ground floor, lid off', ff: 'first floor, lid off' };
+function setLayout() {
+  const b = vbox.querySelector('[data-v=layout]'), L = view.layout || 'off', nxt = { off: 'gf', gf: 'ff', ff: 'off' }[L];
+  b.setAttribute('aria-pressed', String(L !== 'off')); b.title = `Layout view: ${LAYOUT_TXT[L]}`; b.setAttribute('aria-label', `Layout view: ${LAYOUT_TXT[L]}. Press for ${LAYOUT_TXT[nxt]}.`);
+  const from = { p: camera.position.clone(), t: controls.target.clone() };
+  if (L === 'off') { setFloors('all'); view.tween = { from, to: VHOME, t0: performance.now(), dur: reduce ? 1 : 900 }; lastSig = ''; return; }
+  if (view.mode !== 'model') setViewMode('model');
+  setFloors(L);
+  const h = L === 'gf' ? LV.gf : LV.ff;   // high over the house, a little to the south, so the mouse can orbit from there
+  view.tween = { from, to: { pos: new THREE.Vector3(...V(10.5, 9.2, h + 19)), tgt: new THREE.Vector3(...V(5.2, 9.2, h + .8)) }, t0: performance.now(), dur: reduce ? 1 : 900 }; lastSig = '';
+}
 function setFull(on) {
   view.full = on; view.active = on; vbox.classList.toggle('full', on); document.documentElement.classList.toggle('vfull', on);
   const b = vbox.querySelector('[data-v=full]'); b.setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen'); b.title = on ? 'Exit full screen' : 'Full screen';
@@ -2193,6 +2219,9 @@ vbox.querySelector('.vtools').addEventListener('click', e => {
   else if (a === 'reset' && view.mode === 'tour') { tour.yaw = 0; tour.pitch = 0; tourCam.fov = 75; tourCam.updateProjectionMatrix(); lastSig = ''; }
   else if (a === 'reset' && view.mode === 'walk') { Object.assign(walk, { x: 6.0, y: -2.0, z: 0, yaw: 0, pitch: .28, face: 0 }); lastSig = ''; }
   else if (a === 'reset') view.tween = { from: { p: camera.position.clone(), t: controls.target.clone() }, to: VHOME, t0: performance.now(), dur: reduce ? 1 : 900 };
+  else if (a === 'sun') { flatLight = !flatLight; b.setAttribute('aria-pressed', String(flatLight)); b.setAttribute('aria-label', flatLight ? 'Lighting: flat, no sun. Press for sunlight.' : 'Lighting: sunlit. Press for flat light without shadows.'); setSun(...setSun.last); lastSig = ''; }
+  else if (a === 'layout') { const seq = ['off', 'gf', 'ff']; view.layout = seq[(seq.indexOf(view.layout || 'off') + 1) % 3]; setLayout(); }
+  else if (a === 'furn') { vbox.querySelector('[data-k=furniture]').click(); b.setAttribute('aria-pressed', String(view.show.furniture)); b.setAttribute('aria-label', view.show.furniture ? 'Furniture shown. Press to hide it.' : 'Furniture hidden. Press to show it.'); }
   else if (a === 'full') setFull(!view.full);
   else if (a === 'play') playExit();
 });
