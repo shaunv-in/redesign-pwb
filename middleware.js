@@ -8,11 +8,12 @@ const token = () => sha(SALT + HASH + 'cookie');
 const page = (bad, next) => new Response(LOGIN_HTML.replace('%BAD%', bad ? '' : 'hidden').replace('%NEXT%', next.replace(/"/g, '')), { status: bad ? 401 : 200, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } });
 export default async function middleware(req) {
   const url = new URL(req.url), cookie = req.headers.get('cookie') || '', tk = await token();
+  if (url.pathname === '/house') return Response.redirect(new URL('/house/' + url.search, url.origin), 308);   // relative asset paths need the trailing slash
   const authed = cookie.split(';').some(c => c.trim() === COOKIE + '=' + tk);
   if (url.pathname.replace(/\/$/, '') === '/house/login') {
     if (req.method === 'POST') {
       const form = await req.formData(); const pw = String(form.get('password') || ''), next = String(form.get('next') || '/house/');
-      if (await sha(SALT + pw) === HASH) return new Response(null, { status: 303, headers: { Location: next.startsWith('/house') ? next : '/house/', 'Set-Cookie': `${COOKIE}=${tk}; Path=/house; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000` } });
+      if (await sha(SALT + pw) === HASH) return new Response(null, { status: 303, headers: { Location: next === '/house' ? '/house/' : next.startsWith('/house/') ? next : '/house/', 'Set-Cookie': `${COOKIE}=${tk}; Path=/house; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000` } });
       return page(true, next);
     }
     return page(false, url.searchParams.get('next') || '/house/');
