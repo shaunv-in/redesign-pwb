@@ -564,6 +564,7 @@ html.vfull .top{display:none}
       <div class="code">S-01<b>Site</b></div>
       <div class="body">
         <h2>The plot and what it's like</h2>
+        <figure class="dollhouse" style="margin:0 0 14px"><img id="plan-photo" src="renders/plan_gf.jpg" alt="The ground floor seen from above with the roof and first floor removed" style="width:100%;border-radius:10px;display:block" loading="lazy"><figcaption style="font-size:.85rem;opacity:.75;margin-top:6px">Lid-off view of the floor chosen above, rendered from the same model as the drawing.</figcaption></figure>
         <div class="drawing">
           <svg id="siteplan" role="img" aria-label="Site plan showing the plot, setbacks, house, gates, cars and roads"></svg>
           <div class="drawing-cap"><span>Site plan · north to the left · lane at the bottom</span><span id="site-cap"></span></div>
@@ -1186,7 +1187,7 @@ function drawPlan(lvl) {
   $('#plan-cap').textContent = lvl === 'gf' ? `Ground floor · FFL +0.60 · ${fmt0(GF_BU * SQFT)} sq.ft built-up` : lvl === 'ff' ? `First floor · FFL +3.90 · ${fmt0(FF_BU * SQFT)} sq.ft built-up` : 'Roof · +7.30 · stair cabin to +9.75';
   $('#plan-code').firstChild.textContent = { gf: 'A-101', ff: 'A-102', rf: 'A-103' }[lvl];
 }
-document.querySelectorAll('[data-plan]').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('[data-plan]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); drawPlan(b.dataset.plan); }));
+document.querySelectorAll('[data-plan]').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('[data-plan]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); drawPlan(b.dataset.plan); const pp = document.getElementById('plan-photo'); if (pp) pp.src = { gf: 'renders/plan_gf.jpg', ff: 'renders/plan_ff.jpg', rf: 'renders/roof.jpg' }[b.dataset.plan]; }));
 $('#svc-toggle').addEventListener('change', e => { svcOn = e.target.checked; drawPlan(curPlan); });
 drawPlan('gf');
 { // services legend + schedule
@@ -1336,6 +1337,8 @@ $('#inspo').innerHTML = INSPO.map(([t, d, links]) => `<div><h3>${t}</h3><p>${d}<
     ['lane', 'From the lane, 4:15 pm', 'The west front, the carport canopy, the corner gate, and Bedroom 3\'s balcony standing out above.'],
     ['parking', 'Carport and front porch', 'The Audi Q5 and the Thar Roxx nose to tail under the wood-lined canopy, with the porch deck alongside.'],
     ['aerial', 'From above the lane', 'The solar frame, stair cabin and tank, the two courtyards and the neighbourhood.'],
+    ['plan_gf', 'Ground floor, lid off', 'Roof and first floor lifted away: carport, sit-out, sunken living, dining, kitchen, the two courtyards, master and Bedroom 2.'],
+    ['plan_ff', 'First floor, lid off', 'Bedrooms 3 and 4 with their baths and balconies, the open space over the living, and the stair.'],
     ['back', 'From the north-east, 9 am', 'The kitchen corner with its north and east windows, the well, and the north courtyard wall.'],
     ['roof', 'The roof, 11 am', 'Sixteen panels on a steel frame, with shaded roof space underneath.'],
     ['courtyard', 'Master courtyard, 3:30 pm', 'Grass-jointed stone, the brick and split-stone walls, the open steel grid, the swing and rattan chairs, as in your reel.'],
