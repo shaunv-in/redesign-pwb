@@ -1,12 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/house",
-      "destination": "/house/index.html"
+      "source": "/home",
+      "destination": "/home/index.html"
     },
     {
-      "source": "/house/",
-      "destination": "/house/index.html"
+      "source": "/home/",
+      "destination": "/home/index.html"
     },
     {
       "source": "/(.*)",
@@ -42,7 +42,7 @@
       ]
     },
     {
-      "source": "/house/(renders|textures|models)/(.*)",
+      "source": "/home/(renders|textures|models)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
