@@ -540,7 +540,7 @@ html.vfull .top{display:none}
           <div>Beds with the head to the east</div><div>All four beds have their headboard on the east wall</div>
           <div>At least a queen bed in every bedroom</div><div>Queen beds in Bedrooms 2, 3 and 4, and a king in the master</div>
           <div>Ground-floor master with a courtyard on its wall, in the style of your reel</div><div>A 3 m timber-framed glass door with sheer curtains opens to a private courtyard running to the boundary walls. It has grass-jointed stone pavers, an exposed brick wall and a split-stone wall, an open black steel grid overhead with fine bars above the walls, a wooden swing on rods, two rattan armchairs and big-leaf plants. The north courtyard gets the same floor, walls and grid.</div>
-          <div>Two bedroom suites upstairs, each with a walk-in closet, bath, balcony and 55-inch TV</div><div>Bedroom 3 is about 21 m² and Bedroom 4 about 18 m². Behind each bed's head wall comes a walk-in closet and then the bath, so the beds sit on a clear wall facing the TV. Bedroom 3's balcony is a straight 4.4 m × 1 m strip standing out of the front of the house, reached by a wider glass door at the end of the TV wall; Bedroom 4's is cut into its corner, because balconies can't project into the side or back yards. Bedroom 4's closet and bath take the east end of the old open space.</div>
+          <div>Two bedroom suites upstairs, each with a walk-in closet, bath, balcony and 55-inch TV</div><div>Bedroom 3 is about 21 m² and Bedroom 4 about 18 m². Behind each bed's head wall comes a walk-in closet and then the bath, so the beds sit on a clear wall facing the TV. Bedroom 3's balcony is an L, 1 m deep, wrapping the front and the road-side corner (both are road frontages on this corner plot, so it can stand out), reached by a wider glass door at the end of the TV wall; Bedroom 4's is cut into its corner, because balconies can't project into the side or back yards. Bedroom 4's closet and bath take the east end of the old open space, the bath running into the slanted corner with the shower there.</div>
           <div>No theatre; open space upstairs with no sofa</div><div>The theatre is removed. Its corner and the landing form one clear open space, and the rest went into the two bedrooms.</div>
           <div>650 L fridge</div><div>A side-by-side fridge, 0.92 × 0.74 m, in the kitchen beside the pantry</div>
           <div>Courtyards and the garden under the stair, without glass</div><div>The stair garden opens through a steel grille to a north courtyard that runs to the boundary wall</div>
@@ -820,13 +820,15 @@ const GF_OUT = [[X4, 4], [3.6, 4], [3.6, 5.8], [6.6, 5.8], [6.6, 4], [9, 4], [9,
 const SUNK = [[X4, 4], [3.6, 4], [3.6, 7], [X7, 7]];
 const GARDEN = [[X7, 7], [1.8, 7], [1.8, 8.1], [0.85, 8.1], [0.85, 10.6], [X106, 10.6]];
 const GF_SLAB = [[3.6, 5.8], [6.6, 5.8], [6.6, 4], [9, 4], [9, YB], [X145, YB], [X106, 10.6], [0.85, 10.6], [0.85, 8.1], [1.8, 8.1], [1.8, 7], [3.6, 7]];
-const FF_SLAB = [[3.6, 4], [4.6, 4], [4.6, 3.0], [9, 3.0], [9, YB], [X145, YB], [X106, 10.6], [-0.2, 10.6], [-0.2, 10.1], [1.8, 10.1], [1.8, 7], [3.6, 7]];
+const FF_SLAB = [[3.6, 4], [4.6, 4], [4.6, 3.0], [10, 3.0], [10, 6], [9, 6], [9, YB], [X145, YB], [X106, 10.6], [-0.2, 10.6], [-0.2, 10.1], [1.8, 10.1], [1.8, 7], [3.6, 7]];
 const ROOF_HOLE = [[X7, 7], [1.8, 7], [1.8, 10.6], [X106, 10.6]];
 const SLOT = [[X7, 7], [-0.2, 7], [-0.2, 10.6], [X106, 10.6]];
-const OPEN_FF = [[1.8, 7], [3.6, 7], [3.6, 4], [4.6, 4], [4.6, 10.5], [3.6, 10.5], [3.6, 12.6], [-0.6, 12.6], [-0.6, YB], [X145, YB], [X106, 10.6], [1.8, 10.6]];
+const XB4 = X106 + (X145 - X106) * (12.6 - 10.6) / 3.9;   // slanted north wall at y 12.6
+const OPEN_FF = [[1.8, 7], [3.6, 7], [3.6, 4], [4.6, 4], [4.6, 10.5], [3.6, 10.5], [3.6, 12.6], [XB4, 12.6], [X106, 10.6], [1.8, 10.6]];
 // open-to-sky courtyards that run to the boundary walls, the well, septic tank and soak pit, the curved corner gate
 const COURT_M = [[9, 10.6], [11, 10.6], [11, 16], [5.6, 16], [5.6, YB], [9, YB]];
-const COURT_N = [[PX(7), 7], [X7, 7], [X106, 10.6], [PX(10.6), 10.6]];
+const COURT_N = [[PX(4), 4], [X4, 4], [X145, YB], [PX(YB), YB]];                 // the whole slanted north strip, living glass to kitchen
+const COURT_S = [[9, 3], [11, 3], [11, 10.6], [9, 10.6]], COURT_E = [[X145, YB], [5.6, YB], [5.6, 16], [PX(16), 16]];   // south and east setback strips, paved
 const WELL = { c: [-3.25, 15.2], r: 0.7 }, SEPTIC = [[9.3, 5.6], [10.7, 5.6], [10.7, 8.0], [9.3, 8.0]], SOAK = { c: [10.0, 9.4], r: 0.55 };
 const PORCH = [], PORCH_PARTS = [];                                                                  // no deck in the parking strip: the sit-out sits inside the house line
 const PORCH_STEPS = [R4(4.0, 3.45, 5.2, 4.0), R4(4.0, 3.72, 5.2, 4.0)];                              // two steps (+0.15, +0.30) from the walk-in gate up to the sit-out   // long raised porch deck (+0.30) with steps at the walk-in gate and at the gate end
@@ -862,11 +864,11 @@ const ROOMS = [
   { id: 'landing', lvl: 'ff', name: 'Landing', kind: 'circ', poly: R4(-0.2, 10.1, 1.8, 10.6) },
   { id: 'open', lvl: 'ff', name: 'Open space', kind: 'circ', poly: OPEN_FF, lp: [1.4, 12.6], note: 'kept clear' },
   { id: 'bed3', lvl: 'ff', name: 'Bedroom 3', kind: 'bed', poly: R4(4.6, 4, 9, 8.8), lp: [6.6, 6.0] },
-  { id: 'balc3', lvl: 'ff', name: 'Balcony', kind: 'out', poly: R4(4.6, 3, 9, 4), lp: [6.8, 3.5] },
+  { id: 'balc3', lvl: 'ff', name: 'Balcony', kind: 'out', poly: [[4.6, 3], [10, 3], [10, 6], [9, 6], [9, 4], [4.6, 4]], lp: [6.8, 3.5] },
   { id: 'walkin3', lvl: 'ff', name: 'Walk-in 3', kind: 'serv', poly: R4(4.6, 8.8, 6.9, 10.5) },
   { id: 'bath3', lvl: 'ff', name: 'Bath 3', kind: 'wet', poly: R4(6.9, 8.8, 9, 10.5) },
   { id: 'walkin4', lvl: 'ff', name: 'Walk-in 4', kind: 'serv', poly: R4(1.5, 12.6, 3.6, YB) },
-  { id: 'bath4', lvl: 'ff', name: 'Bath 4', kind: 'wet', poly: R4(-0.6, 12.6, 1.5, YB) },
+  { id: 'bath4', lvl: 'ff', name: 'Bath 4', kind: 'wet', poly: [[1.5, 12.6], [1.5, YB], [X145, YB], [XB4, 12.6]] },
   { id: 'bed4', lvl: 'ff', name: 'Bedroom 4', kind: 'bed', poly: [[3.6, 10.5], [9, 10.5], [9, 12], [8, 12], [8, 13.5], [6.6, 13.5], [6.6, YB], [3.6, YB]], lp: [5.6, 11.6] },
   { id: 'balc4', lvl: 'ff', name: 'Balcony', kind: 'out', poly: [[8, 12], [9, 12], [9, YB], [6.6, YB], [6.6, 13.5], [8, 13.5]], lp: [8.2, 14.0] },
 ];
@@ -913,7 +915,7 @@ const WALLS = [
   { l: F, a: [8.0, 13.5], b: [6.6, 13.5], al: 'l', ops: [{ at: .2, w: 1.0, sill: .9, head: 2.4, t: 'win' }] },
   { l: F, a: [6.6, 13.5], b: [6.6, YB], al: 'l', ops: [], accent: true },
   { l: F, a: [6.6, YB], b: [X145, YB], al: 'l', ops: [{ at: .3, w: 2.0, sill: 1.75, head: 2.4, t: 'win' }, { at: 3.2, w: 1.6, sill: 1.75, head: 2.4, t: 'win' }, { at: 5.6, w: 1.2, sill: 1.5, head: 2.4, t: 'win' }] },
-  { l: F, a: [X145, YB], b: [X106, 10.6], al: 'l', ops: [{ at: .9, w: 1.6, sill: .9, head: 2.4, t: 'win' }] },
+  { l: F, a: [X145, YB], b: [X106, 10.6], al: 'l', ops: [{ at: .9, w: 1.6, sill: 1.5, head: 2.4, t: 'win' }] },
   { l: F, a: [X106, 10.6], b: [X7, 7], al: 'l', ops: [{ at: .05, w: Math.hypot(X7 - X106, 3.6) - .1, sill: 0, head: 3.15, t: 'jaali' }] },
   { l: F, a: [X7, 7], b: [X4, 4], al: 'l', ops: [{ at: .25, w: Math.hypot(X4 - X7, 3) - .5, sill: .3, head: 2.7, t: 'glass' }] },
   // first floor — inside
@@ -923,11 +925,10 @@ const WALLS = [
   { l: F, a: [4.6, 8.8], b: [4.6, 10.5], t: .12, ops: [] },
   { l: F, a: [3.6, 10.5], b: [9, 10.5], t: .12, ops: [{ at: .15, w: .8, sill: 0, head: 2.4, t: 'open', sw: 'r' }] },   // landing → Bedroom 4
   { l: F, a: [3.6, 10.5], b: [3.6, YB], t: .12, ops: [{ at: 2.4, w: .8, sill: 0, head: 2.4, t: 'open', sw: 'r' }] },   // Bedroom 4 → walk-in 4
-  { l: F, a: [-0.6, 12.6], b: [3.6, 12.6], t: .12, ops: [] },
+  { l: F, a: [XB4, 12.6], b: [3.6, 12.6], t: .12, ops: [] },
   { l: F, a: [1.5, 12.6], b: [1.5, YB], t: .12, ops: [{ at: .5, w: .75, sill: 0, head: 2.4, t: 'open' }] },      // walk-in 4 → bath 4
-  { l: F, a: [-0.6, 12.6], b: [-0.6, YB], t: .12, ops: [] },
 ];
-const RAILS = [[[1.8, 7], [3.6, 7], 'glass'], [[3.6, 4.05], [3.6, 7], 'glass'], [[4.62, 3.05], [8.95, 3.05]], [[8.95, 3.05], [8.95, 4]], [[4.62, 3.05], [4.62, 4]], [[8.95, 12], [8.95, YB - .05]], [[6.6, YB - .05], [8.95, YB - .05]]];     // first floor
+const RAILS = [[[1.8, 7], [3.6, 7], 'glass'], [[3.6, 4.05], [3.6, 7], 'glass'], [[4.62, 3.05], [9.95, 3.05]], [[9.95, 3.05], [9.95, 5.95]], [[9.95, 5.95], [9, 5.95]], [[4.62, 3.05], [4.62, 4]], [[8.95, 12], [8.95, YB - .05]], [[6.6, YB - .05], [8.95, YB - .05]]];     // first floor
 const GF_RAILS = [[[3.6, 5.85], [3.6, 6.3]]];
 const RISE = (LV.ff - LV.gf) / 18, RISE2 = (LV.roof - LV.ff) / 18;
 const STAIR = { x0: -0.2, x1: 1.8, y0: 7, y1: 10.1, land: 8.1 };   // flight 1 x 0.85–1.8 from y1 down to land; landing y0–land; flight 2 x −0.18–0.75 from land to y1
@@ -935,7 +936,7 @@ const STAIR = { x0: -0.2, x1: 1.8, y0: 7, y1: 10.1, land: 8.1 };   // flight 1 x
 // furniture (beige, clean): t type, l level ('gf' | 'ff' | 'pit'), r plan rect, b = side the back/headboard faces (x0|x1|y0|y1). Beds: queen 1.65 × 2.1 with frame, king 1.95 × 2.15.
 const FURN = [
   // sunken living: sofa facing the TV wall, coffee table, rug, bonsai on a stone plinth
-  { t: 'sofa', l: 'pit', r: [1.0, 4.4, 1.75, 6.45], b: 'x0' }, { t: 'table', l: 'pit', r: [1.95, 4.8, 2.75, 6.0], h: .36 }, { t: 'rug', l: 'pit', r: [0.95, 4.3, 3.35, 6.55] },
+  { t: 'sofa', l: 'pit', r: [0.7, 4.35, 1.6, 6.85], b: 'x0', rot: 15.06 }, { t: 'table', l: 'pit', r: [1.85, 5.15, 2.65, 6.35], h: .36 }, { t: 'rug', l: 'pit', r: [0.85, 4.45, 3.0, 6.75], rot: 15.06 },
   { t: 'chair', l: 'pit', r: [2.75, 6.0, 3.4, 6.55], b: 'y1' }, { t: 'box', l: 'pit', r: [3.4, 4.05, 3.52, 5.15], h: 1.6, m: 'tvwall' }, { t: 'box', l: 'pit', r: [2.95, 4.15, 3.45, 5.05], h: .42, m: 'timber' },
   { t: 'bonsai', l: 'pit', r: [2.25, 4.1, 2.75, 4.5] },
   // front porch: two chairs and a side table on the deck, a bench beside the door
@@ -969,7 +970,7 @@ const FURN = [
   { t: 'bed', l: F, r: [4.5, 12.4, 6.15, 14.48], b: 'y1' }, { t: 'box', l: F, r: [4.02, 14.02, 4.44, 14.44], h: .5, m: 'timber' }, { t: 'box', l: F, r: [6.2, 14.02, 6.62, 14.44], h: .5, m: 'timber' },
   { t: 'box', l: F, r: [4.7, 10.55, 6.25, 10.95], h: .45, m: 'timber' }, { t: 'tv', l: F, r: [4.85, 10.52, 6.1, 10.56], wall: 'y0' }, { t: 'chair', l: F, r: [7.2, 10.7, 7.9, 11.4], b: 'y0' },
   { t: 'wardrobe', l: F, r: [1.55, 13.9, 3.55, 14.48] }, { t: 'box', l: F, r: [2.2, 12.65, 3.0, 13.0], h: 2.0, m: 'shelf' },
-  { t: 'wc', l: F, r: [-0.5, 12.65, 0.05, 13.2] }, { t: 'counter', l: F, r: [-0.55, 13.3, -0.05, 13.85] }, { t: 'glass', l: F, r: [-0.55, 13.9, 1.45, 13.93], nop: true },
+  { t: 'wc', l: F, r: [0.4, 12.65, 0.95, 13.2] }, { t: 'counter', l: F, r: [-0.8, 12.65, 0.2, 13.15] }, { t: 'glass', l: F, r: [-0.6, 13.3, -0.57, 14.45], nop: true }, { t: 'glass', l: F, r: [-2.0, 13.3, -0.6, 13.33], nop: true },
   { t: 'chair', l: F, r: [8.1, 12.2, 8.8, 12.9], b: 'x1' }, { t: 'chair', l: F, r: [7.0, 13.65, 7.7, 14.35], b: 'y1' }, { t: 'box', l: F, r: [8.6, 13.1, 8.92, 14.4], h: .5, m: 'planter' },
 ];
 const CARS = [
@@ -978,6 +979,10 @@ const CARS = [
 ];
 // courtyard furniture (owner's reel): wooden swing on rods, two rattan armchairs, small table; sheer curtains at the master's glass
 const COURT_FURN = [
+  // north strip: a round table and two rattan seats outside the living-room glass, clay pots along the slant, herbs by the kitchen; south strip: a bench under the balcony and planters by the road wall
+  { t: 'table', l: 'court', r: [-1.05, 5.2, -0.35, 5.9], h: .45 }, { t: 'rattan', l: 'court', r: [-0.95, 4.3, -0.35, 4.9], b: 'y0' }, { t: 'rattan', l: 'court', r: [-1.2, 6.2, -0.6, 6.8], b: 'y1' },
+  { t: 'box', l: 'court', r: [-1.5, 8.0, -1.1, 8.4], h: .45, m: 'planter' }, { t: 'box', l: 'court', r: [-2.4, 11.2, -2.0, 11.6], h: .45, m: 'planter' }, { t: 'box', l: 'court', r: [-3.2, 13.4, -2.8, 13.8], h: .45, m: 'planter' },
+  { t: 'box', l: 'court', r: [9.1, 6.3, 9.55, 8.3], h: .45, m: 'timber' }, { t: 'box', l: 'court', r: [10.6, 4.0, 10.95, 5.2], h: .45, m: 'planter' }, { t: 'box', l: 'court', r: [10.6, 7.5, 10.95, 8.7], h: .45, m: 'planter' },
   { t: 'swing', l: 'court', r: [9.75, 11.9, 10.45, 13.7], b: 'x1' },
   { t: 'rattan', l: 'court', r: [9.2, 14.95, 9.9, 15.65], b: 'y1' }, { t: 'rattan', l: 'court', r: [10.15, 14.7, 10.85, 15.4], b: 'x1' }, { t: 'table', l: 'court', r: [9.95, 14.6, 10.3, 14.95], h: .45 },
   { t: 'curtain', l: G, r: [8.82, 10.95, 8.9, 11.4] }, { t: 'curtain', l: G, r: [8.82, 13.6, 8.9, 14.05] },
@@ -1042,7 +1047,7 @@ const SVC = [
   ['lt', F, 4.1, 5.5], ['fan', F, 3.0, 8.8], ['lt', F, 2.6, 8.0], ['lt', F, 3.6, 9.6], ['lt', F, 1.2, 12.0], ['lt', F, 2.6, 11.6], ['fan', F, 0.5, 11.6], ['ap', F, 3.0, 11.0], ['s6', F, 1.95, 9.0], ['s6', F, 3.95, 12.6], ['s6', F, 0.0, YB - .05], ['sw', F, 1.95, 10.45], ['sw', F, 3.4, 10.7],
   ['fan', F, 6.3, 6.0], ['lt', F, 5.3, 5.0], ['lt', F, 7.4, 6.8], ['ac', F, 6.3, 4.05], ['tv', F, 6.3, 4.1], ['s6', F, 5.2, 8.25], ['s6', F, 7.4, 8.25], ['s16', F, 4.65, 4.5], ['sw', F, 4.65, 7.2], ['lt', F, 8.4, 3.6],
   ['lt', F, 7.95, 9.65], ['exh', F, 8.95, 10.0], ['gey', F, 6.95, 10.3], ['s6', F, 8.3, 8.85], ['sw', F, 7.0, 9.75],
-  ['lt', F, 5.75, 9.65], ['sw', F, 5.9, 8.85], ['lt', F, 2.55, 13.55], ['sw', F, 3.45, 13.3], ['lt', F, 0.45, 13.55], ['exh', F, -0.55, 14.2], ['gey', F, 1.4, 14.3], ['s6', F, -0.55, 13.3], ['sw', F, 1.4, 13.0],
+  ['lt', F, 5.75, 9.65], ['sw', F, 5.9, 8.85], ['lt', F, 2.55, 13.55], ['sw', F, 3.45, 13.3], ['lt', F, 0.45, 13.55], ['lt', F, -1.3, 13.9], ['exh', F, -1.5, 14.3], ['gey', F, 1.4, 14.3], ['s6', F, 0.3, 12.7], ['sw', F, 1.4, 13.0],
   ['fan', F, 5.3, 12.4], ['lt', F, 5.0, 11.3], ['lt', F, 7.4, 11.3], ['ac', F, 5.3, 10.55], ['tv', F, 5.45, 10.6], ['s6', F, 4.1, 14.45], ['s6', F, 6.5, 14.45], ['s16', F, 7.95, 11.0], ['sw', F, 3.7, 10.8], ['lt', F, 7.6, 14.0],
   // roof and outside: tank, arrester, ODUs, panels, pump at the well, gate motor; CCTV on all four sides, the gate and the roof
   ['tank', 'rf', 0.8, 8.8], ['la', 'rf', 0.8, 10.2], ['lt', 'rf', 1.9, 10.4], ['acu', 'rf', 2.6, 14.0], ['acu', 'rf', 3.6, 14.0], ['acu', 'rf', 4.6, 14.0], ['acu', 'rf', 5.6, 14.0], ['acu', 'rf', 6.6, 14.0],
@@ -1064,7 +1069,7 @@ const TOUR = {
   bed2: { p: [7.2, 6.9], eye: 1.6, fz: LV.gf, name: 'Bedroom 2', to: ['foyer', 'dining'] }, upstairs: { p: [2.8, 9.0], eye: 1.6, fz: LV.ff, name: 'Upstairs', to: ['stairfoot', 'bed3', 'bed4', 'roof'] },
   bed3: { p: [7.6, 5.2], eye: 1.6, fz: LV.ff, name: 'Bedroom 3', to: ['upstairs'] }, bed4: { p: [7.3, 11.3], eye: 1.6, fz: LV.ff, name: 'Bedroom 4', to: ['upstairs'] }, roof: { p: [5.0, 9.0], eye: 1.6, fz: LV.roof, name: 'Roof', to: ['upstairs'] },
 };
-window.HOUSE = { TRENCH, PANELS, LED_STEPS, TOUR, COURT_FURN, GRID_Z, EXIT, PORCH_PARTS, PORCH, PORCH_STEPS, CANOPY, D2R, SQFT, LAT, LON, Y_BEARING, XA, PX, R4, area, fmt, fmt0, PLOT, BC, BD, ENV, LV, FP, GF_OUT, GF_SLAB, SUNK, GARDEN, FF_SLAB, ROOF_HOLE, SLOT, OPEN_FF, ROOMS, WALLS, RAILS, GF_RAILS, FURN, CARS, PV, SVC, camZ, RISE, RISE2, STAIR, G, F, YF, YB, X4, X7, X106, X145, NL, CENTS, BACK, ROAD_W, COURT_M, COURT_N, WELL, SEPTIC, SOAK, GATE, BWALLS, NB, ROADS, TREE_ZONES, OPEN, SITE_TREES, goExplore: null };
+window.HOUSE = { COURT_S, COURT_E, TRENCH, PANELS, LED_STEPS, TOUR, COURT_FURN, GRID_Z, EXIT, PORCH_PARTS, PORCH, PORCH_STEPS, CANOPY, D2R, SQFT, LAT, LON, Y_BEARING, XA, PX, R4, area, fmt, fmt0, PLOT, BC, BD, ENV, LV, FP, GF_OUT, GF_SLAB, SUNK, GARDEN, FF_SLAB, ROOF_HOLE, SLOT, OPEN_FF, ROOMS, WALLS, RAILS, GF_RAILS, FURN, CARS, PV, SVC, camZ, RISE, RISE2, STAIR, G, F, YF, YB, X4, X7, X106, X145, NL, CENTS, BACK, ROAD_W, COURT_M, COURT_N, WELL, SEPTIC, SOAK, GATE, BWALLS, NB, ROADS, TREE_ZONES, OPEN, SITE_TREES, goExplore: null };
 
 /* ---------------- drawings (SVG), generated from the same data ---------------- */
 const NS = 'http://www.w3.org/2000/svg';
@@ -1147,7 +1152,7 @@ const FRONT = [[PX(0.15) + .12, 0.15], ...arcPts(GATE.c, GATE.r - .15, -90, 0), 
 const GATE_LINE = [[GATE.x0, 0], ...arcPts(GATE.c, GATE.r, -90, 0), [11, GATE.y1]];
 function outside(svg, f, big) {
   el('polygon', { points: f.pts(FRONT), class: 'pl-room k-porch' }, svg);
-  [COURT_M, COURT_N].forEach(p => el('polygon', { points: f.pts(p), class: 'pl-court' }, svg));
+  [COURT_M, COURT_N, COURT_S, COURT_E].forEach(p => el('polygon', { points: f.pts(p), class: 'pl-court' }, svg));
   el('polygon', { points: f.pts(CANOPY.poly), class: 'pl-fpo', 'stroke-dasharray': '6 4', style: 'fill:none' }, svg);
   el('polyline', { points: f.pts(GATE_LINE), class: 'pl-gate' }, svg); el('line', { x1: f.X(GATE.ped[0]), y1: f.Y(0), x2: f.X(GATE.ped[1]), y2: f.Y(0), class: 'pl-gate', style: 'stroke-width:6' }, svg);
   el('circle', { cx: f.X(WELL.c[0]), cy: f.Y(WELL.c[1]), r: WELL.r * f.S, class: 'pl-well' }, svg);
@@ -1246,8 +1251,8 @@ const MOVES = [
   { t: 'Two cars, back to back', d: 'The 4 m front strip holds the Audi Q5 and the Thar Roxx nose to tail along the lane, with a 1.4 m path to the door.', o: { house: false, hi: (s, f) => el('polygon', { points: f.pts(FRONT), class: 'pl-hi' }, s) } },
   { t: 'A 12 m gate, tested', d: 'Telescopic leaves open 6.6 m of the lane frontage and a curved run wraps the corner. Both cars were simulated backing out with 15 cm to spare. The traced outlines on the site plan are those paths.', o: { house: false, hi: (s, f) => el('polyline', { points: f.pts(GATE_LINE), class: 'pl-hi', style: 'fill:none;stroke-width:5' }, s) } },
   { t: 'Kitchen and well to the north-east', d: 'The kitchen takes the back north corner with north and east windows. The well sits just outside in the corner of the plot.', o: { cars: false, hi: (s, f) => { el('polygon', { points: f.pts(ROOMS.find(r => r.id === 'kitchen').poly), class: 'pl-hi' }, s); el('circle', { cx: f.X(WELL.c[0]), cy: f.Y(WELL.c[1]), r: WELL.r * f.S, class: 'pl-hi' }, s); } } },
-  { t: 'Courtyards to the boundary', d: 'The stair garden opens to a north courtyard, and the master bedroom to its own courtyard. Both run to raised boundary walls and stay open to the sky.', o: { cars: false, hi: (s, f) => [COURT_M, COURT_N].forEach(p => el('polygon', { points: f.pts(p), class: 'pl-hi' }, s)) } },
-  { t: 'Two matching rooms upstairs', d: 'With the theatre gone, each room upstairs is a suite: Bedroom 3 (about 21 m²) and Bedroom 4 (about 18 m²), each with a walk-in closet leading through to its bath, a 55-inch TV and a balcony: a straight one out front for Bedroom 3, a corner one for Bedroom 4.', o: { cars: false, hi: (s, f) => ['bed3', 'walkin3', 'bath3', 'balc3', 'bed4', 'walkin4', 'bath4', 'balc4'].forEach(id => el('polygon', { points: f.pts(ROOMS.find(r => r.id === id).poly), class: 'pl-hi' }, s)) } },
+  { t: 'Courtyards to the boundary', d: 'A paved court runs the whole slanted north strip, from the living-room glass past the stair garden to the kitchen; the master bedroom has its own courtyard; the south and east strips are paved too. No setback is left as dead grass, and every window looks onto a used space.', o: { cars: false, hi: (s, f) => [COURT_M, COURT_N].forEach(p => el('polygon', { points: f.pts(p), class: 'pl-hi' }, s)) } },
+  { t: 'Two matching rooms upstairs', d: 'With the theatre gone, each room upstairs is a suite: Bedroom 3 (about 21 m²) and Bedroom 4 (about 18 m²), each with a walk-in closet leading through to its bath, a 55-inch TV and a balcony: an L out front and round the road-side corner for Bedroom 3, a corner one cut in for Bedroom 4.', o: { cars: false, hi: (s, f) => ['bed3', 'walkin3', 'bath3', 'balc3', 'bed4', 'walkin4', 'bath4', 'balc4'].forEach(id => el('polygon', { points: f.pts(ROOMS.find(r => r.id === id).poly), class: 'pl-hi' }, s)) } },
 ];
 { const box = $('#moves'); MOVES.forEach(m => { const card = document.createElement('div'); card.className = 'move'; const svg = el('svg', { role: 'img', 'aria-label': m.t }); card.append(svg); const tx = document.createElement('div'); tx.innerHTML = `<h3>${m.t}</h3><p>${m.d}</p>`; card.append(tx); box.append(card); sitePlan(svg, { ...m.o, mini: true, S: 12 }); }); }
 
@@ -1291,14 +1296,14 @@ $('#rules-body').innerHTML = RULES.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[
 /* room cards */
 const CARDS = [
   ['gf', 'Sunken living', 'sunken', 'Right inside the door, 450 mm down and double height. From your reel: a grey stone feature wall with backlit panels, a timber-slat ceiling, LED-lit floating steps, and a planted pebble trench along the tall glass. Beige bouclé sofa, a wall TV, and a bonsai on a stone plinth.', 'living'],
-  ['gf', 'Stair garden and north courtyard', 'garden', 'Pebbles and plants under the floating stair. A steel grille, with no glass, opens the garden to a courtyard that runs out to the north boundary wall, open to the sky.', 'garden'],
+  ['gf', 'Stair garden and north courtyard', 'garden', 'Pebbles and plants under the floating stair. A steel grille, with no glass, opens the garden to a paved court that runs the whole slanted north strip, from the living-room glass to the kitchen, out to the boundary wall, open to the sky.', 'garden'],
   ['gf', 'Dining and prayer wall', 'dining', 'Open the front door and the altar is straight ahead on the east wall. The family stands or sits facing east, and the dining table sits to one side so the view stays clear.', 'dining'],
   ['gf', 'Kitchen, work area and well', 'kitchen', 'The north-east corner, with windows to the north and east. Island, hob and hood, sink under the east window, a 650 L side-by-side fridge and a pantry. Behind it is a work area with the washer and a door to the utility yard and the well.', 'kitchen'],
   ['gf', 'Bedroom 2', 'bed2', 'Queen bed with the head to the east, a full wardrobe and its own bath at the front. The wash basin and powder room sit just outside.', 'bed2'],
   ['gf', 'Master bedroom and courtyard', 'master', 'King bed with the head to the east, a walk-in and bath. A 3 m timber-framed glass door with sheer curtains opens to the courtyard from your reel: grass-jointed stone, a brick wall and a split-stone wall, an open steel grid overhead, a wooden swing and rattan chairs.', 'master'],
   ['ff', 'Open space', 'open', 'The old theatre corner and the landing become one open space looking over the double-height living room, kept clear with no sofa or TV.', 'lounge'],
-  ['ff', 'Bedroom 3', 'bed3', 'Front corner, about 21 m². Queen bed on the east wall with a 55-inch TV facing it across the room; behind the head wall a walk-in closet (2.3 × 1.7 m) leads through to Bath 3. A straight balcony, 4.4 m long and 1 m deep, stands out of the front of the house, reached by a 1.3 m glass door at the end of the TV wall, with two chairs and planters.', 'bed3'],
-  ['ff', 'Bedroom 4', 'bed4', 'Back corner, about 18 m², with a queen bed on the east wall facing a 55-inch TV. Its walk-in closet (2.1 × 1.9 m) and Bath 4 take the east end of the old open space, in the same bed → closet → bath sequence. The L-shaped balcony is cut into the corner because the side and back yards can\'t take a projecting one.', 'bed4'],
+  ['ff', 'Bedroom 3', 'bed3', 'Front corner, about 21 m². Queen bed on the east wall with a 55-inch TV facing it across the room; behind the head wall a walk-in closet (2.3 × 1.7 m) leads through to Bath 3. An L-shaped balcony, 1 m deep, wraps the front and the road-side corner (4.4 m along the front, 3 m down the side), reached by a 1.3 m glass door at the end of the TV wall, with two chairs and planters.', 'bed3'],
+  ['ff', 'Bedroom 4', 'bed4', 'Back corner, about 18 m², with a queen bed on the east wall facing a 55-inch TV. Its walk-in closet (2.1 × 1.9 m) and Bath 4 take the east end of the old open space, in the same bed → closet → bath sequence; the bath runs into the slanted corner, which holds the shower. The L-shaped balcony is cut into the corner because the side and back yards can\'t take a projecting one.', 'bed4'],
   ['ff', 'Roof', 'stair2', 'The stair continues to a cabin with the 2,000 L tank on top. About 8.8 kW of solar sits on a raised frame, with shaded space underneath.', 'roof'],
   ['gf', 'Parking and gates', 'sitout', 'The Audi Q5 and the black Thar Roxx park nose to tail in the 4 m front strip. They sit under a wood-lined canopy with a backlit screen at the north end, and the sit-out is recessed into the house beside the door, out of their way. A 12 m gate opens most of the lane frontage and wraps the corner. Both cars were simulated backing out with room to spare, and the play button in the viewer shows how. A wicket door between the cars is the walk-in gate. EV charger on the front wall.', 'gates'],
 ];
@@ -1399,7 +1404,7 @@ import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const H = window.HOUSE;
-const { TRENCH, PANELS, LED_STEPS, TOUR, COURT_FURN, GRID_Z, EXIT, PORCH_PARTS, PORCH, PORCH_STEPS, CANOPY, D2R, LAT, LON, Y_BEARING, XA, PX, R4, fmt, PLOT, BC, BD, ENV, LV, FP, GF_SLAB, SUNK, GARDEN, FF_SLAB, ROOF_HOLE, SLOT, ROOMS, WALLS, RAILS, GF_RAILS, FURN, CARS, PV, SVC, camZ, RISE, RISE2, STAIR, G, YF, YB, X4, X7, X106, X145, COURT_M, COURT_N, WELL, SEPTIC, SOAK, GATE, BWALLS, NB, ROADS, TREE_ZONES, OPEN, SITE_TREES } = H;
+const { COURT_S, COURT_E, TRENCH, PANELS, LED_STEPS, TOUR, COURT_FURN, GRID_Z, EXIT, PORCH_PARTS, PORCH, PORCH_STEPS, CANOPY, D2R, LAT, LON, Y_BEARING, XA, PX, R4, fmt, PLOT, BC, BD, ENV, LV, FP, GF_SLAB, SUNK, GARDEN, FF_SLAB, ROOF_HOLE, SLOT, ROOMS, WALLS, RAILS, GF_RAILS, FURN, CARS, PV, SVC, camZ, RISE, RISE2, STAIR, G, YF, YB, X4, X7, X106, X145, COURT_M, COURT_N, WELL, SEPTIC, SOAK, GATE, BWALLS, NB, ROADS, TREE_ZONES, OPEN, SITE_TREES } = H;
 const $ = (s, r = document) => r.querySelector(s);
 
 try { main(); } catch (err) {
@@ -1478,10 +1483,12 @@ function finalizeBatches() {
   for (const b of BATCH.values()) { const parts = b.geos.map(x => x.index ? x.toNonIndexed() : x); const g = mergeGeometries(parts, false); b.geos.forEach(x => x.dispose()); parts.forEach(x => x.dispose()); if (!g) continue; const m = mesh(g, b.mat, b.grp, b.shadow); m.userData.merged = true; }
   BATCH.clear(); batching = false;
 }
-function boxPlan(x0, y0, x1, y1, z0, z1, mat, grp, shadow = true) { const g = mbox(Math.abs(x1 - x0), z1 - z0, Math.abs(y1 - y0)); g.translate((x0 + x1) / 2, (z0 + z1) / 2, -(y0 + y1) / 2); return queue(g, mat, grp, shadow); }
+let CUR_ROT = null;   // { cx, cy, rad }: set while a rotated furniture item is being built
+const rotIn = g => { if (CUR_ROT) { g.translate(-CUR_ROT.cx, 0, CUR_ROT.cy); g.rotateY(CUR_ROT.rad); g.translate(CUR_ROT.cx, 0, -CUR_ROT.cy); } return g; };
+function boxPlan(x0, y0, x1, y1, z0, z1, mat, grp, shadow = true) { const g = mbox(Math.abs(x1 - x0), z1 - z0, Math.abs(y1 - y0)); g.translate((x0 + x1) / 2, (z0 + z1) / 2, -(y0 + y1) / 2); return queue(rotIn(g), mat, grp, shadow); }
 function boxPlanOld(x0, y0, x1, y1, z0, z1, mat, grp, shadow = true) { const m = mesh(mbox(Math.abs(x1 - x0), z1 - z0, Math.abs(y1 - y0)), mat, grp, shadow); m.position.set((x0 + x1) / 2, (z0 + z1) / 2, -(y0 + y1) / 2); return m; }
-function rbox(x0, y0, x1, y1, z0, z1, mat, grp, r = .04) { const w = Math.abs(x1 - x0), h = z1 - z0, d = Math.abs(y1 - y0); const g = new RoundedBoxGeometry(w, h, d, 3, Math.min(r, w / 2.2, h / 2.2, d / 2.2)); g.translate((x0 + x1) / 2, (z0 + z1) / 2, -(y0 + y1) / 2); return queue(g, mat, grp, true); }
-function segBox(ax, ay, bx, by, t, z0, z1, mat, grp, shadow = true) { const dx = bx - ax, dy = by - ay, L = Math.hypot(dx, dy); if (L < 1e-3 || z1 - z0 < 1e-3) return null; const g = mbox(L, z1 - z0, t); g.rotateY(Math.atan2(dy, dx)); g.translate((ax + bx) / 2, (z0 + z1) / 2, -(ay + by) / 2); return queue(g, mat, grp, shadow); }
+function rbox(x0, y0, x1, y1, z0, z1, mat, grp, r = .04) { const w = Math.abs(x1 - x0), h = z1 - z0, d = Math.abs(y1 - y0); const g = new RoundedBoxGeometry(w, h, d, 3, Math.min(r, w / 2.2, h / 2.2, d / 2.2)); g.translate((x0 + x1) / 2, (z0 + z1) / 2, -(y0 + y1) / 2); return queue(rotIn(g), mat, grp, true); }
+function segBox(ax, ay, bx, by, t, z0, z1, mat, grp, shadow = true) { const dx = bx - ax, dy = by - ay, L = Math.hypot(dx, dy); if (L < 1e-3 || z1 - z0 < 1e-3) return null; const g = mbox(L, z1 - z0, t); g.rotateY(Math.atan2(dy, dx)); g.translate((ax + bx) / 2, (z0 + z1) / 2, -(ay + by) / 2); return queue(rotIn(g), mat, grp, shadow); }
 const shapeFrom = (poly, holes = []) => { const s = new THREE.Shape(poly.map(([x, y]) => new THREE.Vector2(x, y))); holes.forEach(h => s.holes.push(new THREE.Path(h.map(([x, y]) => new THREE.Vector2(x, y))))); return s; };
 function slab(poly, holes, z0, z1, mat, grp, sideMat) { const g = new THREE.ExtrudeGeometry(shapeFrom(poly, holes), { depth: z1 - z0, bevelEnabled: false }); g.rotateX(-Math.PI / 2); g.translate(0, z0, 0); return mesh(g, sideMat ? [mat, sideMat] : mat, grp); }
 function flat(poly, holes, z, mat, grp) { const g = new THREE.ShapeGeometry(shapeFrom(poly, holes)); g.rotateX(-Math.PI / 2); g.translate(0, z, 0); return mesh(g, mat, grp, false); }
@@ -1618,7 +1625,7 @@ const FRONT = [[PX(0.15) + .12, 0.15], ...arcP(GATE.c, GATE.r - .12, -90, 0), [1
   flat(FRONT, [], .025, M.pavers, g);
   flat(R4(9.05, 2.55, 10.9, 10.55), [], .022, M.pavers, g);
   flat([[PX(14.55) + .12, 14.55], [5.55, 14.55], [5.55, 15.9], [PX(15.9) + .12, 15.9]], [], .022, M.pavers, g);
-  flat(COURT_N, [], .03, M.grassJoint, g); flat(COURT_M, [], .03, M.grassJoint, g);
+  flat(COURT_N, [], .03, M.grassJoint, g); flat(COURT_M, [], .03, M.grassJoint, g); flat(COURT_S, [], .03, M.grassJoint, g); flat(COURT_E, [], .03, M.grassJoint, g);
   // courtyard walls: exposed brick along the road side and partitions, split stone across the back; open steel grid overhead with fine bars above the walls
   const cl = (x0, y0, x1, y1, m) => boxPlan(x0, y0, x1, y1, 0, 2.1, m, groups.boundary);
   cl(10.86, 10.6, 10.9, 15.88, M.redBrick); cl(9.0, 10.7, 10.88, 10.74, M.redBrick); cl(5.6, 15.86, 10.9, 15.9, M.splitStone); cl(5.7, 14.5, 5.74, 15.86, M.redBrick);
@@ -1798,6 +1805,10 @@ const FRONT = [[PX(0.15) + .12, 0.15], ...arcP(GATE.c, GATE.r - .12, -90, 0), [1
   FURN.forEach(f => buildFurniture(f));
 }
 function buildFurniture(f) {
+  CUR_ROT = f.rot ? { cx: (f.r[0] + f.r[2]) / 2, cy: (f.r[1] + f.r[3]) / 2, rad: f.rot * D2R } : null;
+  try { return buildFurniture1(f); } finally { CUR_ROT = null; }
+}
+function buildFurniture1(f) {
   const z = (f.l === 'court' ? .03 : f.l === 'pit' ? LV.pit : f.l === G ? LV.gf : LV.ff) + (f.z || 0), grp = f.l === 'ff' ? groups.furnFF : f.l === 'court' ? groups.site : groups.furnGF;
   let [x0, y0, x1, y1] = f.r;
   const back = (th, z0, z1, mat) => { const b = f.b; if (b === 'x0') rbox(x0, y0, x0 + th, y1, z0, z1, mat, grp); else if (b === 'x1') rbox(x1 - th, y0, x1, y1, z0, z1, mat, grp); else if (b === 'y0') rbox(x0, y0, x1, y0 + th, z0, z1, mat, grp); else rbox(x0, y1 - th, x1, y1, z0, z1, mat, grp); };
@@ -2088,7 +2099,7 @@ function floorAt(x, y, prev) {
   if (inPoly(p, FF_SLAB) || inPoly(p, R4(-0.2, 10.1, 1.8, 10.6))) c.push(LV.ff);
   if (inPoly(p, FPOLY)) c.push(LV.roof);
   if (inPoly(p, SIT)) c.push(LV.sit); PORCH_PARTS.forEach(q => { if (inPoly(p, q)) c.push(.3); });
-  if (inPoly(p, COURT_M) || inPoly(p, COURT_N)) c.push(.03);
+  if (inPoly(p, COURT_M) || inPoly(p, COURT_N) || inPoly(p, COURT_S) || inPoly(p, COURT_E)) c.push(.03);
   if (!c.length) c.push(0);                                                     // open ground only where nothing else is built
   let best = null; for (const z of c) if (Math.abs(z - prev) <= .62 && (best === null || Math.abs(z - prev) < Math.abs(best - prev))) best = z;
   return best;
